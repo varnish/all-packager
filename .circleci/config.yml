@@ -141,9 +141,15 @@ jobs:
       - run:
           name: Build for << parameters.platform >> on << parameters.rclass >>
           command: |
-            mkdir -p packages
+            mkdir -p src-tarballs
             case "<< parameters.platform >>" in
-                debian:*|ubuntu:*)  EXT=deb ;;
+                debian:*|ubuntu:*)
+                  EXT=deb
+                  mkdir varnish-debian
+                  cd varnish-debian
+                  tar xavf ../debian.tar.gz --strip 1
+                  cd -
+                  ;;
                 centos:*|fedora:*)  EXT=rpm ;;
                 almalinux:*)        EXT=rpm ;;
                 alpine:*)           EXT=apk ;;
@@ -162,16 +168,19 @@ jobs:
                 *)                  ARCH=amd64 ;;
             esac
 
+            mkdir src-tarballs/varnish
+            cp varnish-*.tar.gz src-tarballs/varnish
+
             docker run \
               --rm \
               -it \
               -e PARAM_DIST=$(echo "<< parameters.platform >>" | cut -d: -f1) \
               -e PARAM_RELEASE=$(echo "<< parameters.platform >>" | cut -d: -f2) \
-              -v$(pwd):/varnish-cache \
+              -v$(pwd):/workdir \
               -v$(pwd)/packages:/packages \
               --platform linux/$ARCH \
               ${REPO}<< parameters.platform >> \
-              /varnish-cache/.circleci/make-$EXT-packages.sh
+              /workdir/.circleci/make-$EXT-packages.sh
       - run:
           name: List created packages
           command: find ./packages -type f

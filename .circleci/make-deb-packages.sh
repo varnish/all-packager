@@ -10,6 +10,11 @@ apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fak
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 
+if [ "`uname -m`" = "x86_64" ]; then
+  ARCH="amd64"
+else
+  ARCH="arm64"
+fi
 
 if [ -z "$PARAM_RELEASE" ]; then
     echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=focal for Ubuntu 20.04"
@@ -23,40 +28,41 @@ fi
 #    semop(1): encountered an error: Function not implemented
 update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
 
-cd /varnish-cache
-ls -la
+for component in varnish; do
 
-echo "Untar debian..."
-tar xavf debian.tar.gz
+	mkdir /workdir/$component
+	cd /workdir/$component 
 
-echo "Untar orig..."
-tar xavf varnish-*.tar.gz --strip 1
+	echo "Untar debian..."
+	cp -a ../$component-debian debian
 
-echo "Update changelog version..."
-if [ -e .is_weekly ]; then
-    WEEKLY='-weekly'
-else
-    WEEKLY=
-fi
-VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-1~$PARAM_RELEASE
-sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
+	echo "Untar orig..."
+	tar xavf ../src-tarballs/$component/*.tar.gz --strip 1
 
-echo "Install Build-Depends packages..."
-yes | mk-build-deps --install debian/control || true
+	# we need varnish first so we know which version to use everywhere
+	if [ "$component" = "varnish" ]; then
+		VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')-1~$PARAM_RELEASE
+	elif [ -z "$VERSION" ]; then
+		echo "varnish should have given us a VERSION to work with by now"
+		exit 1
+	fi
 
-echo "Build the packages..."
-dpkg-buildpackage -us -uc -j16
+	sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
 
-echo "Prepare the packages for storage..."
+	echo "Install Build-Depends packages..."
+	yes | mk-build-deps --install debian/control || true
+
+	echo "Build the packages..."
+	dpkg-buildpackage -us -uc -j16
+
+	echo "Prepare the packages for storage..."
+done
+
+cd /workdir/
 mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/
-mv ../*.deb /packages/$PARAM_DIST/$PARAM_RELEASE/
+mv *.deb /packages/$PARAM_DIST/$PARAM_RELEASE/
 
-if [ "`uname -m`" = "x86_64" ]; then
-  ARCH="amd64"
-else
-  ARCH="arm64"
-fi
-
-DSC_FILE=$(ls ../*.dsc)
+DSC_FILE=$(ls *.dsc)
 DSC_FILE_WO_EXT=$(basename ${DSC_FILE%.*})
 mv $DSC_FILE /packages/$PARAM_DIST/$PARAM_RELEASE/${DSC_FILE_WO_EXT}_${ARCH}.dsc
+

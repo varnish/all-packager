@@ -15,7 +15,7 @@ elif [ -z "$PARAM_DIST" ]; then
     exit 1
 fi
 
-cd /varnish-cache
+cd /workdir
 tar xazf alpine.tar.gz --strip 1
 
 adduser -D builder

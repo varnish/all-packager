@@ -33,7 +33,7 @@ yum install -y rpm-build yum-utils
 
 export DIST_DIR=build
 
-cd /varnish-cache
+cd /workdir
 rm -rf $DIST_DIR
 mkdir $DIST_DIR
 
