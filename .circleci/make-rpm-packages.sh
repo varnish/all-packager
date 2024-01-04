@@ -78,5 +78,5 @@ rpmbuild -bs "$DIST_DIR"/redhat/varnish.spec
 rpmbuild --rebuild "$RESULT_DIR"/varnish-*.src.rpm
 
 echo "Prepare the packages for storage..."
-mkdir -p packages/$PARAM_DIST/$PARAM_RELEASE/
-mv rpms/*/*.rpm packages/$PARAM_DIST/$PARAM_RELEASE/
+mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/
+mv rpms/*/*.rpm /packages/$PARAM_DIST/$PARAM_RELEASE/

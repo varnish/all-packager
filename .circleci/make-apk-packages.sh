@@ -46,8 +46,8 @@ ARCH=`uname -m`
 su builder -c "cp /home/builder/packages/$ARCH/*.apk apks"
 
 echo "Import the packages into the workspace"
-mkdir -p packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
-mv /home/builder/packages/$ARCH/*.apk packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
+mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
+mv /home/builder/packages/$ARCH/*.apk /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
 
 echo "Allow to read the packages by 'circleci' user outside of Docker after 'chown builder -R .' above"
 chmod -R a+rwx .

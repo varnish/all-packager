@@ -100,7 +100,7 @@ jobs:
             - debian.tar.gz
             - redhat.tar.gz
             - alpine.tar.gz
-  package:
+  package-varnish:
     parameters:
       platform:
         description: the Linux distribution, with release, e.g. debian:buster, centos:7
@@ -168,6 +168,7 @@ jobs:
               -e PARAM_DIST=$(echo "<< parameters.platform >>" | cut -d: -f1) \
               -e PARAM_RELEASE=$(echo "<< parameters.platform >>" | cut -d: -f2) \
               -v$(pwd):/varnish-cache \
+              -v$(pwd)/packages:/packages \
               --platform linux/$ARCH \
               ${REPO}<< parameters.platform >> \
               /varnish-cache/.circleci/make-$EXT-packages.sh
@@ -178,165 +179,6 @@ jobs:
           root: .
           paths:
             - "packages"
-  build:
-    parameters:
-      prefix:
-        description: the container image prefix (repository or architecture)
-        type: string
-        default: ""
-      dist:
-        description: the Linux distribution (debian|ubuntu)
-        type: string
-      release:
-        description: the release name (buster|bullseye|bionic|focal|jammy)
-        type: string
-      make_target:
-        description: the make target to execute during the build
-        default: distcheck
-        type: string
-      extra_conf:
-        description: platform-specific configure arguments
-        default: ""
-        type: string
-    docker:
-      - image: centos:7
-    working_directory: /workspace
-    steps:
-      - setup_remote_docker:
-          version: 20.10.11
-      - run:
-          name: Install docker
-          command: yum install -y docker
-      - checkout
-      - run:
-          name: Extract and build
-          command: |
-            docker create --name workspace -v /workspace << parameters.prefix >><< parameters.dist >>:<< parameters.release >> /bin/true
-            docker cp /workspace workspace:/
-            docker run --volumes-from workspace -w /workspace << parameters.prefix >><< parameters.dist >>:<< parameters.release >> sh -c '
-            case "<< parameters.dist >>" in
-            centos|almalinux|fedora)
-                yum groupinstall -y "Development Tools"
-                case "<< parameters.dist >>:<< parameters.release >>" in
-                    almalinux:9)
-                        dnf install -y "dnf-command(config-manager)"
-                        yum config-manager --set-enabled crb
-                        yum install -y diffutils
-                        yum install -y epel-release
-                        ;;
-                    centos:stream|almalinux:8)
-                        dnf install -y "dnf-command(config-manager)"
-                        yum config-manager --set-enabled powertools
-                        yum install -y diffutils
-                        yum install -y epel-release
-                        ;;
-                    centos:7)
-                        yum install -y epel-release
-                        ;;
-                esac
-                yum install -y \
-                    cpio \
-                    automake \
-                    git \
-                    jemalloc-devel \
-                    libedit-devel \
-                    libtool \
-                    libunwind-devel \
-                    make \
-                    pcre2-devel \
-                    python3 \
-                    /usr/bin/sphinx-build \
-                    sudo
-                ;;
-            debian|ubuntu)
-                export DEBIAN_FRONTEND=noninteractive
-                export DEBCONF_NONINTERACTIVE_SEEN=true
-                apt-get update
-                apt-get install -y \
-                    autoconf \
-                    automake \
-                    build-essential \
-                    ca-certificates \
-                    cpio \
-                    git \
-                    graphviz \
-                    libedit-dev \
-                    libjemalloc-dev \
-                    libncurses-dev \
-                    libpcre2-dev \
-                    libtool \
-                    libunwind-dev \
-                    pkg-config \
-                    python3-sphinx \
-                    sudo
-                ;;
-            alpine)
-                apk update
-                apk add -q \
-                    autoconf \
-                    automake \
-                    build-base \
-                    ca-certificates \
-                    cpio \
-                    git \
-                    gzip \
-                    libedit-dev \
-                    libtool \
-                    libunwind-dev \
-                    linux-headers \
-                    pcre2-dev \
-                    py-docutils \
-                    py3-sphinx \
-                    tar \
-                    sudo
-                ;;
-            archlinux)
-                pacman -Syu --noconfirm \
-                    ca-certificates \
-                    cpio \
-                    git \
-                    libedit \
-                    libtool \
-                    libunwind \
-                    linux-headers \
-                    pcre2 \
-                    python-docutils \
-                    python-sphinx \
-                    tar
-                ;;
-            esac
-
-            case "<< parameters.dist >>" in
-            archlinux)
-                useradd varnish
-                ;;
-            centos|almalinux|fedora)
-                adduser varnish
-                ;;
-            *)
-                adduser --disabled-password --gecos "" varnish
-                ;;
-            esac
-
-            chown -R varnish:varnish .
-
-            export ASAN_OPTIONS=abort_on_error=1,detect_odr_violation=1,detect_leaks=1,detect_stack_use_after_return=1,detect_invalid_pointer_pairs=1,handle_segv=0,handle_sigbus=0,use_sigaltstack=0,disable_coredump=0
-            export LSAN_OPTIONS=abort_on_error=1,use_sigaltstack=0,suppressions=$(pwd)/tools/lsan.suppr
-            export TSAN_OPTIONS=abort_on_error=1,halt_on_error=1,use_sigaltstack=0,suppressions=$(pwd)/tools/tsan.suppr
-            export UBSAN_OPTIONS=halt_on_error=1,print_stacktrace=1,use_sigaltstack=0,suppressions=$(pwd)/tools/ubsan.suppr
-
-            sudo -u varnish \
-                autoreconf -i -v
-            sudo -u varnish \
-                ./configure \
-                << pipeline.parameters.configure_args >> \
-                << parameters.extra_conf >>
-            sudo -u varnish \
-                --preserve-env=ASAN_OPTIONS,LSAN_OPTIONS,TSAN_OPTIONS,UBSAN_OPTIONS \
-                make << parameters.make_target >> VERBOSE=1 -j 4 -k \
-                DISTCHECK_CONFIGURE_FLAGS="<< pipeline.parameters.configure_args >> \
-                << parameters.extra_conf >>"
-            '
 
   collect_packages:
     docker:
@@ -360,7 +202,7 @@ workflows:
     jobs: &packaging_jobs
       - dist
       - tar_pkg_tools
-      - package:
+      - package-varnish:
           name: << matrix.platform >> packages (<< matrix.rclass >>)
           requires:
             - dist
@@ -385,4 +227,4 @@ workflows:
                 - medium
       - collect_packages:
           requires:
-            - package
+            - package-varnish
