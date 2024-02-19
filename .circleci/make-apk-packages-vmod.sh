@@ -4,7 +4,9 @@ set -eux
 
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
+echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
 ARCH=`uname -m`
+cd "$PARAM_DIRECTORY"
 
 if [ -z "$PARAM_RELEASE" ]; then
     echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=8, for CentOS 8"
@@ -17,7 +19,6 @@ fi
 apk add --allow-untrusted /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/*.apk
 apk add -q --no-progress --update tar alpine-sdk sudo
 
-cd /workdir
 
 adduser -D builder
 echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers

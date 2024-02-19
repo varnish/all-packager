@@ -235,15 +235,12 @@ jobs:
                 *)                  ARCH=amd64 ;;
             esac
 
-            pwd
-            ls
-            cd "<< parameters.vmod >>/$EXT"
-
             docker run \
               --rm \
               -it \
               -e PARAM_DIST=$(echo "<< parameters.platform >>" | cut -d: -f1) \
               -e PARAM_RELEASE=$(echo "<< parameters.platform >>" | cut -d: -f2) \
+              -e PARAM_DIRECTORY="/workdir/<< parameters.vmod >>/$EXT" \
               -v$(pwd):/workdir \
               -v$(pwd)/packages:/packages \
               --platform linux/$ARCH \
@@ -255,7 +252,7 @@ jobs:
           root: .
           paths:
             - "packages"
- 
+
   collect_packages:
     docker:
       - image: centos:7
