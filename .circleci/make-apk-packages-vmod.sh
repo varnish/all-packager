@@ -5,7 +5,7 @@ set -eux
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
-echo "PARAM_PACKAGENAME: $PARAM_DIRECTORY"
+echo "PARAM_PACKAGENAME: $PARAM_PACKAGENAME"
 ARCH=`uname -m`
 cd "$PARAM_DIRECTORY"
 
@@ -17,7 +17,7 @@ elif [ -z "$PARAM_DIST" ]; then
     exit 1
 fi
 
-apk add --allow-untrusted /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/*.apk
+apk add --allow-untrusted /deps/$PARAM_DIST/$PARAM_RELEASE/$ARCH/*.apk
 apk add -q --no-progress --update tar alpine-sdk sudo
 
 
