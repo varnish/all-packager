@@ -5,6 +5,7 @@ set -eux
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
+echo "PARAM_PACKAGENAME: $PARAM_DIRECTORY"
 ARCH=`uname -m`
 cd "$PARAM_DIRECTORY"
 
@@ -35,14 +36,9 @@ echo "Fix checksums, build"
 su builder -c "abuild checksum"
 su builder -c "abuild -r"
 
-su builder -c "mkdir apks"
-pwd
-find . -type f
-su builder -c "cp /home/builder/packages/$ARCH/*.apk apks"
-
 echo "Import the packages into the workspace"
 mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
-mv /home/builder/packages/$ARCH/*.apk /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
+mv /home/builder/packages/*/$ARCH/*.apk /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
 
 echo "Allow to read the packages by 'circleci' user outside of Docker after 'chown builder -R .' above"
 chmod -R a+rwx .
