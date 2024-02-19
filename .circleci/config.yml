@@ -115,7 +115,7 @@ jobs:
       - attach_workspace:
           at: ~/project
 
-      - when:
+      - when: &alpine_tweak
           condition:
             matches:
               pattern: ^alpine.*
@@ -189,6 +189,70 @@ jobs:
           paths:
             - "packages"
 
+  package-vmod:
+    parameters:
+      platform:
+        description: the Linux distribution, with release, e.g. debian:buster, centos:7
+        type: string
+      rclass:
+        description: the resource class to use, usuall arm.medium or medium
+        type: string
+      vmod:
+        description: vmod to package
+        type: string
+    machine:
+      image: ubuntu-2004:202111-02
+    resource_class: << parameters.rclass >>
+    steps:
+      - when: *alpine_tweak
+      - run:
+          name: Build for << parameters.platform >> on << parameters.rclass >>
+          command: |
+            case "<< parameters.platform >>" in
+                debian:*|ubuntu:*)
+                  EXT=deb
+                  mkdir varnish-debian
+                  cd varnish-debian
+                  tar xavf ../debian.tar.gz --strip 1
+                  cd -
+                  ;;
+                centos:*|fedora:*)  EXT=rpm ;;
+                almalinux:*)        EXT=rpm ;;
+                alpine:*)           EXT=apk ;;
+                *)
+                    echo "unrecognized platform: << parameters.platform >>"
+                    exit 1
+            esac
+
+            case "<< parameters.platform >>" in
+                centos:stream)      REPO=quay.io/centos/ ;;
+                *)                  REPO= ;;
+            esac
+
+            case "<< parameters.rclass >>" in
+                arm.*)              ARCH=arm64 ;;
+                *)                  ARCH=amd64 ;;
+            esac
+
+            cd "<< parameters.vmod >>/$EXT"
+
+            docker run \
+              --rm \
+              -it \
+              -e PARAM_DIST=$(echo "<< parameters.platform >>" | cut -d: -f1) \
+              -e PARAM_RELEASE=$(echo "<< parameters.platform >>" | cut -d: -f2) \
+              -v$(pwd):/workdir \
+              -v$(pwd)/packages:/packages \
+              --platform linux/$ARCH \
+              ${REPO}<< parameters.platform >> \
+              /workdir/.circleci/make-$EXT-packages-vmod.sh
+      - attach_workspace:
+          at: ~/project
+      - persist_to_workspace:
+          root: .
+          paths:
+            - "packages"
+ 
   collect_packages:
     docker:
       - image: centos:7
@@ -234,6 +298,21 @@ workflows:
               rclass:
                 - arm.medium
                 - medium
+      - package-vmod:
+          name: << matrix.platform >> <<matrix.vmod>> packages (<< matrix.rclass >>)
+          requires:
+            - package-varnish
+          matrix:
+            parameters:
+              platform:
+                - alpine:3
+              rclass:
+                - arm.medium
+                - medium
+              vmod:
+                - varnish-modules
+
       - collect_packages:
           requires:
             - package-varnish
+            - package-vmod
