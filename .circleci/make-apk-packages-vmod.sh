@@ -37,6 +37,8 @@ su builder -c "abuild -r"
 
 echo "Fix the APKBUILD's version"
 su builder -c "mkdir apks"
+pwd
+find . -type f
 su builder -c "cp /home/builder/packages/$ARCH/*.apk apks"
 
 echo "Import the packages into the workspace"
