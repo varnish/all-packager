@@ -204,6 +204,7 @@ jobs:
       image: ubuntu-2004:202111-02
     resource_class: << parameters.rclass >>
     steps:
+      - checkout
       - when: *alpine_tweak
       - run:
           name: Build for << parameters.platform >> on << parameters.rclass >>
