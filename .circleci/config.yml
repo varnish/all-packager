@@ -234,6 +234,8 @@ jobs:
                 *)                  ARCH=amd64 ;;
             esac
 
+            pwd
+            ls
             cd "<< parameters.vmod >>/$EXT"
 
             docker run \
