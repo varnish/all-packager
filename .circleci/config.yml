@@ -280,7 +280,7 @@ workflows:
       - dist
       - tar_pkg_tools
       - package-varnish:
-          name: << matrix.platform >> packages (<< matrix.rclass >>)
+          name: << matrix.platform >> varnish packages (<< matrix.rclass >>)
           requires:
             - dist
             - tar_pkg_tools
@@ -305,7 +305,7 @@ workflows:
       - package-vmod:
           name: << matrix.platform >> <<matrix.vmod>> packages (<< matrix.rclass >>)
           requires:
-            - package-varnish
+            - << matrix.platform >> varnish packages (<< matrix.rclass >>)
           matrix:
             parameters:
               platform:
