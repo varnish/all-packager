@@ -237,6 +237,7 @@ jobs:
                 *)                  ARCH=amd64 ;;
             esac
 
+            set -x
             docker run \
               --rm \
               -it \

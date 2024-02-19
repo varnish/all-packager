@@ -35,7 +35,6 @@ echo "Fix checksums, build"
 su builder -c "abuild checksum"
 su builder -c "abuild -r"
 
-echo "Fix the APKBUILD's version"
 su builder -c "mkdir apks"
 pwd
 find . -type f
