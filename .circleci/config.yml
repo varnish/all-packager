@@ -309,9 +309,15 @@ workflows:
           matrix:
             parameters:
               platform:
+                - centos:7
+                - centos:stream
+                - almalinux:8
+                - almalinux:9
+                - fedora:latest
                 - alpine:3
               rclass:
                 - arm.medium
+                - medium
                 - medium
               vmod:
                 - varnish-modules
