@@ -1,0 +1,30 @@
+Source: varnish-modules
+Section: net
+Priority: extra
+Maintainer: Varnish Software <support@varnish-software.com>
+Uploaders: Tuomas Starck <dev@starck.fi>
+Build-Depends: debhelper (>= 9),
+ build-essential,
+ pkg-config,
+ python3-docutils,
+ varnish (>= 7.4.2),
+ varnish-dev (>= 7.4.2)
+Standards-Version: 3.9.4
+Vcs-Git: git://github.com/varnish/varnish-modules.git
+
+Package: varnish-modules
+Architecture: any
+Depends: varnish (>= 7.4.2),
+ ${shlibs:Depends},
+ ${misc:Depends},
+ ${Varnish:ABI}
+Description: Varnish module collection by Varnish Software
+ This is a collection of modules ("vmods") extending Varnish VCL used for
+ describing HTTP request/response policies with additional capabilities.
+ .
+ Modules add support for variables, client request body access, simpler
+ handling of HTTP cookies, request and bandwidth throttling, complex HTTP
+ headers modification, advanced cache invalidations, and more.
+ .
+ Included vmods:
+ cookie, vsthrottle, header, saintmode, softpurge, tcp, var, xkey, bodyaccess

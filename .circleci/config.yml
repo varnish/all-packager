@@ -285,7 +285,7 @@ workflows:
             - dist
             - tar_pkg_tools
           matrix:
-            parameters:
+            parameters: &matrix_parmas
               platform:
                 - ubuntu:bionic
                 - ubuntu:focal
@@ -307,16 +307,7 @@ workflows:
             - << matrix.platform >> varnish packages (<< matrix.rclass >>)
           matrix:
             parameters:
-              platform:
-                - centos:stream
-                - almalinux:8
-                - almalinux:9
-                - fedora:latest
-                - alpine:3
-              rclass:
-                - arm.medium
-                - medium
-                - medium
+              <<: *matrix_parmas
               vmod:
                 - varnish-modules
 
