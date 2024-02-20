@@ -32,7 +32,7 @@ case "$PARAM_DIST:$PARAM_RELEASE" in
         ;;
 esac
 
-yum install -y rpm-build yum-utils
+yum install -y rpm-build yum-utils /deps/$PARAM_DIST/$PARAM_RELEASE/$ARCH/*.rpm
 
 yum-builddep -y *.spec
 rpmbuild -bb \
