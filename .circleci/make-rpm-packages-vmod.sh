@@ -33,7 +33,7 @@ case "$PARAM_DIST:$PARAM_RELEASE" in
 esac
 
 find /deps/ -type f
-yum install -y rpm-build yum-utils /deps/$PARAM_DIST/$PARAM_RELEASE/$ARCH/*.rpm
+yum install -y rpm-build yum-utils /deps/$PARAM_DIST/$PARAM_RELEASE/*.rpm
 
 yum-builddep -y *.spec
 rpmbuild -bb \
