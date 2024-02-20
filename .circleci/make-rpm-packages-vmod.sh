@@ -35,6 +35,7 @@ esac
 find /deps/ -type f
 yum install -y rpm-build yum-utils /deps/$PARAM_DIST/$PARAM_RELEASE/*.rpm
 
+mkdir SOURCES
 yum-builddep -y *.spec
 rpmbuild -bb \
         --define "_smp_mflags -j10" \
