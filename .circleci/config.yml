@@ -293,7 +293,6 @@ workflows:
                 - debian:buster
                 - debian:bullseye
                 - debian:bookworm
-                - centos:7
                 - centos:stream
                 - almalinux:8
                 - almalinux:9
@@ -309,7 +308,6 @@ workflows:
           matrix:
             parameters:
               platform:
-                - centos:7
                 - centos:stream
                 - almalinux:8
                 - almalinux:9
