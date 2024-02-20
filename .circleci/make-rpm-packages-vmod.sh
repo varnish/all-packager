@@ -34,23 +34,13 @@ esac
 
 yum install -y rpm-build yum-utils
 
-export DIST_DIR=build
-
-rm -rf $DIST_DIR
-mkdir $DIST_DIR
-
-RESULT_DIR="rpms"
-CUR_DIR="$(pwd)"
-
-yum-builddep -y "$DIST_DIR"/redhat/*.spec
+yum-builddep -y *.spec
 rpmbuild -bb \
         --define "_smp_mflags -j10" \
-        --define "_sourcedir $CUR_DIR" \
-        --define "_srcrpmdir $CUR_DIR/${RESULT_DIR}" \
-        --define "_rpmdir $CUR_DIR/${RESULT_DIR}" \
-        --define "srcname $DIST_DIR" \
-	--undefine=_disable_source_fetch
+	--define "_topdir `pwd`" \
+	--undefine=_disable_source_fetch \
+	*.spec
 
 echo "Prepare the packages for storage..."
 mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/
-mv rpms/*/*.rpm /packages/$PARAM_DIST/$PARAM_RELEASE/
+mv RPMS/*/*.rpm /packages/$PARAM_DIST/$PARAM_RELEASE/
