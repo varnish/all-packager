@@ -9,10 +9,10 @@ arch="all"
 license="BSD-2-Clause"
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
-_vversion="$(apk info -i varnish 2>/dev/null | awk '{print $1; exit}')"
+_vversion="$(apk info -i varnish 2>/dev/null | awk '{print $1; exit}' | sed 's/varnish-//')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
-	varnish-dev~=$_vversion"
-depends="varnish~=$_vversion"
+	varnish-dev=$_vversion"
+depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$pkgver/varnish-modules-$pkgver.tar.gz"
 
