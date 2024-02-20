@@ -7,14 +7,14 @@ Build-Depends: debhelper (>= 9),
  build-essential,
  pkg-config,
  python3-docutils,
- varnish (>= 7.4.2),
- varnish-dev (>= 7.4.2)
+ varnish (= @VVERSIOM@),
+ varnish-dev (= @VVERSIOM@)
 Standards-Version: 3.9.4
 Vcs-Git: git://github.com/varnish/varnish-modules.git
 
 Package: varnish-modules
 Architecture: any
-Depends: varnish (>= 7.4.2),
+Depends: varnish (= @VVERSIOM@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI}
