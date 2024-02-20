@@ -9,7 +9,8 @@ echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
 ARCH=`uname -m`
-cd "$PARAM_DIRECTORY"
+# FIXME: we should just pass the right directory
+cd $(dirname "$PARAM_DIRECTORY")
 
 if [ "`uname -m`" = "x86_64" ]; then
   ARCH="amd64"
