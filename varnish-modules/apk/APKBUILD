@@ -7,7 +7,9 @@ pkgdesc="collection of modules for varnish"
 url="https://github.com/varnish/varnish-modules"
 arch="all"
 license="BSD-2-Clause"
-_vversion="7.4.2"
+# NOTE: we're being very naughty and counting on `varnish` to be install
+# to get its version so we can require exactly the same version
+_vversion="$(apk info -i varnish 2>/dev/null | awk '{print $1; exit}')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev~=$_vversion"
 depends="varnish~=$_vversion"
