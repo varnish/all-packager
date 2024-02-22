@@ -2,10 +2,10 @@
 
 set -eux
 
-apk add -q --no-progress --update tar alpine-sdk sudo
-
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
+
+ARCH=`uname -m`
 
 if [ -z "$PARAM_RELEASE" ]; then
     echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=8, for CentOS 8"
@@ -17,6 +17,8 @@ fi
 
 cd /workdir
 tar xazf alpine.tar.gz --strip 1
+apk add -q --no-progress --update tar alpine-sdk sudo
+
 
 adduser -D builder
 echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers
@@ -42,7 +44,6 @@ su builder -c "abuild -r"
 
 echo "Fix the APKBUILD's version"
 su builder -c "mkdir apks"
-ARCH=`uname -m`
 su builder -c "cp /home/builder/packages/$ARCH/*.apk apks"
 
 echo "Import the packages into the workspace"
