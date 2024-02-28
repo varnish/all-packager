@@ -1,4 +1,5 @@
 # from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
+
 %global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
 
 %global docutils python3-docutils
@@ -12,7 +13,7 @@ Summary: Generate UUIDs in VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/otto-de/libvmod-uuid
-Source:  https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v%{Version}.tar.gz
+Source:  https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v%{version}.tar.gz
 
 BuildRequires: gcc
 BuildRequires: make
