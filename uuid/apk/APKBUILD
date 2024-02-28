@@ -18,6 +18,8 @@ subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v$pkgver.tar.gz"
 
 build() {
+	pwd
+	ls
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
