@@ -24,10 +24,10 @@ BuildRequires: varnish
 #BuildRequires: autoconf
 #BuildRequires: libtool
 BuildRequires: %docutils
-BuildRequires: libossp-uuid-devel
+BuildRequires: uuid-devel
 
 Requires: varnish = %varnishver
-Requires: libossp-uuid
+Requires: uuid
 
 Provides: vmod(accept)%{_isa} = %{version}-%{release}
 Provides: vmod(bodyaccess)%{_isa} = %{version}-%{release}
