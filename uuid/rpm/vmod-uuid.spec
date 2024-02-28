@@ -12,7 +12,7 @@ Summary: Generate UUIDs in VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/otto-de/libvmod-uuid
-Source:  https://github.com/otto-de/libvmod-uuid/archive/%{srccommit}.tar.gz
+Source:  https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v%{Version}.tar.gz
 
 BuildRequires: gcc
 BuildRequires: make

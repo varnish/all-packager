@@ -1,7 +1,7 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
 pkgname=vmod-uuid
-pkgver=0.1
+pkgver=1.10
 pkgrel=1
 pkgdesc="Generate UUIDs in VCL"
 url="https://github.com/otto-de/libvmod-uuid"
@@ -15,8 +15,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="ossp-uuid varnish=$_vversion"
 subpackages="$pkgname-doc"
-srccommit="5e29eff2bce8debf9363a13bfd54c05630fd7747"
-source="$pkgname-$pkgver.tar.gz::https://github.com/otto-de/libvmod-uuid/archive/$srccommit.tar.gz"
+source="$pkgname-$pkgver.tar.gz::https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v$pkgver.tar.gz"
 
 build() {
 	./configure \
