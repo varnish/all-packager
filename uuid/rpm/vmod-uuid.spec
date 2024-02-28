@@ -1,6 +1,9 @@
 # from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-
 %global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
+
+# no debugsource, no debuginfo
+%global debug_package %{nil}
+%global _debugsource_template %{nil}
 
 %global docutils python3-docutils
 %global rst2man rst2man
