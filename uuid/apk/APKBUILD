@@ -37,6 +37,8 @@ check() {
 }
 
 package() {
+	pwd
+	ls
 	cd libvmod-uuid-$pkgver
 	make DESTDIR="$pkgdir" install
 }
