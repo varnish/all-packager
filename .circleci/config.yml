@@ -310,6 +310,7 @@ workflows:
               <<: *matrix_parmas
               vmod:
                 - varnish-modules
+                - uuid
 
       - collect_packages:
           requires:
