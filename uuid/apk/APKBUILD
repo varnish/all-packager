@@ -18,8 +18,7 @@ subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v$pkgver.tar.gz"
 
 build() {
-	pwd
-	ls
+	cd libvmod-uuid-$pkgver
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -33,10 +32,12 @@ build() {
 }
 
 check() {
+	cd libvmod-uuid-$pkgver
 	make check  -k VERBOSE=1
 }
 
 package() {
+	cd libvmod-uuid-$pkgver
 	make DESTDIR="$pkgdir" install
 }
 
