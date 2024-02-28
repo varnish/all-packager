@@ -19,13 +19,14 @@ BuildRequires: gcc
 BuildRequires: make
 BuildRequires: pkgconfig(varnishapi)
 BuildRequires: varnish
+BuildRequires: uuid-devel
 
 # Build from a git checkout
 BuildRequires: automake
 BuildRequires: autoconf
 BuildRequires: libtool
 BuildRequires: %docutils
-BuildRequires: uuid-devel
+BuildRequires: autoconf-archive
 
 Requires: varnish = %varnishver
 Requires: uuid
