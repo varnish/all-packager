@@ -273,6 +273,8 @@ jobs:
           command: |
               tar cvzf packages.tar.gz packages
       - store_artifacts:
+          path: packages/
+      - store_artifacts:
           destination: packages.tar.gz
           path: packages.tar.gz
 
