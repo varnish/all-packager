@@ -184,6 +184,8 @@ jobs:
       - run:
           name: List created packages
           command: find ./packages -type f
+      - store_artifacts:
+          path: packages/
       - persist_to_workspace:
           root: .
           paths:
