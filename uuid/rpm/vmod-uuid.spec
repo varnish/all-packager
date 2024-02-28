@@ -63,7 +63,6 @@ export RST2MAN=%{rst2man}
 %install
 %make_install docdir=%_pkgdocdir
 find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
-rm %{buildroot}%{_pkgdocdir}/LICENSE # Rather use license macro
 
 
 %check
@@ -76,7 +75,7 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 %files
 #doc docs AUTHORS CHANGES.rst COPYING README.rst
-%doc AUTHORS CHANGES.rst COPYING README.md
+%doc CHANGES.rst COPYING README.rst
 %license LICENSE
 %{_libdir}/varnish/vmods/*
 %{_mandir}/man3/*.3*
