@@ -21,9 +21,9 @@ BuildRequires: pkgconfig(varnishapi)
 BuildRequires: varnish
 
 # Build from a git checkout
-#BuildRequires: automake
-#BuildRequires: autoconf
-#BuildRequires: libtool
+BuildRequires: automake
+BuildRequires: autoconf
+BuildRequires: libtool
 BuildRequires: %docutils
 BuildRequires: uuid-devel
 
