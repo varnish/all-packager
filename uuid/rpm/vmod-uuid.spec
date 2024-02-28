@@ -48,7 +48,7 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 
 %prep
-%autosetup
+%setup -q -n lib%{name}-%{version}
 
 
 %build
