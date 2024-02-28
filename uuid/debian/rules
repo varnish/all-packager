@@ -18,6 +18,9 @@ VARNISHD_VRT = $(shell \
 	tail -1 | tr -c -d '[0-9.]')
 
 %:
+	echo $@
+	pwd
+	ls
 	dh $@
 
 execute_after_dh_auto_install:
