@@ -11,6 +11,7 @@ license="BSD-2-Clause"
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
+	autoconf-archive
 	ossp-uuid-dev
 	varnish-dev=$_vversion"
 depends="ossp-uuid varnish=$_vversion"
