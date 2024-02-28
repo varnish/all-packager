@@ -37,6 +37,7 @@ check() {
 }
 
 package() {
+	cd src
 	pwd
 	ls
 	cd libvmod-uuid-$pkgver
