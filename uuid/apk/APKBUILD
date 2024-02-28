@@ -33,7 +33,6 @@ build() {
 }
 
 check() {
-	cd libvmod-uuid-$pkgver
 	make check  -k VERBOSE=1
 }
 
