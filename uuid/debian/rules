@@ -10,9 +10,6 @@ D := $(CURDIR)/debian/vmod-uuid
 # for aclocal
 export LIBVARNISHAPI_DATAROOTDIR = $(shell pkg-config --variable=datarootdir varnishapi)
 
-# extract the varnishd ABI version
-VARNISHD_VRT = $(shell printf '#include "vdef.h"\n#include "vrt.h"\n%s.%s\n' VRT_MAJOR_VERSION VRT_MINOR_VERSION | cpp - -I/usr/include/varnish |  tail -1 | tr -c -d '[0-9.]')
-
 %:
 	echo $@
 	pwd
@@ -25,7 +22,3 @@ override_dh_autoreconf:
 execute_after_dh_auto_install:
 	rm -rf $D/usr/share/doc/libvmod-digest/
 	sed -i "/^dependency_libs=/s/'.*'/''/" `find $D -name '*.la'`
-
-override_dh_gencontrol:
-	dh_gencontrol -- -VVarnish:ABI=varnishabi-$(VARNISHD_VRT)
-
