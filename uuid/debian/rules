@@ -23,6 +23,9 @@ VARNISHD_VRT = $(shell \
 	ls
 	dh $@
 
+override_dh_autoreconf:
+	dh_autoreconf ./autogen.sh
+
 execute_after_dh_auto_install:
 	rm -rf $D/usr/share/doc/libvmod-digest/
 	sed -i "/^dependency_libs=/s/'.*'/''/" `find $D -name '*.la'`
