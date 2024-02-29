@@ -305,6 +305,7 @@ workflows:
               <<: *matrix_params
               package:
                 - varnish-modules
+<<<<<<< HEAD
                 - varnishlog-json
                 - vmod-digest
                 - vmod-jq
@@ -328,6 +329,10 @@ workflows:
           matrix:
             parameters:
               <<: *matrix_params
+=======
+                - uuid
+                - cfg
+>>>>>>> 29eeab1 (initial cfg build config)
 
       - collect_packages:
           requires:
