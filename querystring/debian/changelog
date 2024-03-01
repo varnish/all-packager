@@ -1,0 +1,5 @@
+vmod-querystring (@VVERSION@) UNRELEASED; urgency=medium
+
+Support for the VCL REGEX type when available
+Varnish 6.6 support
+Varnish 7.0 support
