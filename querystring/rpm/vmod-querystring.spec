@@ -1,87 +1,61 @@
-# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
+Name:           vmod-querystring
+Version:        2.0.3
+Release:        1%{?dist}
+Group:          System Environment/Libraries
+Summary:        QueryString module for Varnish Cache
+URL:            https://github.com/Dridi/libvmod-querystring
+License:        GPLv3+
+Source:         %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
+BuildRequires:  pkgconfig(varnishapi) >= 6
 
-%global docutils python36-docutils
-%global rst2man rst2man
+# varnish-devel may not require Python or Varnish as it should
+BuildRequires:  varnish >= 6.0.6
+BuildRequires:  python(abi) >= 3.4
 
-Name:    vmod-querystring
-Version: 2.0.3
-Release: 1%{?dist}
-Summary: A fine-grained control over a URL's query-string in Varnish Cache
+Requires:       varnish >= %(varnishd -V 2>&1 | awk -F '[- ]' '{print $3; exit}')
 
-License: BSD-2-Clause
-URL:     https://github.com/Dridi/libvmod-querystring
-Source:  https://github.com/Dridi/libvmod-querystring/archive/refs/tags/v%{version}.tar.gz
-
-BuildRequires: gcc
-BuildRequires: make
-BuildRequires: pkgconfig(varnishapi)
-BuildRequires: varnish
-
-# Build from a git checkout
-BuildRequires: automake
-BuildRequires: autoconf
-BuildRequires: libtool
-BuildRequires: %docutils
-BuildRequires: autoconf-archive
-
-Requires: varnish = %varnishver
-
-Provides: vmod(accept)%{_isa} = %{version}-%{release}
-Provides: vmod(bodyaccess)%{_isa} = %{version}-%{release}
-Provides: vmod(header)%{_isa} = %{version}-%{release}
-Provides: vmod(saintmode)%{_isa} = %{version}-%{release}
-Provides: vmod(tcp)%{_isa} = %{version}-%{release}
-Provides: vmod(var)%{_isa} = %{version}-%{release}
-Provides: vmod(vsthrottle)%{_isa} = %{version}-%{release}
-Provides: vmod(xkey)%{_isa} = %{version}-%{release}
-Provides: vmod(str)%{_isa} = %{version}-%{release}
 
 %description
-The purpose of this module is to give you a fine-grained 
-control over a URL's query-string in Varnish Cache. It's 
-possible to remove the query-string, clean it, sort its 
-parameters or filter it to only keep a subset of them.
+The purpose of this module is to give you a fine-grained control over a URL's
+query-string in Varnish Cache. It's possible to remove the query-string, clean
+it, sort its parameters or filter it to only keep a subset of them.
+
+This can greatly improve your hit ratio and efficiency with Varnish, because
+by default two URLs with the same path but different query-strings are also
+different. This is what the RFCs mandate but probably not what you usually
+want for your web site or application.
+
+A query-string is just a character string starting after a question mark in a
+URL. But in a web context, it is usually a structured key/values store encoded
+with the `application/x-www-form-urlencoded' media type. This module deals
+with this kind of query-strings.
 
 
 %prep
-#%autosetup
-%setup -q -n lib%{name}-%{version}
+%setup -q
 
 
 %build
-sh bootstrap
-export RST2MAN=%{rst2man}
-%configure 
-sh export
-sh echo "before build"
+%configure CFLAGS="%{optflags}"
 %make_build
-sh echo "after build"
 
 
 %install
-#%make_install
-#find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
+%make_install
+find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %check
-#%make_build check VERBOSE=1
+%make_build check VERBOSE=1
 
 
 %files
-#doc docs AUTHORS CHANGES.rst COPYING README.rst
-%doc COPYING README.rst
-%license LICENSE
-%{_libdir}/varnish/vmods/*
-%{_mandir}/man3/*.3*
+%{_mandir}/man?/*
+%{_docdir}/*
+%{_libdir}/*/vmods/*.so
 
 
 %changelog
-* Thu Nov 2 2021 Dridi v%{version}-%{release}
-- Support for the VCL REGEX type when available
-- Varnish 6.6 support
-- Varnish 7.0 support
+* Wed Feb 06 2019 Dridi Boukelmoune <dridi.boukelmoune@gmail.com> - @VERSION@-1
+- Changelog not maintained
