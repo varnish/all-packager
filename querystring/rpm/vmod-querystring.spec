@@ -54,7 +54,7 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 
 %build
-#sh bootstrap
+sh bootstrap
 export RST2MAN=%{rst2man}
 %configure 
 %make_build
