@@ -28,7 +28,7 @@ want for your web site or application.
 
 A query-string is just a character string starting after a question mark in a
 URL. But in a web context, it is usually a structured key/values store encoded
-with the `application/x-www-form-urlencoded' media type. This module deals
+with the `application/x-www-form-urlencoded` media type. This module deals
 with this kind of query-strings.
 
 

@@ -293,7 +293,17 @@ workflows:
           matrix:
             parameters: &matrix_parmas
               platform:
+                - ubuntu:bionic
+                - ubuntu:focal
+                - ubuntu:jammy
+                - debian:buster
+                - debian:bullseye
+                - debian:bookworm
+                - centos:stream
+                - almalinux:8
+                - almalinux:9
                 - fedora:latest
+                - alpine:3
               rclass:
                 - arm.medium
                 - medium
