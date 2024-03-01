@@ -7,7 +7,6 @@
 
 %global docutils python3-docutils
 %global rst2man rst2man
-%global srccommit 5e29eff2bce8debf9363a13bfd54c05630fd7747
 
 Name:    vmod-querystring
 Version: 2.0.3
@@ -66,10 +65,6 @@ find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 
 %check
-%ifarch %ix86 %arm ppc
-# 64-bit specific test
-sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
-%endif
 %make_build check VERBOSE=1
 
 

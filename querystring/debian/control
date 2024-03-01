@@ -1,7 +1,7 @@
 Source: vmod-querystring
 Section: net
 Priority: extra
-Maintainer: Dridi Boukelmoune https://dridi.fedorapeople.org/
+Maintainer: Dridi Boukelmoune <dridi@varni.sh>
 Build-Depends: debhelper (>= 9),
  autoconf-archive,
  build-essential,

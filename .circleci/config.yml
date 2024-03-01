@@ -315,9 +315,9 @@ workflows:
             parameters:
               <<: *matrix_parmas
               vmod:
+                - querystring
                 - varnish-modules
                 - uuid
-                - querystring
 
       - collect_packages:
           requires:

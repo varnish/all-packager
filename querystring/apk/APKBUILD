@@ -1,5 +1,5 @@
-# Contributor: Dridi Boukelmoune https://dridi.fedorapeople.org/
-# Maintainer: Dridi Boukelmoune https://dridi.fedorapeople.org/
+# Contributor: Dridi Boukelmoune <dridi@varni.sh>
+# Maintainer: Dridi Boukelmoune <dridi@varni.sh>
 pkgname=vmod-querystring
 pkgver=2.0.3
 pkgrel=1
