@@ -42,14 +42,15 @@ Provides: vmod(xkey)%{_isa} = %{version}-%{release}
 Provides: vmod(str)%{_isa} = %{version}-%{release}
 
 %description
-This is a collection of modules ("vmods") extending Varnish VCL used
-for describing HTTP request/response policies with additional
-capabilities. This collection contains the following vmods:
-bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
+The purpose of this module is to give you a fine-grained 
+control over a URL's query-string in Varnish Cache. It's 
+possible to remove the query-string, clean it, sort its 
+parameters or filter it to only keep a subset of them.
 
 
 %prep
-%setup -q -n lib%{name}-%{version}
+%autosetup
+#%setup -q -n lib%{name}-%{version}
 
 
 %build
