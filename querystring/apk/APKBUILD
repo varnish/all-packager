@@ -21,7 +21,6 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/Dridi/libvmod-querystring/ar
 
 build() {
 	cd libvmod-uuid-$pkgver
-	./autogen.sh
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \

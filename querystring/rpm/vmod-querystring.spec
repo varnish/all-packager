@@ -56,7 +56,6 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 %build
 #sh bootstrap
 export RST2MAN=%{rst2man}
-./autogen.sh
 %configure 
 %make_build
 

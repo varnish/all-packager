@@ -17,7 +17,7 @@ export LIBVARNISHAPI_DATAROOTDIR = $(shell pkg-config --variable=datarootdir var
 	dh $@
 
 override_dh_autoreconf:
-	dh_autoreconf ./autogen.sh
+	dh_autoreconf
 
 execute_after_dh_auto_install:
 	rm -rf $D/usr/share/doc/libvmod-querystring/
