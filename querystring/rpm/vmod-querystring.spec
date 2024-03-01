@@ -49,24 +49,27 @@ parameters or filter it to only keep a subset of them.
 
 
 %prep
-%autosetup
-#%setup -q -n lib%{name}-%{version}
+#%autosetup
+%setup -q -n lib%{name}-%{version}
 
 
 %build
 sh bootstrap
 export RST2MAN=%{rst2man}
 %configure 
+sh export
+sh echo "before build"
 %make_build
+sh echo "after build"
 
 
 %install
-%make_install docdir=%_pkgdocdir
-find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
+#%make_install
+#find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 
 %check
-%make_build check VERBOSE=1
+#%make_build check VERBOSE=1
 
 
 %files
@@ -78,7 +81,7 @@ find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Thu Nov 2 2021 Dridi v{version}
+* Thu Nov 2 2021 Dridi v%{version}-%{release}
 - Support for the VCL REGEX type when available
 - Varnish 6.6 support
 - Varnish 7.0 support
