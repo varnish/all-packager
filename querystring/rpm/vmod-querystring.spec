@@ -5,7 +5,7 @@
 %global debug_package %{nil}
 %global _debugsource_template %{nil}
 
-%global docutils python3-docutils
+%global docutils python36-docutils
 %global rst2man rst2man
 
 Name:    vmod-querystring
