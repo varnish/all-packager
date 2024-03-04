@@ -39,7 +39,7 @@ update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
 echo "Install Build-Depends packages..."
 yes | mk-build-deps --install debian/control || true
 echo "Build the packages..."
-dpkg-buildpackage -rfakeroot -us -uc -j16
+dpkg-buildpackage -us -uc -j16
 
 cd ..
 mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/
