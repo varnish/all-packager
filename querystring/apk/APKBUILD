@@ -20,7 +20,7 @@ subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/Dridi/libvmod-querystring/archive/refs/tags/v$pkgver.tar.gz"
 
 build() {
-	cd libvmod-uuid-$pkgver
+	cd libvmod-querystring-$pkgver
 	./bootstrap && ./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
