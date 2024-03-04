@@ -10,8 +10,7 @@ Build-Depends:
  varnish (>= 6.0.6)
 Standards-Version: 3.9.5
 Section: libs
-
-Vcs-Git: git@github.com:Dridi/libvmod-querystring.git
+Homepage: git@github.com:Dridi/libvmod-querystring.git
 
 Package: vmod-querystring
 Architecture: any

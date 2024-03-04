@@ -13,14 +13,15 @@ license="BSD-2-Clause"
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
 	autoconf-archive
-	ossp-uuid-dev
 	varnish-dev=$_vversion"
-depends="ossp-uuid varnish=$_vversion"
+depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/Dridi/libvmod-querystring/archive/refs/tags/v$pkgver.tar.gz"
 
 build() {
 	cd libvmod-querystring-$pkgver
+	sed  -i "s/dist_man_MANS = vmod_querystring.3//g" src/Makefile.am
+
 	./bootstrap && ./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
