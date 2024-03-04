@@ -5,6 +5,7 @@ RUN set -e; \
 	apk add -q \
 	    autoconf \
 	    automake \
+		make \
 	    build-base \
 	    ca-certificates \
 	    cpio \
