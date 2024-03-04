@@ -1,15 +1,16 @@
 Source: vmod-querystring
-Section: net
-Priority: extra
-Maintainer: Dridi Boukelmoune <dridi@varni.sh>
-Build-Depends: debhelper (>= 9),
- autoconf-archive,
- build-essential,
- pkg-config,
+Priority: optional
+Maintainer: Dridi Boukelmoune <dridi.boukelmoune@gmail.com>
+Build-Depends:
+ debhelper (>= 9),
+ libvarnishapi-dev (>= 6.0.6) |
+ varnish-dev (>= 6.0.6),
+ pkg-config (>= 0.21),
  python3-docutils,
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@)
-Standards-Version: 3.9.4
+ varnish (>= 6.0.6)
+Standards-Version: 3.9.5
+Section: libs
+
 Vcs-Git: git@github.com:Dridi/libvmod-querystring.git
 
 Package: vmod-querystring
@@ -17,8 +18,9 @@ Architecture: any
 Depends: varnish (= @VVERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI}
-Description: The purpose of this module is to give you a fine-grained control over a URL's
+ ${varnish:Depends},
+Description: QueryString module for Varnish Cache
+ The purpose of this module is to give you a fine-grained control over a URL's
  query-string in Varnish Cache. It's possible to remove the query-string, clean
  it, sort its parameters or filter it to only keep a subset of them.
  This can greatly improve your hit ratio and efficiency with Varnish, because
@@ -27,5 +29,5 @@ Description: The purpose of this module is to give you a fine-grained control ov
  want for your web site or application.
  A query-string is just a character string starting after a question mark in a
  URL. But in a web context, it is usually a structured key/values store encoded
- with the `application/x-www-form-urlencoded` media type. This module deals
+ with the `application/x-www-form-urlencoded' media type. This module deals
  with this kind of query-strings.

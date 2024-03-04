@@ -5,6 +5,7 @@ Group:          System Environment/Libraries
 Summary:        QueryString module for Varnish Cache
 URL:            https://github.com/Dridi/libvmod-querystring
 License:        GPLv3+
+
 Source:         %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires:  pkgconfig(varnishapi) >= 6
