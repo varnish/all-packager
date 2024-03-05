@@ -41,10 +41,11 @@ yes | mk-build-deps --install debian/control || true
 mkdir -p ./pkgbuild/distdir/
 cp -r debian pkgbuild/distdir/
 
-curl -L "$(cat debian/orig_url)" -o ./pkgbuild/$(cat debian/orig_packagename) 
+DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_$(echo $VVERSION | sed 's/-.*//').orig.tar.gz
+curl -L "$(cat debian/orig_url)" -o ./pkgbuild/$DEB_ORIG 
 
 cd ./pkgbuild/distdir/
-tar xvfz ../$(cat debian/orig_packagename) --strip 1
+tar xvfz ../$DEB_ORIG --strip 1
 
 echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16
