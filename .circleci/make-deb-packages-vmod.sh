@@ -43,7 +43,7 @@ yes | mk-build-deps --install debian/control || true
 mkdir -p ./pkgbuild/distdir/
 cp -r debian pkgbuild/distdir/
 
-DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${$VVERSION_DEP}.orig.tar.gz
+DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${VVERSION_DEP}.orig.tar.gz
 curl -L "$(cat debian/orig_url)" -o ./pkgbuild/$DEB_ORIG 
 
 cd ./pkgbuild/distdir/
