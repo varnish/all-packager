@@ -19,6 +19,10 @@ export LIBVARNISHAPI_DATAROOTDIR = $(shell pkg-config --variable=datarootdir var
 override_dh_autoreconf:
 	dh_autoreconf ./autogen.sh
 
+override_dh_gencontrol:
+	varnishd -V 2>&1 | awk -F '[- ]' '{print "varnish:Depends=varnish (>= " $$3 ")"; exit}' >> debian/substvars
+	dh_gencontrol -- -Tdebian/substvars
+	
 execute_after_dh_auto_install:
 	rm -rf $D/usr/share/doc/libvmod-digest/
 	sed -i "/^dependency_libs=/s/'.*'/''/" `find $D -name '*.la'`

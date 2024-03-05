@@ -2,10 +2,11 @@
 export DH_VERBOSE=1
 
 override_dh_gencontrol:
+	varnishd -V 2>&1 | awk -F '[- ]' '{print "varnish:Depends=varnish (>= " $$3 ")"; exit}' >> debian/substvars
 	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
-		dh_gencontrol -- -v$$DEBIAN_OVERRIDE_BINARY_VERSION; \
+		dh_gencontrol -- -v$$DEBIAN_OVERRIDE_BINARY_VERSION -Tdebian/substvars; \
 	else \
-		dh_gencontrol ; \
+		dh_gencontrol -- -Tdebian/substvars; \
 	fi
 
 %:
