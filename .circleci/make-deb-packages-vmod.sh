@@ -28,7 +28,7 @@ fi
 
 apt-get update
 apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot /deps/$PARAM_DIST/$PARAM_RELEASE/*.deb
-VVERSION="$(dpkg -l | awk '$2 == "varnish" {print $3}' | sed 's/~.*//' )"
+VVERSION="$(dpkg -l | awk '$2 == "varnish" {print $3}' | sed 's/-.*//' )"
 sed -i "s/@VVERSION@/$VVERSION/" debian/*
 
 # Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
