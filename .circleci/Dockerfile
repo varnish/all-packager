@@ -12,4 +12,5 @@ RUN set -e;\
 	    make \
 	    pcre2-devel \
 	    python3 \
+		python-docutils \
 	    python-sphinx
