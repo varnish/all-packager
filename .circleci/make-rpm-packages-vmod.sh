@@ -21,14 +21,17 @@ case "$PARAM_DIST:$PARAM_RELEASE" in
         dnf install -y 'dnf-command(config-manager)'
         yum config-manager --set-enabled crb
         yum install -y epel-release
+        yum install -y make
         ;;
     centos:stream|almalinux:8)
         dnf install -y 'dnf-command(config-manager)'
         yum config-manager --set-enabled powertools
         yum install -y epel-release
+        yum install -y make
         ;;
     centos:7)
         yum install -y epel-release
+        yum install -y make
         ;;
 esac
 
