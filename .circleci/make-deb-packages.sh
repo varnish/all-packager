@@ -9,20 +9,8 @@ apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fak
 
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
-
-if [ "`uname -m`" = "x86_64" ]; then
-  ARCH="amd64"
-else
-  ARCH="arm64"
-fi
-
-if [ -z "$PARAM_RELEASE" ]; then
-    echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=focal for Ubuntu 20.04"
-    exit 1
-elif [ -z "$PARAM_DIST" ]; then
-    echo "Env variable PARAM_DIST is not set! For example PARAM_DIST=debian"
-    exit 1
-fi
+echo "PARAM_ARCH: $PARAM_ARCH"
+PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
 # Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
 #    semop(1): encountered an error: Function not implemented
@@ -59,10 +47,5 @@ for component in varnish; do
 done
 
 cd /workdir/
-mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/
-mv *.deb /packages/$PARAM_DIST/$PARAM_RELEASE/
-
-DSC_FILE=$(ls *.dsc)
-DSC_FILE_WO_EXT=$(basename ${DSC_FILE%.*})
-mv $DSC_FILE /packages/$PARAM_DIST/$PARAM_RELEASE/${DSC_FILE_WO_EXT}_${ARCH}.dsc
-
+mkdir -p $PDIR
+mv *.deb *.dsc $PDIR

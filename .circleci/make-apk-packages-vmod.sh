@@ -5,7 +5,9 @@ set -eux
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
-ARCH=`uname -m`
+echo "PARAM_ARCH: $PARAM_ARCH"
+PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
+
 cd "$PARAM_DIRECTORY"
 
 if [ -z "$PARAM_RELEASE" ]; then
@@ -16,7 +18,7 @@ elif [ -z "$PARAM_DIST" ]; then
     exit 1
 fi
 
-apk add --allow-untrusted /deps/$PARAM_DIST/$PARAM_RELEASE/$ARCH/*.apk
+apk add --allow-untrusted /deps/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH/*.apk
 apk add -q --no-progress --update tar alpine-sdk sudo
 
 
@@ -36,8 +38,8 @@ su builder -c "abuild checksum"
 su builder -c "abuild -r"
 
 echo "Import the packages into the workspace"
-mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
-mv /home/builder/packages/*/$ARCH/*.apk /packages/$PARAM_DIST/$PARAM_RELEASE/$ARCH/
+mkdir -p $PDIR
+mv /home/builder/packages/*/$(uname -m)/*.apk $PDIR
 
 echo "Allow to read the packages by 'circleci' user outside of Docker after 'chown builder -R .' above"
 chmod -R a+rwx .

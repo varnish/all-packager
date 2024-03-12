@@ -4,14 +4,8 @@ set -eux
 
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
-
-if [ -z "$PARAM_RELEASE" ]; then
-    echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=stream, for CentOS stream"
-    exit 1
-elif [ -z "$PARAM_DIST" ]; then
-    echo "Env variable PARAM_DIST is not set! For example PARAM_DIST=centos"
-    exit 1
-fi
+echo "PARAM_ARCH: $PARAM_ARCH"
+PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
 case "$PARAM_DIST:$PARAM_RELEASE" in
     almalinux:9)
@@ -78,5 +72,5 @@ rpmbuild -bs "$DIST_DIR"/redhat/varnish.spec
 rpmbuild --rebuild "$RESULT_DIR"/varnish-*.src.rpm
 
 echo "Prepare the packages for storage..."
-mkdir -p /packages/$PARAM_DIST/$PARAM_RELEASE/
-mv rpms/*/*.rpm /packages/$PARAM_DIST/$PARAM_RELEASE/
+mkdir -p $PDIR
+mv rpms/*/*.rpm $PDIR
