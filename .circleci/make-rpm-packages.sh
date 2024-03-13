@@ -7,21 +7,16 @@ echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_ARCH: $PARAM_ARCH"
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
+dnf install -y 'dnf-command(config-manager)'
 case "$PARAM_DIST:$PARAM_RELEASE" in
     almalinux:9)
-        dnf install -y 'dnf-command(config-manager)'
         yum config-manager --set-enabled crb
-        yum install -y epel-release
         ;;
     centos:stream|almalinux:8)
-        dnf install -y 'dnf-command(config-manager)'
         yum config-manager --set-enabled powertools
-        yum install -y epel-release
-        ;;
-    centos:7)
-        yum install -y epel-release
         ;;
 esac
+yum install -y epel-release
 
 yum install -y rpm-build yum-utils
 
