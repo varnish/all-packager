@@ -2,7 +2,7 @@
 
 set -eux
 
-if apk -v; then
+if apk -V; then
 	apk add --allow-untrusted $PDIR/*.apk
 elif apt-get -v; then
 	apt-get update
