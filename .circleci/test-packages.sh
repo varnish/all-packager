@@ -14,6 +14,7 @@ else
 	yum config-manager --set-enabled powertools || true
 	yum config-manager --set-enabled crb || true
 	yum install -y epel-release || true
+	yum install -y redhat-rpm-config || true
 	yum install -y $PDIR/*.rpm
 fi
 
