@@ -10,9 +10,10 @@ PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
 cd "$PARAM_DIRECTORY"
 
-dnf install -y 'dnf-command(config-manager)'
-yum config-manager --set-enabled powertools || yum config-manager --set-enabled crb
-yum install -y epel-release
+dnf install -y 'dnf-command(config-manager)' || true
+yum config-manager --set-enabled powertools || true
+yum config-manager --set-enabled crb || true
+yum install -y epel-release || true
 yum install -y make
 
 find /deps/ -type f
