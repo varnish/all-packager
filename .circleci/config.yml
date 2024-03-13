@@ -312,7 +312,7 @@ jobs:
             docker run \
               --rm \
               -it \
-              -e PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
+              -e PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
               -v$(pwd):/workdir \
               -v$(pwd)/packages:/packages \
               --platform linux/$PARAM_ARCH \
