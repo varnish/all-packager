@@ -8,6 +8,10 @@ License:        GPLv3+
 
 Source:         %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
+# no debugsource, no debuginfo
+%global debug_package %{nil}
+%global _debugsource_template %{nil}
+
 BuildRequires:  pkgconfig(varnishapi) >= 6
 
 # varnish-devel may not require Python or Varnish as it should

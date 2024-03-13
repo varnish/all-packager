@@ -4,6 +4,10 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
+# no debugsource, no debuginfo
+%global debug_package %{nil}
+%global _debugsource_template %{nil}
+
 Name:    varnish-modules
 Version: 0.23.0 
 Release: 1%{?dist}
