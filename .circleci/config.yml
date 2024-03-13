@@ -263,6 +263,62 @@ jobs:
           paths:
             - "packages"
 
+  check-packages:
+    parameters:
+      platform:
+        description: the Linux distribution, with release, e.g. debian:buster, centos:7
+        type: string
+      rclass:
+        description: the resource class to use, usuall arm.medium or medium
+        type: string
+    machine:
+      image: ubuntu-2004:202111-02
+    resource_class: << parameters.rclass >>
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - when: *alpine_tweak
+      - run:
+          name: Build for << parameters.platform >> on << parameters.rclass >>
+          command: |
+            case "<< parameters.platform >>" in
+                debian:*|ubuntu:*)
+                  EXT=deb
+                  mkdir varnish-debian
+                  cd varnish-debian
+                  tar xavf ../debian.tar.gz --strip 1
+                  cd -
+                  ;;
+                centos:*|fedora:*)  EXT=rpm ;;
+                almalinux:*)        EXT=rpm ;;
+                alpine:*)           EXT=apk ;;
+                *)
+                    echo "unrecognized platform: << parameters.platform >>"
+                    exit 1
+            esac
+
+            case "<< parameters.platform >>" in
+                centos:stream)      REPO=quay.io/centos/ ;;
+                *)                  REPO= ;;
+            esac
+
+            case "<< parameters.rclass >>" in
+                arm.*)              PARAM_ARCH=arm64 ;;
+                *)                  PARAM_ARCH=amd64 ;;
+            esac
+
+            set -x
+            docker run \
+              --rm \
+              -it \
+              -e PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
+              -v$(pwd):/workdir \
+              -v$(pwd)/packages:/packages \
+              --platform linux/$PARAM_ARCH \
+              ${REPO}<< parameters.platform >> \
+              /workdir/.circleci/test-packages.sh
+
   collect_packages:
     docker:
       - image: centos:7
@@ -320,6 +376,15 @@ workflows:
                 - varnish-modules
                 - uuid
                 - querystring
+
+      - check-packages:
+          name: check << matrix.platform >> packages (<< matrix.rclass >>)
+          requires:
+            - package-varnish
+            - package-vmod
+          matrix:
+            parameters:
+              <<: *matrix_params
 
       - collect_packages:
           requires:
