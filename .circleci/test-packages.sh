@@ -8,9 +8,10 @@ elif apt-get -v; then
 	apt-get update
 	apt-get install -y $PDIR/*.deb
 else
-	dnf install -y 'dnf-command(config-manager)'
-	yum config-manager --set-enabled powertools || yum config-manager --set-enabled crb                
-	yum install -y epel-release
+	dnf install -y 'dnf-command(config-manager)' || true
+	yum config-manager --set-enabled powertools || true
+	yum config-manager --set-enabled crb || true
+	yum install -y epel-release || true
 	yum install -y $PDIR/*.rpm
 fi
 
