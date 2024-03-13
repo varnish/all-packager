@@ -380,8 +380,7 @@ workflows:
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
           requires:
-            - package-varnish
-            - package-vmod
+            - collect_packages
           matrix:
             parameters:
               <<: *matrix_params
