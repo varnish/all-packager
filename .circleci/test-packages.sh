@@ -29,7 +29,7 @@ import var;
 import vsthrottle;
 import xkey;
 
-backend
+backend default none;
 EOF
 
 varnishd -C -f /tmp/test.vcl
