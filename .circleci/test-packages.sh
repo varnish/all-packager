@@ -5,6 +5,8 @@ set -eux
 if apk -V; then
 	apk add --allow-untrusted $PDIR/*.apk
 elif apt-get -v; then
+	export DEBIAN_FRONTEND=noninteractive
+	export DEBCONF_NONINTERACTIVE_SEEN=true
 	apt-get update
 	apt-get install -y $PDIR/*.deb
 else
