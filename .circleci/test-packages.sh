@@ -25,7 +25,7 @@ import saintmode;
 import str;
 import tcp;
 import var;
-import vsthrottle:
+import vsthrottle;
 import xkey;
 
 backend
