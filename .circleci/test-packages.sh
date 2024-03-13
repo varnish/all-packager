@@ -5,6 +5,7 @@ set -eux
 if apk -v; then
 	apk add --allow-untrusted $PDIR/*.apk
 elif apt-get -v; then
+	apt-get update
 	apt-get install -y $PDIR/*.deb
 else
 	yum install -y $PDIR/*.rpm
