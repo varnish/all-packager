@@ -16,35 +16,26 @@ PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 #    semop(1): encountered an error: Function not implemented
 update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
 
-for component in varnish; do
+mkdir /workdir/varnish
+cd /workdir/varnish 
 
-	mkdir /workdir/$component
-	cd /workdir/$component 
+echo "Untar debian..."
+cp -a ../varnish-debian debian
 
-	echo "Untar debian..."
-	cp -a ../$component-debian debian
+echo "Untar orig..."
+tar xavf ../src-tarballs/varnish/*.tar.gz --strip 1
 
-	echo "Untar orig..."
-	tar xavf ../src-tarballs/$component/*.tar.gz --strip 1
+# we need varnish first so we know which version to use everywhere
+VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')-1~$PARAM_RELEASE
+sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
 
-	# we need varnish first so we know which version to use everywhere
-	if [ "$component" = "varnish" ]; then
-		VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')-1~$PARAM_RELEASE
-	elif [ -z "$VERSION" ]; then
-		echo "varnish should have given us a VERSION to work with by now"
-		exit 1
-	fi
+echo "Install Build-Depends packages..."
+yes | mk-build-deps --install debian/control || true
 
-	sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
+echo "Build the packages..."
+dpkg-buildpackage -us -uc -j16
 
-	echo "Install Build-Depends packages..."
-	yes | mk-build-deps --install debian/control || true
-
-	echo "Build the packages..."
-	dpkg-buildpackage -us -uc -j16
-
-	echo "Prepare the packages for storage..."
-done
+echo "Prepare the packages for storage..."
 
 cd /workdir/
 mkdir -p $PDIR
