@@ -9,15 +9,6 @@ echo "PARAM_ARCH: $PARAM_ARCH"
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
 cd "$PARAM_DIRECTORY"
-
-if [ -z "$PARAM_RELEASE" ]; then
-    echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=8, for CentOS 8"
-    exit 1
-elif [ -z "$PARAM_DIST" ]; then
-    echo "Env variable PARAM_DIST is not set! For example PARAM_DIST=centos"
-    exit 1
-fi
-
 apk add --allow-untrusted /deps/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH/*.apk
 apk add -q --no-progress --update tar alpine-sdk sudo
 
