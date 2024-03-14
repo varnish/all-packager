@@ -114,30 +114,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-
-#      - when: &alpine_tweak
-#          condition:
-#            matches:
-#              pattern: ^alpine.*
-#              value: << parameters.platform >>
-#          steps:
-#            - run:
-#                # https://wiki.alpinelinux.org/wiki/Release_Notes_for_Alpine_3.14.0#faccessat2
-#                name: grab the latest docker version
-#                command: |
-#                  # using https://docs.docker.com/engine/install/ubuntu/
-#                  sudo apt-get update
-#                  sudo apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
-#                  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-#                  case "<< parameters.rclass >>" in
-#                      arm.*)  ARCH=arm64;;
-#                      *)      ARCH=amd64;;
-#                  esac
-#                  echo \
-#                    "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-#                      $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-#                  sudo apt-get update
-#                  sudo apt-get install docker-ce docker-ce-cli containerd.io
       - run:
           name: Build for << parameters.platform >> on << parameters.rclass >>
           command: |
@@ -211,7 +187,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
-#      - when: *alpine_tweak
       - run:
           name: Build for << parameters.platform >> on << parameters.rclass >>
           command: |
@@ -279,7 +254,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: ~/project
-#      - when: *alpine_tweak
       - run:
           name: Build for << parameters.platform >> on << parameters.rclass >>
           command: |
