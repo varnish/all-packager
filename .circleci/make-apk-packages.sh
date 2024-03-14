@@ -36,7 +36,8 @@ su builder -c "abuild -r"
 
 echo "Import the packages into the workspace"
 mkdir -p $PDIR
-mv /home/builder/packages/*/$(uname -m)/*.apk $PDIR
+ls /home/builder/packages/$(uname -m)/*.apk
+mv /home/builder/packages/$(uname -m)/*.apk $PDIR
 
 echo "Allow to read the packages by 'circleci' user outside of Docker after 'chown builder -R .' above"
 chmod -R a+rwx .
