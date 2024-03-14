@@ -4,13 +4,13 @@ set -eux
 
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
-apt-get update
-apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot
-
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_ARCH: $PARAM_ARCH"
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
+
+apt-get update
+apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot
 
 # Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
 #    semop(1): encountered an error: Function not implemented
