@@ -4,12 +4,10 @@ set -eux
 
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
-
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
 echo "PARAM_ARCH: $PARAM_ARCH"
-
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 # FIXME: we should just pass the right directory
 cd $(dirname "$PARAM_DIRECTORY")
@@ -43,15 +41,6 @@ curl -L "$(cat ../../debian/orig_url | grep -v '^#' | sed 's/^\(.*\)::\(.*\)/\2/
 tar xvfz ../$DEB_ORIG --strip 1
 
 cp -r ../../debian .
-
-# If format file does not exist, assume Version 1 is used.
-#
-if [ ! -f debian/source/format ]; then
-  if [ ! -d debian/source ]; then
-    mkdir -p debian/source
-  fi
-  echo "1.0" >  debian/source/format
-fi
 
 echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16
