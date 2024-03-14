@@ -34,13 +34,9 @@ echo "Fix checksums, build"
 su builder -c "abuild checksum"
 su builder -c "abuild -r"
 
-echo "Fix the APKBUILD's version"
-su builder -c "mkdir apks"
-su builder -c "cp /home/builder/packages/$(uname -m)/*.apk apks"
-
 echo "Import the packages into the workspace"
 mkdir -p $PDIR
-mv apks/*.apk $PDIR
+mv /home/builder/packages/*/$(uname -m)/*.apk $PDIR
 
 echo "Allow to read the packages by 'circleci' user outside of Docker after 'chown builder -R .' above"
 chmod -R a+rwx .
