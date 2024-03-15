@@ -1,20 +1,21 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
 pkgname=varnish-modules
-pkgver=0.23.0
+# NOTE: we're being very naughty and counting on `varnish` to be installed
+# to get its version so we can require exactly the same version
+_vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
+pkgver=$_vversion.0
+_origver=0.23.0
 pkgrel=1
 pkgdesc="collection of modules for varnish"
 url="https://github.com/varnish/varnish-modules"
 arch="all"
 license="BSD-2-Clause"
-# NOTE: we're being very naughty and counting on `varnish` to be installed
-# to get its version so we can require exactly the same version
-_vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$pkgver/varnish-modules-$pkgver.tar.gz"
+source="$pkgname-$_origver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$_origver/varnish-modules-$_origver.tar.gz"
 
 build() {
 	./configure \

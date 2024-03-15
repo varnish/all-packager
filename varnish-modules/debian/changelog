@@ -1,4 +1,4 @@
-varnish-modules (@VVERSION@) UNRELEASED; urgency=medium
+varnish-modules (@PVERSION@) UNRELEASED; urgency=medium
 
   * This changelog is not in use. See doc/changes.rst for release notes.
 
