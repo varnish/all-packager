@@ -9,7 +9,8 @@
 %global _debugsource_template %{nil}
 
 Name:    varnish-modules
-Version: 0.23.0 
+Version: %{varnishver}.0
+%global version 0.23.0
 Release: 1%{?dist}
 Summary: A collection of modules ("vmods") extending Varnish VCL
 

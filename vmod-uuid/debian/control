@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 9),
  varnish (= @VVERSION@),
  varnish-dev (= @VVERSION@),
  libossp-uuid-dev
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 Vcs-Git: git://github.com/otto-de/libvmod-uuid.git
 
 Package: vmod-uuid

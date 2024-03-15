@@ -11,9 +11,6 @@ D := $(CURDIR)/debian/vmod-uuid
 export LIBVARNISHAPI_DATAROOTDIR = $(shell pkg-config --variable=datarootdir varnishapi)
 
 %:
-	echo $@
-	pwd
-	ls
 	dh $@
 
 override_dh_autoreconf:
