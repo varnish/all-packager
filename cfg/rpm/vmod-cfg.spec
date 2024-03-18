@@ -23,11 +23,10 @@ BuildRequires: make
 BuildRequires: pkgconfig(varnishapi)
 BuildRequires: varnish
 BuildRequires: libcurl-devel
-BuildRequires: libjemalloc-dev
 BuildRequires: luajit-devel
 BuildRequires: jemalloc-devel
 BuildRequires: vim-common
-BuildRequires: python-docutils
+BuildRequires: python3-docutils
 
 # Build from a git checkout
 BuildRequires: automake
