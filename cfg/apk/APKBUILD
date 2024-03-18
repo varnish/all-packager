@@ -1,7 +1,7 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
 pkgname=vmod-cfg
-pkgver=15.0
+pkgver=7.3-15.0
 pkgrel=1
 pkgdesc="Config VMOD for Varnish"
 url="https://github.com/carlosabalde/libvmod-cfg/"
@@ -12,10 +12,9 @@ license="BSD-2-Clause"
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
 	autoconf-archive
-    libcurl4-openssl-dev libjemalloc-dev libluajit-5.1-dev vim-common
-	libjemalloc2
+    libcurl4-openssl-dev jemalloc-dev libluajit-5.1-dev vim-common
 	varnish-dev=$_vversion"
-depends="varnish=$_vversion"
+depends="varnish=$_vversion jemalloc"
 subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/$pkgver.tar.gz"
 
