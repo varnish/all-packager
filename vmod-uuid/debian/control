@@ -18,7 +18,7 @@ Architecture: any
 Depends: varnish (= @VVERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI}
+ ${Varnish:ABI},
 Description: Varnish module collection by Varnish Software
  This is a collection of modules ("vmods") extending Varnish VCL used for
  describing HTTP request/response policies with additional capabilities.
