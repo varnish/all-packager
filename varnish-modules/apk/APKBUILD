@@ -4,7 +4,7 @@ pkgname=varnish-modules
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver=$_vversion.0
+pkgver="$(echo $_vversion | set 's/[~-].*//').0"
 _origver=0.23.0
 pkgrel=1
 pkgdesc="collection of modules for varnish"
