@@ -49,7 +49,7 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 
 %prep
-%autosetup
+%autosetup -n %{name}-%{version}
 
 
 %build
