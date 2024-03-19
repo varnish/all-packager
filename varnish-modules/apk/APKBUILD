@@ -18,6 +18,8 @@ subpackages="$pkgname-doc"
 source="$pkgname-$_origver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$_origver/varnish-modules-$_origver.tar.gz"
 
 build() {
+	pwd
+	ls
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
