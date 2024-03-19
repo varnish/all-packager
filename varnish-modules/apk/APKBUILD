@@ -15,11 +15,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$_origver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$_origver/varnish-modules-$_origver.tar.gz"
+source="$pkgname-$_origver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$_origver/${pkgname}-$_origver.tar.gz"
 
 build() {
-	pwd
-	ls
+	cd ${pkgname}-%{_origver}
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -32,10 +31,12 @@ build() {
 }
 
 check() {
+	cd ${pkgname}-%{_origver}
 	make check  -k VERBOSE=1
 }
 
 package() {
+	cd ${pkgname}-%{_origver}
 	make DESTDIR="$pkgdir" install
 }
 
