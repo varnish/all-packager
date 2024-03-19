@@ -22,8 +22,6 @@ DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${PVERSION}.orig
 
 sed -i -e "s/@VVERSION@/$VVERSION/" -e "s/@PVERSION@/$PVERSION-1/" debian/*
 
-cat debian/changelog
-
 # Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
 #    semop(1): encountered an error: Function not implemented
 update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
