@@ -17,8 +17,8 @@ apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fak
 apt-get install -y python*-docutils
 
 VVERSION="$(dpkg -l | awk '$2 == "varnish" {print $3}')"
-PVERSION=$(echo ${VVERSION%~*} | sed 's/[~-].*//').0-1
-DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${PVERSION}.orig.tar.gz
+PVERSION=$(echo ${VVERSION%~*} | sed 's/[~-].*//').0
+DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${PVERSION}-1.orig.tar.gz
 
 sed -i -e "s/@VVERSION@/$VVERSION/" -e "s/@PVERSION@/$PVERSION/" debian/*
 
