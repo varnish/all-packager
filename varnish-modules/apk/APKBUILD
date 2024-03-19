@@ -31,7 +31,6 @@ build() {
 }
 
 check() {
-	cd ${pkgname}-${_origver}
 	make check  -k VERBOSE=1
 }
 
