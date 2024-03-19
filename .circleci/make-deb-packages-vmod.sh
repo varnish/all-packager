@@ -16,8 +16,8 @@ apt-get update
 apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot /deps/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH/*.deb
 apt-get install -y python*-docutils
 
-VVERSION="$(dpkg -l | awk '$2 == "varnish" {print $3}' | sed 's/[~-].*//')"
-PVERSION=${VVERSION%~*}.0
+VVERSION="$(dpkg -l | awk '$2 == "varnish" {print $3}')"
+PVERSION=$(echo ${VVERSION%~*} | sed 's/[~-].*//').0
 DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${PVERSION}.orig.tar.gz
 
 sed -i -e "s/@VVERSION@/$VVERSION/" -e "s/@PVERSION@/$PVERSION/" debian/*
