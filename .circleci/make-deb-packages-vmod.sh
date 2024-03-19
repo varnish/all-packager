@@ -40,6 +40,8 @@ cd pkgbuild/distdir/
 # needed for format v3.0
 curl -L "$(cat ../../debian/orig_url)" -o ../$DEB_ORIG 
 tar xvfz ../$DEB_ORIG --strip 1
+# remove potential debian/ package included in the tarball
+rm -rf debian
 
 cp -r ../../debian .
 
