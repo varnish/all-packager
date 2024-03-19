@@ -35,6 +35,8 @@ check() {
 }
 
 package() {
+	pwd
+	ls src
 	cd ${pkgname}-${_origver}
 	make DESTDIR="$pkgdir" install
 }
