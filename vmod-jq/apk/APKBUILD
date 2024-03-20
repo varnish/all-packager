@@ -1,26 +1,26 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
-pkgname=vmod-uuid
+pkgname=vmod-jq
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=1.10
 pkgrel=1
-pkgdesc="Generate UUIDs in VCL"
-url="https://github.com/otto-de/libvmod-uuid"
+pkgdesc="Use jq programs from VCL"
+url="https://github.com/varnishcache-friends/libvmod-jq"
 arch="all"
 license="BSD-2-Clause"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
 	autoconf-archive
-	ossp-uuid-dev
+	jq-dev
 	varnish-dev=$_vversion"
-depends="ossp-uuid varnish=$_vversion"
+depends="jq varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v${_origver}.tar.gz"
+commit=4051a7d08dc3a4ca90d9e8319d5a3a132793e1da
+source="$pkgname-$pkgver.tar.gz::https://github.com/varnishcache-friends/libvmod-jq/archive/${commit}.tar.gz"
 
 build() {
-	cd libvmod-uuid-$_origver
+	cd libvmod-jq-$commit
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -38,7 +38,7 @@ check() {
 }
 
 package() {
-	cd src/libvmod-uuid-$_origver
+	cd src/libvmod-jq-$commit
 	make DESTDIR="$pkgdir" install
 }
 

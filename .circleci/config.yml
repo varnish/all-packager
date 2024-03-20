@@ -300,8 +300,9 @@ workflows:
               package:
                 - varnish-modules
                 - digest
-                - vmod-uuid
+                - vmod-jq
                 - vmod-querystring
+                - vmod-uuid
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
