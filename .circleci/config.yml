@@ -299,9 +299,9 @@ workflows:
               <<: *matrix_params
               package:
                 - varnish-modules
-                - vmod-jq
-                - vmod-querystring
                 - vmod-uuid
+                - vmod-querystring
+                - vmod-digest
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
