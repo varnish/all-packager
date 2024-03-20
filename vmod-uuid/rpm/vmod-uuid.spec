@@ -7,10 +7,10 @@
 
 %global docutils python3-docutils
 %global rst2man rst2man
-%global srccommit 5e29eff2bce8debf9363a13bfd54c05630fd7747
 
 Name:    vmod-uuid
-Version: 1.10
+Version: %{varnishver}.0
+%global version 1.10
 Release: 1%{?dist}
 Summary: Generate UUIDs in VCL
 
@@ -33,16 +33,6 @@ BuildRequires: autoconf-archive
 
 Requires: varnish = %varnishver
 Requires: uuid
-
-Provides: vmod(accept)%{_isa} = %{version}-%{release}
-Provides: vmod(bodyaccess)%{_isa} = %{version}-%{release}
-Provides: vmod(header)%{_isa} = %{version}-%{release}
-Provides: vmod(saintmode)%{_isa} = %{version}-%{release}
-Provides: vmod(tcp)%{_isa} = %{version}-%{release}
-Provides: vmod(var)%{_isa} = %{version}-%{release}
-Provides: vmod(vsthrottle)%{_isa} = %{version}-%{release}
-Provides: vmod(xkey)%{_isa} = %{version}-%{release}
-Provides: vmod(str)%{_isa} = %{version}-%{release}
 
 %description
 This is a collection of modules ("vmods") extending Varnish VCL used
