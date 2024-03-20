@@ -1,16 +1,20 @@
+# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
+%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
+
+# no debugsource, no debuginfo
+%global debug_package %{nil}
+%global _debugsource_template %{nil}
+
 Name:           vmod-querystring
-Version:        2.0.3
+Version: %{varnishver}.0
+%global version 2.0.3
 Release:        1%{?dist}
 Group:          System Environment/Libraries
 Summary:        QueryString module for Varnish Cache
 URL:            https://github.com/Dridi/libvmod-querystring
 License:        GPLv3+
-
 Source:         %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
 
 BuildRequires:  pkgconfig(varnishapi) >= 6
 
@@ -38,7 +42,7 @@ with this kind of query-strings.
 
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}
 
 
 %build
