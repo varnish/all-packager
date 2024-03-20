@@ -303,6 +303,7 @@ workflows:
                 - vmod-jq
                 - vmod-querystring
                 - vmod-uuid
+                - varnishlog-json
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)

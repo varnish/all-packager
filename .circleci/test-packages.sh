@@ -26,7 +26,9 @@ vcl 4.1;
 
 import uuid;
 
+import jq;
 import querystring;
+import uuid;
 
 import digest;
 
@@ -45,3 +47,5 @@ backend default none;
 EOF
 
 varnishd -C -f /tmp/test.vcl
+
+varnishlog-json -h
