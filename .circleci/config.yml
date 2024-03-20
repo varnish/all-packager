@@ -158,6 +158,7 @@ jobs:
                 SCRIPT=/workdir/.circleci/make-$EXT-packages-vmod.sh
             fi
             docker run \
+              --security-opt seccomp=unconfined \
               --rm \
               -it \
               -e PARAM_DIST=$(echo "<< parameters.platform >>" | cut -d: -f1) \
@@ -231,6 +232,7 @@ jobs:
             PARAM_RELEASE=$(echo "<< parameters.platform >>" | cut -d: -f2)
 
             docker run \
+              --security-opt seccomp=unconfined \
               --rm \
               -it \
               -e PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
@@ -259,10 +261,9 @@ jobs:
 
 matrix_parameters: &matrix_params
   platform:
-    - ubuntu:bionic
     - ubuntu:focal
     - ubuntu:jammy
-    - debian:buster
+    - ubuntu:noble
     - debian:bullseye
     - debian:bookworm
     - centos:stream
