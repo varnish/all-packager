@@ -122,6 +122,7 @@ jobs:
           name: Build for << parameters.platform >> on << parameters.rclass >>
           command: |
             set -x
+
             case "<< parameters.platform >>" in
                 debian:*|ubuntu:*)
                   EXT=deb
@@ -153,6 +154,9 @@ jobs:
                 cp varnish-*.tar.gz src-tarballs/varnish
                 PARAM_DIRECTORY="/workdir"
                 SCRIPT=/workdir/.circleci/make-$EXT-packages.sh
+            elif [ "<< parameters.platform >>" = "ubuntu:focal" -a "<< parameters.package >>" = "varnishlog-json" ]; then
+                # libcjson-dev doesn't come with a pc file on focal, making cmake unhappy
+                exit
             else
                 PARAM_DIRECTORY="/workdir/<< parameters.package >>/$EXT"
                 SCRIPT=/workdir/.circleci/make-$EXT-packages-vmod.sh
