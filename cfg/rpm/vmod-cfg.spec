@@ -14,7 +14,7 @@ Version: 16.0
 Release: 1%{?dist}
 Summary: Config VMOD for Varnish
 
-License: BSD-2-Clause
+License: BSD
 URL:     https://github.com/carlosabalde/libvmod-cfg
 Source:  https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/7.4-16.0.tar.gz
 
