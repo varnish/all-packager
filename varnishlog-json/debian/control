@@ -5,6 +5,7 @@ Maintainer: Varnish Software <support@varnish-software.com>
 Build-Depends: debhelper (>= 9),
  build-essential,
  cmake,
+ cmake-data,
  jq,
  libcjson-dev,
  pkg-config,
