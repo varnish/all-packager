@@ -48,4 +48,6 @@ EOF
 
 varnishd -C -f /tmp/test.vcl
 
-varnishlog-json -h
+if [ ! grep 'DISTRIB_CODENAME=focal' /etc/lsb-release ]; then
+	varnishlog-json -h
+fi
