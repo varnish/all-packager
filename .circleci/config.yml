@@ -304,11 +304,11 @@ workflows:
               <<: *matrix_params
               package:
                 - varnish-modules
-                - digest
+                - varnishlog-json
+                - vmod-digest
                 - vmod-jq
                 - vmod-querystring
                 - vmod-uuid
-                - varnishlog-json
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
