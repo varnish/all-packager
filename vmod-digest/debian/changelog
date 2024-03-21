@@ -1,5 +1,5 @@
-vmod-digest (@PVERSION@-1) unstable; urgency=low
+vmod-digest (@PVERSION@) unstable; urgency=low
 
   * Changelog not maintained
 
- -- Kristian Lyngstøl <opensource@varnish-software.com>
+ -- Varnish Software <opensource@varnish-software.com>
