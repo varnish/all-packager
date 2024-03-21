@@ -276,8 +276,8 @@ matrix_parameters: &matrix_params
     - fedora:latest
     - alpine:3
   rclass:
-    - arm.medium
     - medium
+    - arm.medium
 
 workflows:
   version: 2
