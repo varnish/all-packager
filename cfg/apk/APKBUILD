@@ -16,10 +16,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion jemalloc"
 subpackages="$pkgname-doc"
-source="$pkgname-7.3-$pkgver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/7.3-$pkgver.tar.gz"
+source="lib$pkgname-7.3-$pkgver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/7.3-$pkgver.tar.gz"
 
 build() {
-	cd lib$pkgname-$pkgver
+	cd lib$pkgname-7.3-$pkgver
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -40,6 +40,10 @@ package() {
 	cd src
 	pwd
 	ls
-	cd lib$pkgname-$pkgver
+	cd lib$pkgname-7.3-$pkgver
 	make DESTDIR="$pkgdir" install
 }
+
+sha512sums="
+3e3b3c62435bf5da07efe6a2c0e59d99b7c98a86b561d73649778d76f6af0cff17963a008004584a452eaf4527157446acc2cc2d993fe7afabc5012ce68c89c9  lib$pkgname-7.3-$pkgver.tar.gz
+"
