@@ -6,7 +6,7 @@ parameters:
     default: "master"
   dist-url:
     type: string
-    default: "https://varnish-cache.org/downloads/varnish-7.4.2.tgz"
+    default: "https://varnish-cache.org/downloads/varnish-7.5.0.tgz"
   dist-url-sha256:
     type: string
     default: ""
