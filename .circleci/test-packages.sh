@@ -3,6 +3,9 @@
 set -eux
 
 if apk -V; then
+	## Needed for VMOD-Digest
+	apk add libmhash-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
+	##
 	apk add --allow-untrusted $PDIR/*.apk
 elif apt-get -v; then
 	export DEBIAN_FRONTEND=noninteractive
@@ -24,6 +27,8 @@ vcl 4.1;
 import uuid;
 
 import querystring;
+
+import digest;
 
 # varnish-modules
 import accept;

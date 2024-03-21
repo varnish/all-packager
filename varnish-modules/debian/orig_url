@@ -1,1 +1,2 @@
-https://github.com/varnish/varnish-modules/releases/download/0.23.0/varnish-modules-0.23.0.tar.gz
+#PVERSION::DOWNLOAD_URL
+0.23.0::https://github.com/varnish/varnish-modules/releases/download/0.23.0/varnish-modules-0.23.0.tar.gz

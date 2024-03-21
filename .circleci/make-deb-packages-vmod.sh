@@ -19,10 +19,11 @@ apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fak
 apt-get install -y python*-docutils
 
 VVERSION="$(dpkg -l | awk '$2 == "varnish" {print $3}')"
-PVERSION="$(cat debian/orig_url | sed 's/^.*v\(.*\)\.t.*/\1/' | sed 's/-.*//')"
+PVERSION="$(cat debian/orig_url | grep -v '^#' | sed 's/^\(.*\)::.*/\1/' | sed 's/-.*//')"
 DEB_ORIG=$(grep Source debian/control | awk -F' ' '{print $2}')_${PVERSION}.orig.tar.gz
 
 sed -i "s/@VVERSION@/$VVERSION/" debian/*
+sed -i "s/@PVERSION@/$PVERSION/" debian/*
 
 # Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
 #    semop(1): encountered an error: Function not implemented
@@ -38,7 +39,7 @@ cd pkgbuild/distdir/
 
 # Save the tarball source file one level up, 
 # needed for format v3.0
-curl -L "$(cat ../../debian/orig_url)" -o ../$DEB_ORIG 
+curl -L "$(cat ../../debian/orig_url | grep -v '^#' | sed 's/^\(.*\)::\(.*\)/\2/' )" -o ../$DEB_ORIG 
 tar xvfz ../$DEB_ORIG --strip 1
 
 cp -r ../../debian .
