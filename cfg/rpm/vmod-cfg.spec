@@ -7,16 +7,16 @@
 
 %global docutils python3-docutils
 %global rst2man rst2man
-%global srccommit e8ac3cc657ca4715abd21a4a1f307fb779487c9a
+%global srccommit 14aeec215e1b1982d2f7592210097b3da4f5c915
 
 Name:    vmod-cfg
-Version: 15.0
+Version: 16.0
 Release: 1%{?dist}
 Summary: Config VMOD for Varnish
 
 License: BSD-2-Clause
 URL:     https://github.com/carlosabalde/libvmod-cfg
-Source:  https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/7.3-15.0.tar.gz
+Source:  https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/7.4-16.0.tar.gz
 
 BuildRequires: gcc
 BuildRequires: make
@@ -57,7 +57,7 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 
 %prep
-%setup -q -n lib%{name}-%{version}
+%setup -q -n lib%{name}-7.4-%{version}
 
 
 %build
