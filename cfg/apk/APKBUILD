@@ -1,7 +1,7 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
 pkgname=vmod-cfg
-pkgver=7.3-15.0
+pkgver=15.0
 pkgrel=1
 pkgdesc="Config VMOD for Varnish"
 url="https://github.com/carlosabalde/libvmod-cfg/"
@@ -16,10 +16,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion jemalloc"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/$pkgver.tar.gz"
+source="$pkgname-$pkgver.tar.gz::https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/$pkgname-$pkgver.tar.gz"
 
 build() {
-	cd libvmod-cfg-$pkgver
+	cd lib$pkgname-$pkgver
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -40,10 +40,6 @@ package() {
 	cd src
 	pwd
 	ls
-	cd libvmod-cfg-$pkgver
+	cd lib$pkgname-$pkgver
 	make DESTDIR="$pkgdir" install
 }
-
-sha512sums="
-3e3b3c62435bf5da07efe6a2c0e59d99b7c98a86b561d73649778d76f6af0cff17963a008004584a452eaf4527157446acc2cc2d993fe7afabc5012ce68c89c9  $pkgname-$pkgver.tar.gz
-"
