@@ -1,24 +1,13 @@
 #!/usr/bin/make -f
 
-# taken from https://salsa.debian.org/md/varnish-vmod-digest/-/blob/master/debian/rules
-
-export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-include /usr/share/dpkg/buildflags.mk
-
-D := $(CURDIR)/debian/vmod-uuid
-
-# for aclocal
-export LIBVARNISHAPI_DATAROOTDIR = $(shell pkg-config --variable=datarootdir varnishapi)
-
 %:
 	dh $@
 
 override_dh_autoreconf:
 	dh_autoreconf ./autogen.sh
 
+execute_after_dh_auto_install:
+	sed -i "/^dependency_libs=/s/'.*'/''/" `find debian -name '*.la'`
+
 override_dh_auto_configure:
 	dh_auto_configure -- --localstatedir=/var/lib --libdir=/usr/lib
-
-execute_after_dh_auto_install:
-	rm -rf $D/usr/share/doc/libvmod-digest/
-	sed -i "/^dependency_libs=/s/'.*'/''/" `find $D -name '*.la'`

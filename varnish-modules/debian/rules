@@ -1,12 +1,9 @@
 #!/usr/bin/make -f
-export DH_VERBOSE=1
 
-override_dh_gencontrol:
-	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
-		dh_gencontrol -- -v$$DEBIAN_OVERRIDE_BINARY_VERSION; \
-	else \
-		dh_gencontrol ; \
-	fi
+execute_after_dh_auto_install:
+	sed -i "/^dependency_libs=/s/'.*'/''/" `find debian -name '*.la'`
+
+override_dh_autoreconf:
 
 override_dh_auto_configure:
 	dh_auto_configure -- --localstatedir=/var/lib --libdir=/usr/lib
