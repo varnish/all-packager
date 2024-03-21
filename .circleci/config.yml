@@ -380,6 +380,7 @@ workflows:
                 - varnish-modules
                 - uuid
                 - querystring
+                - digest
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)

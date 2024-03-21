@@ -1,4 +1,4 @@
-vmod-querystring (2.0.3-1) unstable; urgency=low
+vmod-querystring (@PVERSION@-1) unstable; urgency=low
 
   * Changelog not maintained
 
