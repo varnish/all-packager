@@ -308,6 +308,7 @@ workflows:
                 - vmod-digest
                 - vmod-jq
                 - vmod-querystring
+                - vmod-redis
                 - vmod-uuid
 
       - check-packages:

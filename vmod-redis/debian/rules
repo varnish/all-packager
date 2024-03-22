@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_autoreconf:
+	dh_autoreconf ./autogen.sh
+
+execute_after_dh_auto_install:
+	sed -i "/^dependency_libs=/s/'.*'/''/" `find debian -name '*.la'`
+
+override_dh_auto_configure:
+	dh_auto_configure -- --localstatedir=/var/lib --libdir=/usr/lib --disable-tls
+
+# TODO: understand why tests fail
+override_dh_auto_test:

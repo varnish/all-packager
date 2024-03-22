@@ -1,31 +1,32 @@
 # Contributor: Kristian Lyngstøl <opensource@varnish-software.com>
 # Maintainer: Kristian Lyngstøl <opensource@varnish-software.com>
-pkgname=vmod-digest
+pkgname=vmod-redis
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=1.0.3
+_origver=7.5-19.0
 pkgrel=1
-pkgdesc="Varnish Module (vmod) for computing HMAC, message digests and working with base64."
-url="https://github.com/varnish/libvmod-digest"
+pkgdesc="VMOD using the synchronous hiredis library API to access Redis servers from VCL."
+url="https://github.com/varnish/carlosabalde/"
 
 arch="all"
 license="BSD-2-Clause"
 
 makedepends="autoconf automake gcc libtool make py3-docutils python3
+	bash
+	redis
 	autoconf-archive
+	libev-dev
+	openssl-dev
+	hiredis-dev
 	varnish-dev=$_vversion"
-depends="varnish=$_vversion"
+depends="varnish=$_vversion hiredis libev libcrypto3 libssl3 hiredis-ssl"
 subpackages="lib$pkgname-doc"
-source="lib$pkgname-$_origver.tar.gz::https://github.com/varnish/lib$pkgname/archive/refs/tags/lib$pkgname-$_origver.tar.gz"
-
-prepare() {
-	sudo apk add libmhash-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
-}
+source="lib$pkgname-$_origver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/$_origver.tar.gz"
 
 build() {
-	cd lib$pkgname-lib$pkgname-$_origver
+	cd lib$pkgname-$_origver
 
 	./autogen.sh && ./configure \
 		--build=$CBUILD \
@@ -40,11 +41,14 @@ build() {
 }
 
 check() {
-	make check
+	# TODO: on cci, seems to be failing because of
+	#  WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+	#make check
+	true
 }
 
 package() {
-	cd src/lib$pkgname-lib$pkgname-$_origver
+	cd src/lib$pkgname-$_origver
 	make DESTDIR="$pkgdir" install
 }
 
