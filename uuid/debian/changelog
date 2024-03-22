@@ -1,5 +1,0 @@
-vmod-uuid (@VVERSION@) UNRELEASED; urgency=medium
-
-  * This changelog is not in use. See doc/changes.rst for release notes.
-
- -- Denis Braekhus <denis@varnish-software.com>  Wed, 28 Feb 2018 12:00:00 +0100
