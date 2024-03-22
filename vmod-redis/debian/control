@@ -1,0 +1,24 @@
+Source: vmod-redis
+Section: net
+Priority: extra
+Maintainer: Kristian Lyngstøl <opensource@varnish-software.com>
+Build-Depends: debhelper (>= 9),
+ autoconf-archive,
+ redis,
+ build-essential,
+ pkg-config,
+ python3-docutils,
+ libev-dev,
+ libhiredis-dev,
+ varnish (= @VVERSION@),
+ varnish-dev (= @VVERSION@)
+Standards-Version: 1.0.3
+Homepage: https://github.com/carlosabalde/libvmod-redis/
+
+Package: vmod-redis
+Architecture: any
+Depends: varnish (= @VVERSION@),
+ ${shlibs:Depends},
+ ${misc:Depends},
+ ${Varnish:ABI},
+Description: VMOD using the synchronous hiredis library API to access Redis servers from VCL
