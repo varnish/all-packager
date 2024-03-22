@@ -1,0 +1,24 @@
+Source: vmod-reqwest
+Section: net
+Priority: extra
+Maintainer: Varnish Software <support@varnish-software.com>
+Build-Depends: debhelper (>= 9),
+ build-essential,
+ pkg-config,
+ python3-docutils,
+ cargo,
+ libclang-dev,
+ libssl-dev,
+ jq,
+ varnish (= @VVERSION@),
+ varnish-dev (= @VVERSION@)
+Standards-Version: 3.9.5
+Vcs-Git: git://github.com/gquintard/vmod-reqwest.git
+
+Package: vmod-reqwest
+Architecture: any
+Depends: varnish (= @VVERSION@),
+ ${shlibs:Depends},
+ ${misc:Depends},
+ ${Varnish:ABI},
+Description: TODO: description

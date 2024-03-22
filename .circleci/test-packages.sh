@@ -28,6 +28,7 @@ import uuid;
 
 import jq;
 import querystring;
+import reqwest;
 import uuid;
 
 import digest;

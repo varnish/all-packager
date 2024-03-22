@@ -184,6 +184,7 @@ jobs:
           paths:
             - "packages"
 
+  package2: *p
   package-varnish: *p
 
   check-packages:
@@ -295,7 +296,7 @@ workflows:
               <<: *matrix_params
               package:
                 - varnish
-      - package:
+      - package: &package
           name: << matrix.platform >> <<matrix.package>> packages (<< matrix.rclass >>)
           requires:
             - << matrix.platform >> varnish packages (<< matrix.rclass >>)
@@ -310,6 +311,15 @@ workflows:
                 - vmod-querystring
                 - vmod-redis
                 - vmod-uuid
+      - package2:
+          name: << matrix.platform >> <<matrix.package>> packages (<< matrix.rclass >>)
+          requires:
+            - << matrix.platform >> varnish packages (<< matrix.rclass >>)
+          matrix:
+            parameters:
+              <<: *matrix_params
+              package:
+                - vmod-reqwest
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
@@ -323,3 +333,4 @@ workflows:
           requires:
             - package-varnish
             - package
+            - package2
