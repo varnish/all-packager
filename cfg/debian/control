@@ -12,11 +12,7 @@ Build-Depends: debhelper (>= 9),
  libluajit-5.1-dev,
  vim-common,
  libjemalloc2,
- python3-docutils,
- libvarnishapi-dev (= 7.4.0),
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@)
-Standards-Version: 3.9.4
+ Standards-Version: 3.9.4
 Vcs-Git: git:carlosabalde/libvmod-cfg.git
 
 Package: libvmod-cfg
