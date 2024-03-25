@@ -302,6 +302,7 @@ workflows:
             - << matrix.platform >> varnish packages (<< matrix.rclass >>)
           matrix:
             parameters:
+<<<<<<< HEAD
               <<: *matrix_params
               package:
                 - varnish-modules
@@ -331,6 +332,10 @@ workflows:
               <<: *matrix_params
 =======
                 - uuid
+=======
+              <<: *matrix_parmas
+              vmod:
+>>>>>>> c6297c9 (focus debian build 3)
                 - cfg
 >>>>>>> 29eeab1 (initial cfg build config)
 

@@ -12,6 +12,8 @@ Build-Depends: debhelper (>= 9),
  libluajit-5.1-dev,
  vim-common,
  libjemalloc2,
+ python3-docutils,
+ libvarnishapi-dev (= 7.4.0),
  varnish (= @VVERSION@),
  varnish-dev (= @VVERSION@)
 Standards-Version: 3.9.4
