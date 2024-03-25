@@ -64,7 +64,7 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 #sh bootstrap
 export RST2MAN=%{rst2man}
 ./autogen.sh
-%configure 
+%configure --disable-flush-jemalloc-tcache
 %make_build
 
 
