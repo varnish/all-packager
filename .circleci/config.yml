@@ -335,9 +335,13 @@ workflows:
 =======
               <<: *matrix_parmas
               vmod:
+<<<<<<< HEAD
 >>>>>>> c6297c9 (focus debian build 3)
                 - cfg
 >>>>>>> 29eeab1 (initial cfg build config)
+=======
+                - cfg
+>>>>>>> e1c55a6ada0e85e96946d7b54a0946b9d9ea611e
 
       - collect_packages:
           requires:
