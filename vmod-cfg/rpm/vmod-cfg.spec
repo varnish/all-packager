@@ -10,13 +10,13 @@
 %global srccommit 14aeec215e1b1982d2f7592210097b3da4f5c915
 
 Name:    vmod-cfg
-Version: 16.0
+Version: 17.0
 Release: 1%{?dist}
 Summary: Config VMOD for Varnish
 
 License: BSD
 URL:     https://github.com/carlosabalde/libvmod-cfg
-Source:  https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/7.4-16.0.tar.gz
+Source:  https://github.com/carlosabalde/libvmod-cfg/archive/refs/tags/7.5-17.0.tar.gz
 
 BuildRequires: gcc
 BuildRequires: make
