@@ -1,4 +1,4 @@
-vmod-cfg (@VVERSION@) UNRELEASED; urgency=medium
+libvmod-cfg (@VVERSION@) UNRELEASED; urgency=medium
 
   * This changelog is not in use. See doc/changes.rst for release notes.
 
