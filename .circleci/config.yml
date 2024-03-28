@@ -22,6 +22,9 @@ parameters:
   build-pkgs:
     type: string
     default: ""
+  release-pkgs:
+    type: string
+    default: ""
 
 jobs:
   dist:
@@ -183,6 +186,21 @@ jobs:
           root: .
           paths:
             - "packages"
+  pkgcloud:
+    docker:
+      - image: cimg/ruby:3.1.2
+    steps:
+      - attach_workspace:
+            at: ~/project
+      - run:
+          name: Install packagecloud CLI
+          command: gem install package_cloud
+      - when:
+          condition: << pipeline.parameters.release-pkgs >>
+          steps:
+            - run:
+                name: Push deb package
+                command: package_cloud push varnishplus/varnish-oss-bundle/debian/bookworm packages/debian/bookworm/amd64/*.deb
 
   package2: *p
   package-varnish: *p
@@ -334,3 +352,7 @@ workflows:
             - package-varnish
             - package
             - package2
+
+      - pkgcloud:
+          requires:
+            - check-packages
