@@ -9,8 +9,7 @@ echo "PARAM_DIST: $PARAM_DIST"
 echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
 echo "PARAM_ARCH: $PARAM_ARCH"
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
-# FIXME: we should just pass the right directory
-cd $(dirname "$PARAM_DIRECTORY")
+cd "$PARAM_DIRECTORY"
 
 apt-get update
 apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot /deps/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH/*.deb
