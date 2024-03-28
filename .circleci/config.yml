@@ -267,13 +267,6 @@ jobs:
 matrix_parameters: &matrix_params
   platform:
     - ubuntu:focal
-    - ubuntu:jammy
-    #- ubuntu:noble
-    - debian:bullseye
-    - debian:bookworm
-    - centos:stream
-    - almalinux:8
-    - almalinux:9
     - fedora:latest
     - alpine:3
   rclass:
@@ -304,23 +297,7 @@ workflows:
             parameters:
               <<: *matrix_params
               package:
-                - varnish-modules
-                - varnishlog-json
-                - vmod-digest
-                - vmod-jq
-                - vmod-querystring
-                - vmod-redis
-                - vmod-uuid
-      - package2:
-          name: << matrix.platform >> <<matrix.package>> packages (<< matrix.rclass >>)
-          requires:
-            - << matrix.platform >> varnish packages (<< matrix.rclass >>)
-          matrix:
-            parameters:
-              <<: *matrix_params
-              package:
-                - vmod-reqwest
-
+                - vmod-rers
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
           requires:
@@ -333,4 +310,3 @@ workflows:
           requires:
             - package-varnish
             - package
-            - package2
