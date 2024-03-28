@@ -1,6 +1,6 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
-pkgname=libvmod-cfg
+pkgname=vmod-cfg
 pkgver=17.0
 pkgrel=1
 pkgdesc="Config VMOD for Varnish"

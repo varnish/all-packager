@@ -9,7 +9,7 @@
 %global rst2man rst2man
 %global srccommit 14aeec215e1b1982d2f7592210097b3da4f5c915
 
-Name:    libvmod-cfg
+Name:    vmod-cfg
 Version: 17.0
 Release: 1%{?dist}
 Summary: Config VMOD for Varnish

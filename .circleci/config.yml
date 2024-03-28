@@ -314,7 +314,7 @@ workflows:
             parameters:
               <<: *matrix_params
               package:
-                - libvmod-cfg
+                - vmod-cfg
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
