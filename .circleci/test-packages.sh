@@ -30,8 +30,8 @@ import jq;
 import querystring;
 import reqwest;
 import uuid;
-
 import digest;
+import rers;
 
 # varnish-modules
 import accept;
@@ -45,6 +45,10 @@ import vsthrottle;
 import xkey;
 
 backend default none;
+
+sub vcl_init {
+	new re_cache = rers.init(100);
+}
 EOF
 
 varnishd -C -f /tmp/test.vcl
