@@ -10,9 +10,9 @@
 
 Name:    vmod-rers
 Version: %{varnishver}.0
-%global version 0.0.8
+%global version 0.0.9
 Release: 1%{?dist}
-Summary: A collection of modules ("vmods") extending Varnish VCL
+Summary: TODO: summary
 
 License: BSD 3-Clause License
 URL:     https://github.com/gquintard/vmod-rers
