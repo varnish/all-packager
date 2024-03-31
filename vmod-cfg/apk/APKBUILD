@@ -10,9 +10,9 @@ license="BSD-2-Clause"
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-makedepends="autoconf automake gcc libtool make py3-docutils python3
+makedepends="autoconf automake gcc libtool make py3-docutils python3 
 	autoconf-archive
-    curl-dev jemalloc-dev luajit-dev vim-common
+    curl-dev jemalloc-dev luajit-dev vim-common perl-perlio-utf8-strict 
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion jemalloc"
 subpackages="$pkgname-doc"
