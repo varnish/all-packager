@@ -41,7 +41,6 @@ curl -L "$(cat ../../debian/orig_url | grep -v '^#' | sed 's/^\(.*\)::\(.*\)/\2/
 tar xvfz ../$DEB_ORIG --strip 1
 # remove potential debian/ package included in the tarball
 rm -rf debian
-sed -i "s+\\\${dataroot}/aclocal+\\\${PWD}+" autogen.sh
 
 cp -r ../../debian .
 
