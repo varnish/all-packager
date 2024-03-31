@@ -12,6 +12,7 @@ Build-Depends: debhelper (>= 9),
  libluajit-5.1-dev,
  vim-common,
  libjemalloc2,
+ xxd,
 Standards-Version: 3.9.5
 Vcs-Git: git:carlosabalde/libvmod-cfg.git
 
