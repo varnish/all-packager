@@ -268,7 +268,7 @@ matrix_parameters: &matrix_params
   platform:
     - ubuntu:focal
     - ubuntu:jammy
-    #- ubuntu:noble
+#    #- ubuntu:noble
     - debian:bullseye
     - debian:bookworm
     - centos:stream
@@ -320,6 +320,7 @@ workflows:
               <<: *matrix_params
               package:
                 - vmod-reqwest
+                - vmod-geoip2
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
