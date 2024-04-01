@@ -268,7 +268,7 @@ matrix_parameters: &matrix_params
   platform:
     - ubuntu:focal
     - ubuntu:jammy
-    #- ubuntu:noble
+#    #- ubuntu:noble
     - debian:bullseye
     - debian:bookworm
     #- centos:stream

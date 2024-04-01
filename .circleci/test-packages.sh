@@ -30,8 +30,8 @@ import jq;
 import querystring;
 import reqwest;
 import uuid;
-
 import digest;
+import geoip2;
 
 # varnish-modules
 import accept;
