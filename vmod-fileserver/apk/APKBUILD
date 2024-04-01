@@ -1,0 +1,38 @@
+# Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
+# Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
+pkgname=vmod-fileserver
+# NOTE: we're being very naughty and counting on `varnish` to be installed
+# to get its version so we can require exactly the same version
+_vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
+pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
+_origver=0.0.5
+pkgrel=1
+pkgdesc="This is a vmod for varnish, allowing you to expand on what the native VCL regex can do."
+url="https://github.com/gquintard/vmod-fileserver"
+arch="all"
+license="BSD 3-Clause License"
+makedepends="cargo openssl-dev clang-dev python3 jq
+	varnish-dev=$_vversion"
+depends="varnish=$_vversion openssl"
+d_pkgname=$(echo $pkgname | sed 's/-/_/g')
+source="$pkgname-$pkgver.tar.gz::https://github.com/gquintard/${d_pkgname}/archive/refs/tags/v${_origver}.tar.gz"
+
+builddir="${d_pkgname}-${_origver}"
+
+prepare() {
+	default_prepare
+	cargo fetch --locked
+}
+
+build() {
+	cargo build --frozen --release
+}
+
+check() {
+	export RUST_BACKTRACE=full
+}
+
+package() {
+	cd src/$builddir
+	install -Dt "$pkgdir"/usr/lib/varnish/vmods/ target/release/libvmod_rers.so
+}
