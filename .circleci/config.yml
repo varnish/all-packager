@@ -319,6 +319,7 @@ workflows:
               package:
                 - vmod-reqwest
                 - vmod-rers
+                - vmod-fileserver
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
