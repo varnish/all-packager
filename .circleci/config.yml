@@ -320,6 +320,7 @@ workflows:
                 - vmod-reqwest
                 - vmod-rers
                 - vmod-fileserver
+                - vmod-geoip2
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
