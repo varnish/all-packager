@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+CARGO=~/.cargo/bin/cargo
+override_dh_auto_configure:
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
+	${CARGO} fetch --locked
+
+override_dh_auto_build:
+	${CARGO} build --frozen --release
+
+override_dh_auto_install:
+	ls target/release/
+	install -Dt debian/vmod-fileserver/usr/lib/varnish/vmods/ target/release/libvmod_fileserver.so
+
+override_dh_auto_test:
+	export RUST_BACKTRACE=1; ${CARGO} test --frozen --release
+
+%:
+	dh $@
