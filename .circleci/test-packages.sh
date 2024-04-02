@@ -24,14 +24,14 @@ fi
 cat > /tmp/test.vcl << EOF
 vcl 4.1;
 
-import uuid;
-
+import digest;
+import fileserver;
 import jq;
 import querystring;
+import redis;
 import reqwest;
-import uuid;
-import digest;
 import rers;
+import uuid;
 
 # varnish-modules
 import accept;
