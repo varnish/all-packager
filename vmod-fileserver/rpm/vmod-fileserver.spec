@@ -13,9 +13,6 @@ Version: %{varnishver}.0
 Release: 1%{?dist}
 Summary: TODO: summary
 
-#Fix the tar-ball extracted dir name
-%global d_name %(echo %{name} | sed 's/-/_/g')
-
 License: BSD 3-Clause License
 URL:     https://github.com/gquintard/vmod-fileserver
 Source:  https://github.com/gquintard/%{d_name}/archive/refs/tags/v%{version}.tar.gz
@@ -33,8 +30,9 @@ Requires: varnish = %varnishver
 %description
 TODO: description
 
+
 %prep
-%autosetup -n %{d_name}-%{version}
+%autosetup -n %{name}-%{version}
 cargo fetch --locked
 
 
