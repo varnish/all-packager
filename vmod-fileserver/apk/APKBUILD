@@ -5,7 +5,7 @@ pkgname=vmod-fileserver
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=0.0.5
+_origver="0.0.6-1"
 pkgrel=1
 pkgdesc="This is a vmod for varnish, allowing you to expand on what the native VCL regex can do."
 url="https://github.com/gquintard/vmod-fileserver"
@@ -14,7 +14,7 @@ license="BSD 3-Clause License"
 makedepends="cargo openssl-dev clang-dev python3 jq
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion openssl"
-d_pkgname=$(echo $pkgname | sed 's/-/_/g')
+d_pkgname=vmod_fileserver
 source="$pkgname-$pkgver.tar.gz::https://github.com/gquintard/${d_pkgname}/archive/refs/tags/v${_origver}.tar.gz"
 
 builddir="${d_pkgname}-${_origver}"
