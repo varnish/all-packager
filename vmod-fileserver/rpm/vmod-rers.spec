@@ -10,7 +10,7 @@
 
 Name:    vmod-fileserver
 Version: %{varnishver}.0
-%global version 0.0.5
+%global version 0.0.6-1
 Release: 1%{?dist}
 Summary: TODO: summary
 
