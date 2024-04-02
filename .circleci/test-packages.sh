@@ -24,13 +24,14 @@ fi
 cat > /tmp/test.vcl << EOF
 vcl 4.1;
 
-import uuid;
-
+import digest;
+import fileserver;
 import jq;
 import querystring;
+import redis;
 import reqwest;
+import rers;
 import uuid;
-import digest;
 import geoip2;
 
 # varnish-modules
@@ -45,6 +46,10 @@ import vsthrottle;
 import xkey;
 
 backend default none;
+
+sub vcl_init {
+	new re_cache = rers.init(100);
+}
 EOF
 
 varnishd -C -f /tmp/test.vcl
