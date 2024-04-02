@@ -14,10 +14,9 @@ license="BSD 3-Clause License"
 makedepends="cargo openssl-dev clang-dev python3 jq
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion openssl"
-d_pkgname=vmod_fileserver
-source="$pkgname-$pkgver.tar.gz::https://github.com/gquintard/${d_pkgname}/archive/refs/tags/v${_origver}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::https://github.com/gquintard/${pkgname}/archive/refs/tags/v${_origver}.tar.gz"
 
-builddir="${d_pkgname}-${_origver}"
+builddir="${pkgname}-${_origver}"
 
 prepare() {
 	default_prepare
