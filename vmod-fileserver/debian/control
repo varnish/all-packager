@@ -13,7 +13,7 @@ Build-Depends: debhelper (>= 9),
  varnish (= @VVERSION@),
  varnish-dev (= @VVERSION@)
 Standards-Version: 3.9.5
-Vcs-Git: git@github.com:gquintard/vmod_fileserver.git
+Vcs-Git: git@github.com:gquintard/vmod-fileserver.git
 
 Package: vmod-fileserver
 Architecture: any
