@@ -33,5 +33,5 @@ check() {
 
 package() {
 	cd src/$builddir
-	install -Dt "$pkgdir"/usr/lib/varnish/vmods/ target/release/libvmod_rers.so
+	install -Dt "$pkgdir"/usr/lib/varnish/vmods/ target/release/libvmod_fileserver.so
 }
