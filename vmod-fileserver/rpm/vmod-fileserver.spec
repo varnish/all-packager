@@ -15,7 +15,7 @@ Summary: TODO: summary
 
 License: BSD 3-Clause License
 URL:     https://github.com/gquintard/vmod-fileserver
-Source:  https://github.com/gquintard/%{d_name}/archive/refs/tags/v%{version}.tar.gz
+Source:  https://github.com/gquintard/%{name}/archive/refs/tags/v%{version}.tar.gz
 
 
 BuildRequires: openssl-devel
