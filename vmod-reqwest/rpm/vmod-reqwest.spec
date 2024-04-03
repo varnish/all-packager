@@ -8,15 +8,15 @@
 %global debug_package %{nil}
 %global _debugsource_template %{nil}
 
-Name:    vmod-reqwest
-Version: %{varnishver}.0
+Name:    @NAME@
+Version: @VERSION@
 %global version 0.0.12
 Release: 1%{?dist}
-Summary: A collection of modules ("vmods") extending Varnish VCL
+Summary: @DESC@
 
 License: BSD-2-Clause
-URL:     https://github.com/gquintard/vmod-reqwest
-Source:  https://github.com/gquintard/%{name}/archive/refs/tags/v%{version}.tar.gz
+URL:     @URL@
+Source:  @DOWNLOAD_URL@
 
 BuildRequires: openssl-devel
 BuildRequires: jq
@@ -28,11 +28,11 @@ BuildRequires: %docutils
 Requires: varnish = %varnishver
 
 %description
-TODO: description
+@LONG_DESC@
 
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup -n @UNTAR_DIR@
 cargo fetch --locked
 
 
@@ -58,5 +58,5 @@ cargo test --frozen --release
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - This changelog is not in use.

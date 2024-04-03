@@ -1,13 +1,15 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
-pkgname=vmod-jq
+source ../conf
+
+pkgname=${NAME}
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
+pkgver="$VERSION"
 pkgrel=1
-pkgdesc="Use jq programs from VCL"
-url="https://github.com/varnishcache-friends/libvmod-jq"
+pkgdesc="$DESC"
+url="$URL"
 arch="all"
 license="BSD-2-Clause"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
@@ -16,11 +18,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="jq varnish=$_vversion"
 subpackages="$pkgname-doc"
-commit=4051a7d08dc3a4ca90d9e8319d5a3a132793e1da
-source="$pkgname-$pkgver.tar.gz::https://github.com/varnishcache-friends/libvmod-jq/archive/${commit}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::$DOWNLOAD_URL"
 
 build() {
-	cd libvmod-jq-$commit
+	cd $UNTAR_DIR
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -38,7 +39,7 @@ check() {
 }
 
 package() {
-	cd src/libvmod-jq-$commit
+	cd src/$UNTAR_DIR
 	make DESTDIR="$pkgdir" install
 }
 

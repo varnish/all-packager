@@ -1,14 +1,15 @@
 # Contributor: Dridi Boukelmoune <dridi@varni.sh>
 # Maintainer: Dridi Boukelmoune <dridi@varni.sh>
-pkgname=vmod-querystring
+source ../conf
+
+pkgname=${NAME}
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=2.0.3
+pkgver="$VERSION"
 pkgrel=1
-pkgdesc="VMOD for manipulating Query String"
-url="https://github.com/Dridi/libvmod-querystring/releases/download/v$pkgver/vmod-querystring-$pkgver.tar.gz"
+pkgdesc="$DESC"
+url="$URL"
 
 arch="all"
 license="BSD-2-Clause"
@@ -20,12 +21,11 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/Dridi/lib$pkgname/archive/refs/tags/v${_origver}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::$DOWNLOAD_URL"
+builddir="$UNTAR_DIR"
 
 build() {
-	cd libvmod-querystring-$_origver
-
-	./bootstrap && ./configure \
+	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
 		--prefix=/usr \
@@ -42,7 +42,7 @@ check() {
 }
 
 package() {
-	cd src/lib$pkgname-$_origver
+	cd src/$UNTAR_DIR
 	make DESTDIR="$pkgdir" install
 }
 

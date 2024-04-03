@@ -1,0 +1,17 @@
+NAME=vmod-jq
+VERSION=0.3.0
+URL="https://github.com/varnishcache-friends/libvmod-jq"
+DOWNLOAD_URL="https://github.com/varnishcache-friends/libvmod-jq/archive/4051a7d08dc3a4ca90d9e8319d5a3a132793e1da.tar.gz"
+
+UNTAR_DIR="lib${NAME}-4051a7d08dc3a4ca90d9e8319d5a3a132793e1da"
+
+DESC="Use jq programs from VCL"
+
+LONG_DESC=$( cat << EOF
+Use jq programs from VCL
+ 
+EOF
+)
+MAINTAINER="Varnish Software <opensource@varnish-software.com>"
+
+CHANGELOG_DATE="Tue May 30 2023"

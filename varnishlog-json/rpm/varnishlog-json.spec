@@ -8,16 +8,14 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-%global srccommit 109482b5d720d12d74e1fd5002ab4c72a648293b
-
-Name:    varnishlog-json
-Version: %{varnishver}.0
+Name:    @NAME@
+Version: @VERSION@
 Release: 1%{?dist}
-Summary: Output Varnish logs in JSON
+Summary: @DESC@
 
 License: BSD-2-Clause
-URL:     https://github.com/varnish/varnishlog-json
-Source:  https://github.com/varnish/varnishlog-json/archive/%{srccommit}.tar.gz
+URL:     @URL@
+Source:  @DOWNLOAD_URL@
 
 BuildRequires: gcc
 BuildRequires: cmake
@@ -28,14 +26,14 @@ BuildRequires: jq
 
 BuildRequires: %docutils
 
-Requires: varnish = %varnishver
+Requires: varnish = @VVERSION@
 Requires: cjson
 
 %description
-TODO: description
+@LONG_DESC@
 
 %prep
-%setup -q -n %{name}-%{srccommit}
+%setup -q -n @UNTAR_DIR@
 
 
 %build
@@ -59,5 +57,5 @@ TODO: description
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - This changelog is not in use.

@@ -8,15 +8,14 @@
 %global debug_package %{nil}
 %global _debugsource_template %{nil}
 
-Name:    vmod-rers
-Version: %{varnishver}.0
-%global version 0.0.9
+Name:    @NAME@
+Version: @VERSION@
 Release: 1%{?dist}
-Summary: TODO: summary
+Summary: @DESC@
 
 License: BSD 3-Clause License
-URL:     https://github.com/gquintard/vmod-rers
-Source:  https://github.com/gquintard/%{name}/archive/refs/tags/v%{version}.tar.gz
+URL:     @URL@
+Source:  @DOWNLOAD_URL@
 
 BuildRequires: openssl-devel
 BuildRequires: jq
@@ -28,15 +27,11 @@ BuildRequires: %docutils
 Requires: varnish = %varnishver
 
 %description
-TODO: description
-
-#Fix the tar-ball extracted dir name
-%global tar_dir %(echo %{name} | sed 's/-/_/g')
+@LONG_DESC@
 
 %prep
-%autosetup -n %{tar_dir}-%{version}
+%autosetup -n @UNTAR_DIR@
 cargo fetch --locked
-
 
 %build
 
@@ -60,5 +55,5 @@ cargo test --frozen --release
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - This changelog is not in use.

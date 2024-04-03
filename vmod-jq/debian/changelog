@@ -1,4 +1,4 @@
-vmod-jq (@PVERSION@) unstable; urgency=low
+@NAME@ (@VERSION@-1) unstable; urgency=low
 
   * Changelog not maintained
 

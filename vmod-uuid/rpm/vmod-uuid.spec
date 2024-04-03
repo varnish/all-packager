@@ -8,15 +8,14 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-Name:    vmod-uuid
-Version: %{varnishver}.0
-%global version 1.10
+Name:    @NAME@
+Version: @VERSION@
 Release: 1%{?dist}
-Summary: Generate UUIDs in VCL
+Summary: @DESC@
 
 License: BSD-2-Clause
-URL:     https://github.com/otto-de/libvmod-uuid
-Source:  https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v%{version}.tar.gz
+URL:     @URL@
+Source:  @DOWNLOAD_URL@
 
 BuildRequires: gcc
 BuildRequires: make
@@ -35,14 +34,11 @@ Requires: varnish = %varnishver
 Requires: uuid
 
 %description
-This is a collection of modules ("vmods") extending Varnish VCL used
-for describing HTTP request/response policies with additional
-capabilities. This collection contains the following vmods:
-bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
+@LONG_DESC@
 
 
 %prep
-%setup -q -n lib%{name}-%{version}
+%setup -q -n @UNTAR_DIR@
 
 
 %build
@@ -75,5 +71,5 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - This changelog is not in use.

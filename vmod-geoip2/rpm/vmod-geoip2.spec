@@ -8,17 +8,14 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-%global srccommit 976c551b5584034dde80ac30f8baa07f1bc92834
-
-Name:           libvmod-geoip2
-Version: %{varnishver}.0
-%global version 1.3.0
+Name:           @NAME@
+Version:        @VERSION@
 Release:        1%{?dist}
 Group:          System Environment/Libraries
-Summary:        A Varnish 6.0, 7.3 and 7.4 VMOD to query MaxMind GeoIP2 DB files.
-URL:            https://github.com/varnish/libvmod-geoip2
+Summary:        @DESC@
+URL:            @URL@
 License:        GPLv2
-Source:         https://github.com/varnishcache-friends/libvmod-geoip2/archive/%{srccommit}.tar.gz
+Source:         @DOWNLOAD_URL@
 
 BuildRequires: gcc
 BuildRequires: make
@@ -43,11 +40,11 @@ Requires:       varnish >= %(varnishd -V 2>&1 | awk -F '[- ]' '{print $3; exit}'
 
 
 %description
-A Varnish master VMOD to query MaxMind GeoIP2 DB files.
+@LONG_DESC@
 
 
 %prep
-%setup -q -n %{name}-%{srccommit}
+%setup -q -n @UNTAR_DIR@
 
 %build
 export RST2MAN=%{rst2man}
@@ -72,5 +69,5 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Tue May 30 2023 Federico G. Schwindt <fgsch@lodoss.net> - @VERSION@-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - Changelog not maintained

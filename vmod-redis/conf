@@ -1,0 +1,25 @@
+NAME=vmod-redis
+VERSION=7.5
+REL_VERSION=19.0
+URL="https://github.com/carlosabalde/libvmod-redis"
+DOWNLOAD_URL="https://github.com/carlosabalde/libvmod-redis/archive/refs/tags/7.5-19.0.tar.gz"
+
+UNTAR_DIR="lib${NAME}-${VERSION}-${REL_VERSION}"
+
+DESC="VMOD using the synchronous hiredis library API to access Redis servers from VCL."
+
+LONG_DESC=$( cat << EOF
+Highlights:
+ Full support for execution of LUA scripts (i.e. EVAL command), including optimistic automatic execution of EVALSHA commands.
+ All Redis reply data types are supported, including partial support to access to components of simple (i.e. not nested) array replies.
+ Redis pipelines are not (and won't be) supported. LUA scripting, which is fully supported by the VMOD, it's a much more flexible alternative to pipelines for atomic execution and minimizing latency. Pipelines are hard to use and error prone, specially when using the WATCH command.
+ Support for classic Redis deployments using multiple replicated Redis servers and for clustered deployments based on Redis Cluster.
+ Support for multiple databases and multiple Redis connections, local to each Varnish worker thread, or shared using one or more pools.
+ Support for smart command execution, selecting the destination server according with the preferred role (i.e. master or slave) and with distance and healthiness metrics collected during execution.
+ Support for Redis Sentinel, allowing automatic discovery of sick / healthy servers and changes in their roles.
+
+EOF
+)
+MAINTAINER="Carlos Abalde <carlos.abalde@gmail.com>"
+
+CHANGELOG_DATE="Fri Mar 15 2024"

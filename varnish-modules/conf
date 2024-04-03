@@ -1,0 +1,19 @@
+NAME=varnish-modules
+VERSION=0.24.0
+URL="https://github.com/varnish/varnish-modules"
+DOWNLOAD_URL="https://github.com/varnish/${NAME}/releases/download/${VERSION}/${NAME}-${VERSION}.tar.gz"
+UNTAR_DIR="${NAME}-${VERSION}"
+DESC="collection of modules for varnish"
+LONG_DESC=$( cat << EOF
+ Varnish module collection by Varnish Software
+ This is a collection of modules ("vmods") extending Varnish VCL used for
+ describing HTTP request/response policies with additional capabilities.
+ Modules add support for variables, client request body access, simpler
+ handling of HTTP cookies, request and bandwidth throttling, complex HTTP
+ headers modification, advanced cache invalidations, and more.
+ Included vmods:
+ cookie, vsthrottle, header, saintmode, softpurge, tcp, var, xkey, bodyaccess
+EOF
+)
+MAINTAINER="Varnish Software <support@varnish-software.com>"
+CHANGELOG_DATE="Thu Jul 24 2014"

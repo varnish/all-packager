@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: Vmod-GeoIP2
-Source: https://github.com/varnishcache-friends/libvmod-geoip2/archive/976c551b5584034dde80ac30f8baa07f1bc92834.tar.gz
+Upstream-Name: @NAME@
+Source: @DOWNLOAD_URL@
 
 Files: *
 Copyright (c) 2014-2022, Federico G. Schwindt <fgsch@lodoss.net>

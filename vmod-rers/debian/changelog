@@ -1,5 +1,5 @@
-vmod-rers (@PVERSION@) unstable; urgency=low
+@NAME@ (@VERSION@-1) unstable; urgency=low
 
   * Changelog not maintained
 
- -- Varnish Software <opensource@varnish-software.com>
+ -- @MAINTAINER@

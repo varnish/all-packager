@@ -1,7 +1,7 @@
-Source: varnishlog-json
+Source: @NAME@
 Section: net
 Priority: extra
-Maintainer: Varnish Software <support@varnish-software.com>
+Maintainer: @MAINTAINER@
 Build-Depends: debhelper (>= 9),
  build-essential,
  cmake,
@@ -13,14 +13,13 @@ Build-Depends: debhelper (>= 9),
  python3-docutils,
  varnish (= @VVERSION@),
  varnish-dev (= @VVERSION@),
-Standards-Version: 3.9.5
-Vcs-Git: git://github.com/varnish/varnihslog-json.git
+Standards-Version: @VERSION@
+Vcs-Git: @URL@
 
-Package: varnishlog-json
+Package: @NAME@
 Architecture: any
 Depends: varnish (= @VVERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:depends},
-Description: Output Varnish logs in JSON
- TODO: write description
+Description: @LONG_DESC@

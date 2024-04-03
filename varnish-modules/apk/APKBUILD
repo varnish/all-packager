@@ -1,24 +1,26 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
-pkgname=varnish-modules
+
+# Source the configurations from ../conf
+source ../conf
+
+pkgname=${NAME}
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=0.24.0
+pkgver="${VERSION}"
 pkgrel=1
-pkgdesc="collection of modules for varnish"
-url="https://github.com/varnish/varnish-modules"
+pkgdesc="${DESC}"
+url=${URL}
 arch="all"
 license="BSD-2-Clause"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$_origver.tar.gz::https://github.com/varnish/varnish-modules/releases/download/$_origver/${pkgname}-$_origver.tar.gz"
+source="$pkgname-$pkgver.tar.gz::${DOWNLOAD_URL}"
 
 build() {
-	cd ${pkgname}-${_origver}
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -35,10 +37,5 @@ check() {
 }
 
 package() {
-	cd src/${pkgname}-${_origver}
 	make DESTDIR="$pkgdir" install
 }
-
-sha512sums="
-913cba864261141cd38bae258960699b29e89e4a67025397b92a37d2677872305738a78bb14fe245517da3fd987613e68a41481e968565dd6da1ee2d85eca726  $pkgname-$pkgver.tar.gz
-"

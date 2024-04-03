@@ -1,14 +1,15 @@
 # Contributor: Guillaume Quintard <guillaume.quintard@gmail.com>
 # Maintainer: Guillaume Quintard <guillaume.quintard@gmail.com>
-pkgname=vmod-uuid
+source ../conf
+
+pkgname=${NAME}
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=1.10
+pkgver="$VERSION"
 pkgrel=1
-pkgdesc="Generate UUIDs in VCL"
-url="https://github.com/otto-de/libvmod-uuid"
+pkgdesc="$DESC"
+url="$URL"
 arch="all"
 license="BSD-2-Clause"
 makedepends="autoconf automake gcc libtool make py3-docutils python3
@@ -17,10 +18,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="ossp-uuid varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::https://github.com/otto-de/lib$pkgname/archive/refs/tags/v${_origver}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::$DOWNLOAD_URL"
 
 build() {
-	cd lib$pkgname-$_origver
+	cd $UNTAR_DIR
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -38,7 +39,7 @@ check() {
 }
 
 package() {
-	cd src/libvmod-uuid-$_origver
+	cd src/$UNTAR_DIR
 	make DESTDIR="$pkgdir" install
 }
 

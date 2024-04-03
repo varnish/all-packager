@@ -9,14 +9,13 @@
 %global rst2man rst2man
 
 Name:           libvmod-redis
-Version: %{varnishver}.0
-%global version 7.5-19.0
+Version:        @VERSION@
 Release:        1%{?dist}
 Group:          System Environment/Libraries
-Summary:        VMOD using the synchronous hiredis library API to access Redis servers from VCL
-URL:            https://github.com/varnish/libvmod-redis
+Summary:        @DESC@
+URL:            @URL@
 License:        GPLv3+
-Source:         https://github.com/carlosabalde/libvmod-redis/archive/refs/tags/%{version}.tar.gz
+Source:         @DOWNLOAD_URL@
 
 
 BuildRequires: gcc
@@ -44,10 +43,10 @@ Requires: 	libev
 
 
 %description
-TODO: description
+@LONG_DESC@
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n @UNTAR_DIR@
 
 
 %build
@@ -74,5 +73,5 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Wed Mar 16 2016 Kristian Lyngstøl <opensource@varnish-software.com> - @VERSION@-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - Changelog not maintained

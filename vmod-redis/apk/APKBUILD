@@ -1,14 +1,15 @@
 # Contributor: Kristian Lyngstøl <opensource@varnish-software.com>
 # Maintainer: Kristian Lyngstøl <opensource@varnish-software.com>
-pkgname=vmod-redis
+source ../conf
+
+pkgname=${NAME}
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=7.5-19.0
+pkgver="$VERSION"
 pkgrel=1
-pkgdesc="VMOD using the synchronous hiredis library API to access Redis servers from VCL."
-url="https://github.com/varnish/carlosabalde/"
+pkgdesc="$DESC"
+url="$URL"
 
 arch="all"
 license="BSD-2-Clause"
@@ -23,10 +24,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion hiredis libev libcrypto3 libssl3 hiredis-ssl"
 subpackages="lib$pkgname-doc"
-source="lib$pkgname-$_origver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/$_origver.tar.gz"
+source="lib$pkgname-$VERSION-$REL_VERSION.tar.gz::$DOWNLOAD_URL"
 
 build() {
-	cd lib$pkgname-$_origver
+	cd $UNTAR_DIR
 
 	./autogen.sh && ./configure \
 		--build=$CBUILD \
@@ -48,7 +49,7 @@ check() {
 }
 
 package() {
-	cd src/lib$pkgname-$_origver
+	cd src/$UNTAR_DIR
 	make DESTDIR="$pkgdir" install
 }
 

@@ -10,6 +10,9 @@ PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
 cd "$PARAM_DIRECTORY"
 
+## Source the configurations from conf file
+source ../conf
+
 dnf install -y 'dnf-command(config-manager)' || true
 yum config-manager --set-enabled powertools || true
 yum config-manager --set-enabled crb || true
@@ -18,6 +21,21 @@ yum install -y make
 
 find /deps/ -type f
 yum install -y rpm-build yum-utils /deps/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH/*.rpm
+
+VVERSION="$(rpm -qa varnish | awk -F'-' '{print $2}')"
+LONG_DESC=$(echo "${LONG_DESC}" | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/\\n/g' )
+
+sed -i -e "s#@VVERSION@#$VVERSION#g" \
+    -e "s#@NAME@#$NAME#g" \
+    -e "s#@VERSION@#$VERSION#g" \
+    -e "s#@DESC@#$DESC#g" \
+    -e "s#@LONG_DESC@#$LONG_DESC#g" \
+    -e "s#@URL@#$URL#g" \
+    -e "s#@DOWNLOAD_URL@#$DOWNLOAD_URL#g" \
+    -e "s#@UNTAR_DIR@#$UNTAR_DIR#g" \
+    -e "s#@MAINTAINER@#$MAINTAINER#g" \
+    -e "s#@CHANGELOG_DATE@#$CHANGELOG_DATE#g" \
+    *
 
 mkdir SOURCES
 yum-builddep -y *.spec

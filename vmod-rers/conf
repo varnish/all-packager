@@ -1,0 +1,17 @@
+NAME=vmod-rers
+VERSION=0.0.9
+URL="https://github.com/gquintard/vmod-rers"
+DOWNLOAD_URL="https://github.com/gquintard/vmod-rers/archive/refs/tags/v0.0.9.tar.gz"
+
+UNTAR_DIR="vmod_rers-$VERSION"
+
+DESC="This is a vmod for varnish, allowing you to expand on what the native VCL regex can do."
+
+LONG_DESC=$( cat << EOF
+This is a vmod for varnish, allowing you to expand on what the native VCL regex can do.
+ 
+EOF
+)
+MAINTAINER="Dridi Boukelmoune <dridi@varni.sh>"
+
+CHANGELOG_DATE="Wed Feb 06 2019"

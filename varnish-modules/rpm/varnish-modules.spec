@@ -1,5 +1,4 @@
 # from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
 
 %global docutils python3-docutils
 %global rst2man rst2man
@@ -8,15 +7,15 @@
 %global debug_package %{nil}
 %global _debugsource_template %{nil}
 
-Name:    varnish-modules
-Version: %{varnishver}.0
-%global version 0.24.0
+Name:    @NAME@
+Version: @VERSION@.0
+%global version @VERSION@
 Release: 1%{?dist}
-Summary: A collection of modules ("vmods") extending Varnish VCL
+Summary: @DESC@
 
 License: BSD-2-Clause
-URL:     https://github.com/varnish/varnish-modules
-Source:  https://github.com/varnish/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
+URL:     @URL@
+Source:  @DOWNLOAD_URL@
 
 BuildRequires: gcc
 BuildRequires: make
@@ -29,7 +28,7 @@ BuildRequires: varnish
 #BuildRequires: libtool
 BuildRequires: %docutils
 
-Requires: varnish = %varnishver
+Requires: varnish = @VVERSION@
 
 Provides: vmod(accept)%{_isa} = %{version}-%{release}
 Provides: vmod(bodyaccess)%{_isa} = %{version}-%{release}
@@ -42,14 +41,11 @@ Provides: vmod(xkey)%{_isa} = %{version}-%{release}
 Provides: vmod(str)%{_isa} = %{version}-%{release}
 
 %description
-This is a collection of modules ("vmods") extending Varnish VCL used
-for describing HTTP request/response policies with additional
-capabilities. This collection contains the following vmods:
-bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
+@LONG_DESC@
 
 
 %prep
-%autosetup -n %{name}-%{version}
+%autosetup -n @UNTAR_DIR@
 
 
 %build
@@ -82,5 +78,5 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - This changelog is not in use.

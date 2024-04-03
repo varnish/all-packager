@@ -8,15 +8,14 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-Name:           libvmod-digest
-Version: %{varnishver}.0
-%global version 1.0.3
+Name:           @NAME@
+Version:        @VERSION@
 Release:        1%{?dist}
 Group:          System Environment/Libraries
-Summary:        Varnish Module (vmod) for computing HMAC, message digests and working with base64.
-URL:            https://github.com/varnish/libvmod-digest
+Summary:        @DESC@
+URL:            @URL@
 License:        GPLv3+
-Source:         https://github.com/varnish/libvmod-digest/archive/refs/tags/libvmod-digest-%{version}.tar.gz
+Source:         @DOWNLOAD_URL@
 
 
 BuildRequires: gcc
@@ -41,12 +40,11 @@ Requires:       varnish >= %(varnishd -V 2>&1 | awk -F '[- ]' '{print $3; exit}'
 
 
 %description
-Varnish Module (vmod) for computing HMAC, message digests and working with base64.
-All HMAC- and hash-functionality is provided by libmhash, while base64 is implemented locally.
+@LONG_DESC@
 
 
 %prep
-%setup -q -n %{name}-%{name}-%{version}
+%setup -q -n @UNTAR_DIR@
 
 
 %build
@@ -72,5 +70,5 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Wed Mar 16 2016 Kristian Lyngstøl <opensource@varnish-software.com> - @VERSION@-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION@-1
 - Changelog not maintained

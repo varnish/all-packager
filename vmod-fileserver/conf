@@ -1,0 +1,16 @@
+NAME=vmod-fileserver
+VERSION=0.0.6
+URL="https://github.com/gquintard/vmod-fileserver"
+DOWNLOAD_URL="https://github.com/gquintard/${NAME}/archive/refs/tags/v${VERSION}-1.tar.gz"
+
+UNTAR_DIR="${NAME}-${VERSION}-1"
+
+DESC="This is a vmod for varnish, it allows to read local file as responses, works as a backend."
+
+LONG_DESC=$( cat << EOF
+This is a vmod for varnish, it allows to read local file as responses, works as a backend.
+EOF
+)
+MAINTAINER="Varnish Software <opensource@varnish-software.com>"
+
+CHANGELOG_DATE="Wed Mar 16 2016"

@@ -1,0 +1,17 @@
+NAME=vmod-uuid
+VERSION=1.10
+URL="https://github.com/otto-de/libvmod-uuid"
+DOWNLOAD_URL="https://github.com/otto-de/libvmod-uuid/archive/refs/tags/v1.10.tar.gz"
+
+UNTAR_DIR="lib${NAME}-${VERSION}"
+
+DESC="Generate UUIDs in VCL"
+
+LONG_DESC=$( cat << EOF
+Generate UUIDs in VCL
+
+EOF
+)
+MAINTAINER="Mitchell Broome, Geoff Simmons <opensource@varnish-software.com>"
+
+CHANGELOG_DATE="Mon Apr 2 2018"

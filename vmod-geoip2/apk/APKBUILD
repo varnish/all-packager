@@ -1,14 +1,15 @@
 # Contributor: Federico G. Schwindt <fgsch@lodoss.net>
 # Maintainer: Federico G. Schwindt <fgsch@lodoss.net>
-pkgname=vmod-geoip2
+source ../conf
+
+pkgname=${NAME}
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=1.3.0
+pkgver="$VERSION"
 pkgrel=1
-pkgdesc="A Varnish 6.0, 7.3 and 7.4 VMOD to query MaxMind GeoIP2 DB files."
-url="https://github.com/varnishcache-friends/libvmod-geoip2"
+pkgdesc=$DESC
+url="$URL"
 
 arch="all"
 license="BSD-2-Clause"
@@ -20,11 +21,10 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="lib$pkgname-doc"
-srccommit="976c551b5584034dde80ac30f8baa07f1bc92834"
-source="lib$pkgname-$_origver.tar.gz::https://github.com/varnishcache-friends/lib${pkgname}/archive/${srccommit}.tar.gz"
+source="lib$pkgname-$_origver.tar.gz::$DOWNLOAD_URL"
 
 build() {
-	cd lib$pkgname-$srccommit
+	cd $UNTAR_DIR
 
 	./autogen.sh && ./configure \
 		--build=$CBUILD \
@@ -43,7 +43,7 @@ check() {
 }
 
 package() {
-	cd src/lib$pkgname-$srccommit
+	cd src/$UNTAR_DIR
 	make DESTDIR="$pkgdir" install
 }
 

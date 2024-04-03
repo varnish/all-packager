@@ -8,16 +8,14 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-%global srccommit 4051a7d08dc3a4ca90d9e8319d5a3a132793e1da
-
-Name:    vmod-jq
-Version: %{varnishver}.0
+Name:    @NAME@
+Version: @VERSION@
 Release: 1%{?dist}
-Summary: Use jq programs from VCL
+Summary: @DESC@
 
 License: BSD-2-Clause
-URL:     https://github.com/varnishcache-friends/libvmod-jq
-Source:  https://github.com/varnishcache-friends/libvmod-jq/archive/%{srccommit}.tar.gz
+URL:     @URL@
+Source:  @DOWNLOAD_URL@
 
 BuildRequires: gcc
 BuildRequires: make
@@ -36,10 +34,10 @@ Requires: varnish = %varnishver
 Requires: jq
 
 %description
-TODO: description
+@LONG_DESC@
 
 %prep
-%setup -q -n lib%{name}-%{srccommit}
+%setup -q -n @UNTAR_DIR@
 
 
 %build
@@ -71,5 +69,5 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* @CHANGELOG_DATE@ @MAINTAINER@ - @VERSION-1
 - This changelog is not in use.
