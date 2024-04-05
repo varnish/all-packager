@@ -1,0 +1,34 @@
+Source: vmod-cfg
+Section: net
+Priority: extra
+Maintainer: Varnish Software <support@varnish-software.com>
+Build-Depends: debhelper (>= 9),
+ autoconf-archive,
+ build-essential,
+ pkg-config,
+ docutils,
+ libcurl4-gnutls-dev,
+ libjemalloc-dev,
+ libluajit-5.1-dev,
+ vim-common,
+ libjemalloc2,
+ xxd,
+Standards-Version: 3.9.5
+Vcs-Git: git:carlosabalde/libvmod-cfg.git
+
+Package: vmod-cfg
+Architecture: any
+Depends: varnish (= @VVERSION@),
+ ${shlibs:Depends},
+ ${misc:Depends},
+ ${Varnish:ABI}
+Description: Varnish module collection by Varnish Software
+ This is a collection of modules ("vmods") extending Varnish VCL used for
+ describing HTTP request/response policies with additional capabilities.
+ .
+ Modules add support for variables, client request body access, simpler
+ handling of HTTP cookies, request and bandwidth throttling, complex HTTP
+ headers modification, advanced cache invalidations, and more.
+ .
+ Included vmods:
+ cookie, vsthrottle, header, saintmode, softpurge, tcp, var, xkey, bodyaccess
