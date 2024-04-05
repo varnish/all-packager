@@ -69,7 +69,7 @@ export RST2MAN=%{rst2man}
 
 
 %install
-%make_install docdir=%_pkgdocdir
+%make_install
 find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 # TODO fix for failing test on arm
@@ -85,6 +85,7 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 %files
 #doc docs AUTHORS CHANGES.rst COPYING README.rst
 %doc COPYING README.rst
+%license LICENSE
 %{_libdir}/varnish/vmods/*
 %{_mandir}/man3/*.3*
 

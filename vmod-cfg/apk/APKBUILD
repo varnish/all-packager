@@ -19,6 +19,7 @@ subpackages="$pkgname-doc"
 source="$pkgname-7.5-$pkgver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/7.5-$pkgver.tar.gz"
 
 build() {
+    ls -p
 	cd $pkgname-7.5-$pkgver
 	./autogen.sh
 	./configure \
@@ -43,7 +44,7 @@ check() {
 package() {
 	cd src
 	pwd
-	ls
+	ls -p
 	cd $pkgname-7.5-$pkgver
 	make DESTDIR="$pkgdir" install
 }

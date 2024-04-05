@@ -13,7 +13,7 @@ override_dh_auto_test:
 	if [ $$(uname -m) != "aarch64"]; then \
 		dh_auto_test; \
 	else \
-		dh_auto_test -- --no-act; \
+		dh_auto_test -- --just-print; \
 	fi
 
 %:
