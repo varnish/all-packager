@@ -29,7 +29,8 @@ build() {
 		--sysconfdir=/etc \
 		--mandir=/usr/share/man \
 		--infodir=/usr/share/info \
-		--localstatedir=/var/lib
+		--localstatedir=/var/lib \
+        --disable-flush-jemalloc-tcache
 	make
 }
 

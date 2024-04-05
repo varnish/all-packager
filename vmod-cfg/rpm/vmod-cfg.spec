@@ -57,7 +57,7 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 
 %prep
-%setup -q -n lib%{name}-7.5-%{version}
+%setup -q -n %{name}-7.5-%{version}
 
 
 %build
@@ -70,7 +70,7 @@ export RST2MAN=%{rst2man}
 
 %install
 %make_install
-find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
+find %{buildroot}/ -name '*.la' -exec rm -f {} ';'
 
 # TODO fix for failing test on arm
 
@@ -84,7 +84,6 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 %files
 #doc docs AUTHORS CHANGES.rst COPYING README.rst
-%doc COPYING README.rst
 %{_libdir}/varnish/vmods/*
 %{_mandir}/man3/*.3*
 
