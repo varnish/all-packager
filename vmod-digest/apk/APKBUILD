@@ -5,7 +5,7 @@ pkgname=vmod-digest
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=1.0.3
+_origver=libvmod-digest-1.0.3
 pkgrel=1
 pkgdesc="Varnish Module (vmod) for computing HMAC, message digests and working with base64."
 url="https://github.com/varnish/libvmod-digest"
@@ -25,7 +25,7 @@ prepare() {
 }
 
 build() {
-	cd lib$pkgname-lib$pkgname-$_origver
+	cd lib$pkgname-$_origver
 
 	./autogen.sh && ./configure \
 		--build=$CBUILD \
@@ -44,7 +44,7 @@ check() {
 }
 
 package() {
-	cd src/lib$pkgname-lib$pkgname-$_origver
+	cd src/lib$pkgname-$_origver
 	make DESTDIR="$pkgdir" install
 }
 
