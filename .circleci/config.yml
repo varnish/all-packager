@@ -177,8 +177,8 @@ jobs:
               $SCRIPT
             rm -rf $(pwd)/packages
             mv $(pwd)/new_packages $(pwd)/packages
-      - store_artifacts:
-          path: packages/
+      #- store_artifacts:
+      #    path: packages/
       - persist_to_workspace:
           root: .
           paths:
