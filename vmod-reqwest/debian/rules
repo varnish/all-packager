@@ -1,4 +1,5 @@
 #!/usr/bin/make -f
+DEB_BUILD_OPTIONS=noddebs
 
 CARGO=~/.cargo/bin/cargo
 override_dh_auto_configure:
