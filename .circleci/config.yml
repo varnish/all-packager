@@ -275,7 +275,7 @@ matrix_parameters: &matrix_params
     - almalinux:8
     - almalinux:9
     - fedora:latest
-    - alpine:3
+    - alpine:3 
   rclass:
     - medium
     - arm.medium
