@@ -20,7 +20,7 @@ source="$pkgname-7.5-$pkgver.tar.gz::https://github.com/carlosabalde/lib$pkgname
 
 build() {
     ls -p
-	cd $pkgname-7.5-$pkgver
+	cd lib$pkgname-7.5-$pkgver
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -42,10 +42,9 @@ check() {
 }
 
 package() {
-	cd src
 	pwd
 	ls -p
-	cd $pkgname-7.5-$pkgver
+	cd src/lib$pkgname-7.5-$pkgver
 	make DESTDIR="$pkgdir" install
 }
 
