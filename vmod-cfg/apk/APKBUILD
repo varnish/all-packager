@@ -12,13 +12,14 @@ license="BSD-2-Clause"
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 makedepends="autoconf automake gcc libtool make py3-docutils python3 
 	autoconf-archive
-    curl-dev jemalloc-dev luajit-dev vim-common  
+    curl-dev jemalloc-dev luajit-dev vim-common xxd
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion jemalloc"
 subpackages="$pkgname-doc"
 source="$pkgname-7.5-$pkgver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/7.5-$pkgver.tar.gz"
 
 build() {
+    echo "initiating build"
     ls -p
 	cd lib$pkgname-7.5-$pkgver
 	./autogen.sh

@@ -267,14 +267,14 @@ jobs:
 matrix_parameters: &matrix_params
   platform:
     #- ubuntu:focal
-    - ubuntu:jammy
+    #- ubuntu:jammy
     #- ubuntu:noble
     #- debian:bullseye
-    - debian:bookworm
+    #- debian:bookworm
     - centos:stream
     - almalinux:8
-    #- almalinux:9
-    #- fedora:latest
+    - almalinux:9
+    - fedora:latest
     - alpine:3
   rclass:
     - medium
