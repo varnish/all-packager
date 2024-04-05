@@ -33,6 +33,7 @@ import reqwest;
 import rers;
 import uuid;
 import geoip2;
+import cfg;
 
 # varnish-modules
 import accept;
