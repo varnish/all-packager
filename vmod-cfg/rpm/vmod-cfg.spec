@@ -70,7 +70,7 @@ export RST2MAN=%{rst2man}
 
 %install
 %make_install
-find %{buildroot}/ -name '*.la' -exec rm -f {} ';'
+find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 # TODO fix for failing test on arm
 
