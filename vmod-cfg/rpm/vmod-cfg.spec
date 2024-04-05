@@ -85,6 +85,7 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 %files
 #doc docs AUTHORS CHANGES.rst COPYING README.rst
 %{_libdir}/varnish/vmods/*
+%{_docdir}/*
 %{_mandir}/man3/*.3*
 
 
