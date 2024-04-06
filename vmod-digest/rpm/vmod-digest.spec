@@ -16,7 +16,7 @@ Group:          System Environment/Libraries
 Summary:        Varnish Module (vmod) for computing HMAC, message digests and working with base64.
 URL:            https://github.com/varnish/libvmod-digest
 License:        GPLv3+
-Source:         https://github.com/varnish/libvmod-digest/archive/refs/tags/%{name}-%{version}.tar.gz
+Source:         https://github.com/varnish/libvmod-digest/archive/refs/tags/%{version}.tar.gz
 
 
 BuildRequires: gcc
