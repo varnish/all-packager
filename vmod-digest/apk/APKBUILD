@@ -18,7 +18,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="lib$pkgname-doc"
-source="lib$pkgname-$_origver.tar.gz::https://github.com/varnish/lib$pkgname/archive/refs/tags/lib$pkgname-$_origver.tar.gz"
+source="lib$pkgname-$_origver.tar.gz::https://github.com/varnish/lib$pkgname/archive/refs/tags/$_origver.tar.gz"
 
 prepare() {
 	sudo apk add libmhash-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
