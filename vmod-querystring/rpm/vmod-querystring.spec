@@ -6,14 +6,13 @@
 %global _debugsource_template %{nil}
 
 Name:           vmod-querystring
-Version: %{varnishver}.0
-%global version 2.0.3
-Release:        1%{?dist}
+Version:	%(source ../pkg.env && echo $TOOL_VERSION)
+Release:	%(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Group:          System Environment/Libraries
 Summary:        QueryString module for Varnish Cache
 URL:            https://github.com/Dridi/libvmod-querystring
 License:        GPLv3+
-Source:         %{url}/releases/download/v%{version}/%{name}-%{version}.tar.gz
+Source:  	%(source ../pkg.env && echo $TOOL_SOURCE)
 
 
 BuildRequires:  pkgconfig(varnishapi) >= 6
@@ -42,7 +41,7 @@ with this kind of query-strings.
 
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 
 
 %build
