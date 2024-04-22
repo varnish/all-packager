@@ -16,7 +16,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="jq varnish=$_vversion"
 subpackages="$pkgname-doc"
-commit="$(source ../pkg.env && echo $TOOL_COMMIT"
+commit="$(source ../pkg.env && echo $TOOL_COMMIT)"
 source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {

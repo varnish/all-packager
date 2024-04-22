@@ -19,6 +19,7 @@ subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
+	cd lib$pkgname-$_origver
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -36,9 +37,6 @@ check() {
 }
 
 package() {
+	cd lib$pkgname-$_origver
 	make DESTDIR="$pkgdir" install
 }
-
-sha512sums="
-a0fb89af3c2dee5542b4173e3853869e2cdbf4cd473900b338e4701f0b769ede7d05436b754a8c1de6b13dc81cda73361a901ace26174b9c4068a3922f1119c3  $pkgname-$pkgver.tar.gz
-"
