@@ -6,5 +6,3 @@ DEB_BUILD_OPTIONS=noddebs
 
 override_dh_autoreconf:
 
-override_dh_auto_configure:
-	./bootstrap
