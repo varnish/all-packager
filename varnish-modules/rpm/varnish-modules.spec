@@ -10,7 +10,6 @@
 
 Name:    varnish-modules
 Version: %(source ../pkg.env && echo $TOOL_VERSION)
-%global version 0.24.0
 Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: A collection of modules ("vmods") extending Varnish VCL
 

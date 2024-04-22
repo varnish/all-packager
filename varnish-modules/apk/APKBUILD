@@ -5,7 +5,6 @@ pkgname=varnish-modules
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
 pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
-_origver="$(source ../pkg.env && echo $TOOL_VERSION)"
 pkgrel=1
 pkgdesc="collection of modules for varnish"
 url="https://github.com/varnish/varnish-modules"
@@ -15,7 +14,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$_origver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
+source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
 	./configure \

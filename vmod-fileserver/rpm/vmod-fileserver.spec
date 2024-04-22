@@ -8,14 +8,14 @@
 %global _debugsource_template %{nil}
 
 Name:    vmod-fileserver
-Version: %{varnishver}.0
-%global version 0.0.6-1
-Release: 1%{?dist}
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
+%global version  %(source ../pkg.env && echo $TOOL_COMMIT)
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: TODO: summary
 
 License: BSD 3-Clause License
 URL:     https://github.com/gquintard/vmod-fileserver
-Source:  https://github.com/gquintard/%{name}/archive/refs/tags/v%{version}.tar.gz
+Source:  %(source ../pkg.env && echo $TOOL_SOURCE)
 
 
 BuildRequires: openssl-devel

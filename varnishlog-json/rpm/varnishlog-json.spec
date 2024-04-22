@@ -8,16 +8,16 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-%global srccommit 109482b5d720d12d74e1fd5002ab4c72a648293b
+%global srccommit %(source ../pkg.env && echo $TOOL_COMMIT)
 
 Name:    varnishlog-json
-Version: %{varnishver}.0
-Release: 1%{?dist}
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: Output Varnish logs in JSON
 
 License: BSD-2-Clause
 URL:     https://github.com/varnish/varnishlog-json
-Source:  https://github.com/varnish/varnishlog-json/archive/%{srccommit}.tar.gz
+Source:  %(source ../pkg.env && echo $TOOL_SOURCE)
 
 BuildRequires: gcc
 BuildRequires: cmake
