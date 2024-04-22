@@ -7,7 +7,7 @@ _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^
 pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
 pkgrel="$(source ../pkg.env && echo $PKG_RELEASE)"
 pkgdesc="VMOD for manipulating Query String"
-url="https://github.com/Dridi/libvmod-querystring/releases/download/v$pkgver/vmod-querystring-$pkgver.tar.gz"
+url="https://github.com/Dridi/libvmod-querystring/"
 
 arch="all"
 license="BSD-2-Clause"
@@ -22,7 +22,7 @@ subpackages="$pkgname-doc"
 source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
-	./bootstrap && ./configure \
+	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
 		--prefix=/usr \
