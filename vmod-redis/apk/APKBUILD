@@ -7,6 +7,7 @@ _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^
 pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
 pkgrel="$(source ../pkg.env && echo $PKG_RELEASE)"
 _origver="$(source ../pkg.env && echo $TOOL_COMMIT)"
+_origver=7.5-19.0
 pkgdesc="VMOD using the synchronous hiredis library API to access Redis servers from VCL."
 url="https://github.com/varnish/carlosabalde/"
 
@@ -23,7 +24,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion hiredis libev libcrypto3 libssl3 hiredis-ssl"
 subpackages="lib$pkgname-doc"
-source="$libpkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
+source="lib$pkgname-$_origver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/$_origver.tar.gz"
 
 build() {
 	cd lib$pkgname-$_origver
