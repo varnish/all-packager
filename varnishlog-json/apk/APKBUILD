@@ -4,7 +4,8 @@ pkgname=varnishlog-json
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
+pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
+_origver="$(source ../pkg.env && echo $TOOL_COMMIY)"
 pkgrel=1
 pkgdesc="Output Varnish logs in JSON"
 url="https://github.com/varnish/varnishlog-json"
@@ -15,7 +16,7 @@ makedepends="cmake gcc jq cjson-dev py3-docutils python3
 depends="cjson varnish=$_vversion"
 subpackages="$pkgname-doc"
 commit=109482b5d720d12d74e1fd5002ab4c72a648293b
-source="$pkgname-$pkgver.tar.gz::https://github.com/varnish/varnishlog-json/archive/${commit}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
 	cd $pkgname-$commit

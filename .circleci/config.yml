@@ -305,7 +305,8 @@ workflows:
               <<: *matrix_params
               package:
                 - varnish-modules
-                  #                - varnishlog-json
+                - vmod-fileserver
+                - varnishlog-json
                 - vmod-digest
                   #                - vmod-jq
                   #                - vmod-querystring
@@ -319,7 +320,6 @@ workflows:
                   #              package:
                   #                - vmod-reqwest
                   #                - vmod-rers
-                  #                - vmod-fileserver
                   #                - vmod-geoip2
 
       - check-packages:
