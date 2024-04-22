@@ -305,22 +305,22 @@ workflows:
               <<: *matrix_params
               package:
                 - varnish-modules
-                - varnishlog-json
-                - vmod-digest
-                - vmod-jq
-                - vmod-querystring
-                - vmod-redis
-                - vmod-uuid
-      - package2:
-          <<: *package
-          matrix:
-            parameters:
-              <<: *matrix_params
-              package:
-                - vmod-reqwest
-                - vmod-rers
-                - vmod-fileserver
-                - vmod-geoip2
+                  #                - varnishlog-json
+                  #                - vmod-digest
+                  #                - vmod-jq
+                  #                - vmod-querystring
+                  #                - vmod-redis
+                  #                - vmod-uuid
+                  #      - package2:
+                  #          <<: *package
+                  #          matrix:
+                  #            parameters:
+                  #              <<: *matrix_params
+                  #              package:
+                  #                - vmod-reqwest
+                  #                - vmod-rers
+                  #                - vmod-fileserver
+                  #                - vmod-geoip2
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
@@ -334,4 +334,4 @@ workflows:
           requires:
             - package-varnish
             - package
-            - package2
+              #            - package2

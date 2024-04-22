@@ -9,14 +9,14 @@
 %global _debugsource_template %{nil}
 
 Name:    varnish-modules
-Version: %{varnishver}.0
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
 %global version 0.24.0
-Release: 1%{?dist}
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: A collection of modules ("vmods") extending Varnish VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/varnish/varnish-modules
-Source:  https://github.com/varnish/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
+Source:  %(source ../pkg.env && echo $TOOL_SOURCE)
 
 BuildRequires: gcc
 BuildRequires: make
