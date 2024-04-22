@@ -9,14 +9,13 @@
 %global rst2man rst2man
 
 Name:           libvmod-digest
-Version: %{varnishver}.0
-%global version libvmod-digest-1.0.3
-Release:        1%{?dist}
+Version: 	%(source ../pkg.env && echo $TOOL_VERSION)
+Release:	%(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Group:          System Environment/Libraries
 Summary:        Varnish Module (vmod) for computing HMAC, message digests and working with base64.
 URL:            https://github.com/varnish/libvmod-digest
 License:        GPLv3+
-Source:         https://github.com/varnish/libvmod-digest/archive/refs/tags/%{version}.tar.gz
+Source:  	%(source ../pkg.env && echo $TOOL_SOURCE)
 
 
 BuildRequires: gcc
@@ -46,7 +45,7 @@ All HMAC- and hash-functionality is provided by libmhash, while base64 is implem
 
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n libvmod-digest-libvmod-digest-%{version}
 
 
 %build

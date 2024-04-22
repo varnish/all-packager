@@ -306,7 +306,7 @@ workflows:
               package:
                 - varnish-modules
                   #                - varnishlog-json
-                  #                - vmod-digest
+                - vmod-digest
                   #                - vmod-jq
                   #                - vmod-querystring
                   #                - vmod-redis
