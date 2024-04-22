@@ -4,7 +4,7 @@ pkgname=varnish-modules
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(source ../pkg.env && echo $TOOL_VERSION.$PKG_RELEASE)"
+pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
 _origver="$(source ../pkg.env && echo $TOOL_VERSION)"
 pkgrel=1
 pkgdesc="collection of modules for varnish"
@@ -18,7 +18,6 @@ subpackages="$pkgname-doc"
 source="$pkgname-$_origver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
-	cd ${pkgname}-${_origver}
 	./configure \
 		--build=$CBUILD \
 		--host=$CHOST \
@@ -35,7 +34,6 @@ check() {
 }
 
 package() {
-	cd src/${pkgname}-${_origver}
 	make DESTDIR="$pkgdir" install
 }
 
