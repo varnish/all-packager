@@ -34,9 +34,10 @@ yes | mk-build-deps --install debian/control || true
 mkdir -p ./pkgbuild/distdir/
 cd pkgbuild/distdir/
 
+source ../pkg.env
 # Save the tarball source file one level up, 
 # needed for format v3.0
-curl -L "$(cat ../../debian/orig_url | grep -v '^#' | sed 's/^\(.*\)::\(.*\)/\2/' )" -o ../$DEB_ORIG 
+curl -L "$TOOL_SOURCE" -o ../$DEB_ORIG
 tar xvfz ../$DEB_ORIG --strip 1
 # remove potential debian/ package included in the tarball
 rm -rf debian
