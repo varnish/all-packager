@@ -8,12 +8,11 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-%global srccommit 976c551b5584034dde80ac30f8baa07f1bc92834
+%global srccommit %(source ../pkg.env && echo $TOOL_COMMIT)
 
 Name:           libvmod-geoip2
-Version: %{varnishver}.0
-%global version 1.3.0
-Release:        1%{?dist}
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Group:          System Environment/Libraries
 Summary:        A Varnish 6.0, 7.3 and 7.4 VMOD to query MaxMind GeoIP2 DB files.
 URL:            https://github.com/varnish/libvmod-geoip2
