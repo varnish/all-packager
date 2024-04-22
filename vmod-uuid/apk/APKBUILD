@@ -16,10 +16,9 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="ossp-uuid varnish=$_vversion"
 subpackages="$pkgname-doc"
-source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
+source="lib$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
-	cd lib$pkgname-$_origver
 	./autogen.sh
 	./configure \
 		--build=$CBUILD \
@@ -37,6 +36,5 @@ check() {
 }
 
 package() {
-	cd lib$pkgname-$_origver
 	make DESTDIR="$pkgdir" install
 }
