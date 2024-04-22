@@ -19,6 +19,7 @@ BuildRequires:  pkgconfig(varnishapi) >= 6
 
 # varnish-devel may not require Python or Varnish as it should
 BuildRequires:  varnish >= 6.0.6
+BuildRequires:  python3
 BuildRequires:  python(abi) >= 3.4
 
 Requires:       varnish >= %(varnishd -V 2>&1 | awk -F '[- ]' '{print $3; exit}')
