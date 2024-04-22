@@ -308,16 +308,16 @@ workflows:
                 - vmod-fileserver
                 - varnishlog-json
                 - vmod-digest
-                  #                - vmod-jq
-                  #                - vmod-querystring
-                  #                - vmod-redis
-                  #                - vmod-uuid
-                  #      - package2:
-                  #          <<: *package
-                  #          matrix:
-                  #            parameters:
-                  #              <<: *matrix_params
-                  #              package:
+                - vmod-jq
+                - vmod-querystring
+                - vmod-redis
+      - package2:
+          <<: *package
+          matrix:
+            parameters:
+              <<: *matrix_params
+              package:
+                - vmod-uuid
                   #                - vmod-reqwest
                   #                - vmod-rers
                   #                - vmod-geoip2
@@ -334,4 +334,4 @@ workflows:
           requires:
             - package-varnish
             - package
-              #            - package2
+            - package2
