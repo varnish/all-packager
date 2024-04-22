@@ -8,7 +8,7 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-Name:           libvmod-redis
+Name:           vmod-redis
 Version: %{varnishver}.0
 %global version 7.5-19.0
 Release:        1%{?dist}
@@ -47,7 +47,7 @@ Requires: 	libev
 TODO: description
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n lib%{name}-%{version}
 
 
 %build

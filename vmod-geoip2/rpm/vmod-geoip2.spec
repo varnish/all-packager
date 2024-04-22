@@ -10,7 +10,7 @@
 
 %global srccommit %(source ../pkg.env && echo $TOOL_COMMIT)
 
-Name:           libvmod-geoip2
+Name:           vmod-geoip2
 Version: %(source ../pkg.env && echo $TOOL_VERSION)
 Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Group:          System Environment/Libraries
@@ -46,7 +46,7 @@ A Varnish master VMOD to query MaxMind GeoIP2 DB files.
 
 
 %prep
-%setup -q -n %{name}-%{srccommit}
+%setup -q -n lib%{name}-%{srccommit}
 
 %build
 export RST2MAN=%{rst2man}
