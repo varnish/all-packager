@@ -16,7 +16,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	autoconf-archive
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
-subpackages="lib$pkgname-doc"
+subpackages="$pkgname-doc"
 source="lib$pkgname-$_origver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 prepare() {

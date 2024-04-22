@@ -18,7 +18,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	libmaxminddb-dev
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion"
-subpackages="lib$pkgname-doc"
+subpackages="$pkgname-doc"
 srccommit="$(source ../pkg.env && echo $TOOL_COMMIT)"
 source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 

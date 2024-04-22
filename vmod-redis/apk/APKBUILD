@@ -23,7 +23,7 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	hiredis-dev
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion hiredis libev libcrypto3 libssl3 hiredis-ssl"
-subpackages="lib$pkgname-doc"
+subpackages="$pkgname-doc"
 source="lib$pkgname-$_origver.tar.gz::https://github.com/carlosabalde/lib$pkgname/archive/refs/tags/$_origver.tar.gz"
 
 builddir=lib$pkgname-$_origver

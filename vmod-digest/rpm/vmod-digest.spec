@@ -8,7 +8,7 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-Name:           libvmod-digest
+Name:           vmod-digest
 Version: 	%(source ../pkg.env && echo $TOOL_VERSION)
 Release:	%(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Group:          System Environment/Libraries
