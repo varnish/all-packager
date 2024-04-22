@@ -4,7 +4,7 @@ pkgname=vmod-uuid
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-"$(source ../pkg.env && echo $TOOL_VERSION)"
+pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
 pkgrel="$(source ../pkg.env && echo $PKG_RELEASE)"
 pkgdesc="Generate UUIDs in VCL"
 url="https://github.com/otto-de/libvmod-uuid"
