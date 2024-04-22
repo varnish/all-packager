@@ -4,11 +4,9 @@ set -eux
 
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
-echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
 echo "PARAM_ARCH: $PARAM_ARCH"
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
-cd "$PARAM_DIRECTORY"
 apk add --allow-untrusted /deps/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH/*.apk
 apk add -q --no-progress --update tar alpine-sdk sudo
 

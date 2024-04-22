@@ -4,11 +4,8 @@ set -eux
 
 echo "PARAM_RELEASE: $PARAM_RELEASE"
 echo "PARAM_DIST: $PARAM_DIST"
-echo "PARAM_DIRECTORY: $PARAM_DIRECTORY"
 echo "PARAM_ARCH: $PARAM_ARCH"
 PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
-
-cd "$PARAM_DIRECTORY"
 
 dnf install -y 'dnf-command(config-manager)' || true
 yum config-manager --set-enabled powertools || true
