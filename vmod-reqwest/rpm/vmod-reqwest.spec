@@ -9,14 +9,13 @@
 %global _debugsource_template %{nil}
 
 Name:    vmod-reqwest
-Version: %{varnishver}.0
-%global version 0.0.12
-Release: 1%{?dist}
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: A collection of modules ("vmods") extending Varnish VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/gquintard/vmod-reqwest
-Source:  https://github.com/gquintard/%{name}/archive/refs/tags/v%{version}.tar.gz
+Source:  %(source ../pkg.env && echo $TOOL_SOURCE)
 
 BuildRequires: openssl-devel
 BuildRequires: jq

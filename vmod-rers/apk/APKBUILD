@@ -4,9 +4,8 @@ pkgname=vmod-rers
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-_origver=0.0.9
-pkgrel=1
+pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
+pkgrel="$(source ../pkg.env && echo $PKG_RELEASE)"
 pkgdesc="This is a vmod for varnish, allowing you to expand on what the native VCL regex can do."
 url="https://github.com/gquintard/vmod-rers"
 arch="all"
@@ -14,10 +13,9 @@ license="BSD 3-Clause License"
 makedepends="cargo openssl-dev clang-dev python3 jq
 	varnish-dev=$_vversion"
 depends="varnish=$_vversion openssl"
-source="$pkgname-$pkgver.tar.gz::https://github.com/gquintard/${pkgname}/archive/refs/tags/v${_origver}.tar.gz"
+source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
-tar_dir=$(echo ${pkgname} | sed 's/-/_/g')
-builddir="${tar_dir}-${_origver}"
+builddir="${pkgname}-${pkgver}"
 
 prepare() {
 	default_prepare

@@ -318,9 +318,9 @@ workflows:
               <<: *matrix_params
               package:
                 - vmod-uuid
-                  #                - vmod-reqwest
-                  #                - vmod-rers
-                  #                - vmod-geoip2
+                - vmod-reqwest
+                - vmod-rers
+                - vmod-geoip2
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)

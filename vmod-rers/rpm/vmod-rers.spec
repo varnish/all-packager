@@ -9,14 +9,13 @@
 %global _debugsource_template %{nil}
 
 Name:    vmod-rers
-Version: %{varnishver}.0
-%global version 0.0.9
-Release: 1%{?dist}
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: TODO: summary
 
 License: BSD 3-Clause License
 URL:     https://github.com/gquintard/vmod-rers
-Source:  https://github.com/gquintard/%{name}/archive/refs/tags/v%{version}.tar.gz
+Source:  %(source ../pkg.env && echo $TOOL_SOURCE)
 
 BuildRequires: openssl-devel
 BuildRequires: jq
@@ -30,11 +29,8 @@ Requires: varnish = %varnishver
 %description
 TODO: description
 
-#Fix the tar-ball extracted dir name
-%global tar_dir %(echo %{name} | sed 's/-/_/g')
-
 %prep
-%autosetup -n %{tar_dir}-%{version}
+%autosetup
 cargo fetch --locked
 
 
