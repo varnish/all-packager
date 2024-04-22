@@ -4,8 +4,8 @@ pkgname=vmod-jq
 # NOTE: we're being very naughty and counting on `varnish` to be installed
 # to get its version so we can require exactly the same version
 _vversion="$(apk list --installed varnish 2>/dev/null | sed -e 's/ .*//' -e 's/^varnish-//')"
-pkgver="$(echo $_vversion | sed 's/[~-].*//').0"
-pkgrel=1
+pkgver="$(source ../pkg.env && echo $TOOL_VERSION)"
+pkgrel="$(source ../pkg.env && echo $PKG_RELEASE)"
 pkgdesc="Use jq programs from VCL"
 url="https://github.com/varnishcache-friends/libvmod-jq"
 arch="all"
@@ -16,8 +16,8 @@ makedepends="autoconf automake gcc libtool make py3-docutils python3
 	varnish-dev=$_vversion"
 depends="jq varnish=$_vversion"
 subpackages="$pkgname-doc"
-commit=4051a7d08dc3a4ca90d9e8319d5a3a132793e1da
-source="$pkgname-$pkgver.tar.gz::https://github.com/varnishcache-friends/libvmod-jq/archive/${commit}.tar.gz"
+commit="$(source ../pkg.env && echo $TOOL_COMMIT"
+source="$pkgname-$pkgver.tar.gz::$(source ../pkg.env && echo $TOOL_SOURCE)"
 
 build() {
 	cd libvmod-jq-$commit

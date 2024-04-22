@@ -8,16 +8,16 @@
 %global docutils python3-docutils
 %global rst2man rst2man
 
-%global srccommit 4051a7d08dc3a4ca90d9e8319d5a3a132793e1da
+%global srccommit %(source ../pkg.env && echo $TOOL_COMMIT)
 
 Name:    vmod-jq
-Version: %{varnishver}.0
-Release: 1%{?dist}
+Version: %(source ../pkg.env && echo $TOOL_VERSION)
+Release: %(source ../pkg.env && echo $PKG_RELEASE)%{?dist}
 Summary: Use jq programs from VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/varnishcache-friends/libvmod-jq
-Source:  https://github.com/varnishcache-friends/libvmod-jq/archive/%{srccommit}.tar.gz
+Source:  %(source ../pkg.env && echo $TOOL_SOURCE)
 
 BuildRequires: gcc
 BuildRequires: make
