@@ -2,3 +2,6 @@
 DEB_BUILD_OPTIONS=noddebs
 %:
 	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- --localstatedir=/var/lib --libdir=/usr/lib
