@@ -310,13 +310,13 @@ workflows:
                 - vmod-digest
                 - vmod-jq
                 - vmod-querystring
-                - vmod-redis
       - package2:
           <<: *package
           matrix:
             parameters:
               <<: *matrix_params
               package:
+                - vmod-redis
                 - vmod-uuid
                 - vmod-reqwest
                 - vmod-rers
