@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   pkg-commit:
     type: string
-    default: "master"
+    default: "nobledebhelper"
   dist-url:
     type: string
     default: "https://varnish-cache.org/downloads/varnish-7.5.0.tgz"
