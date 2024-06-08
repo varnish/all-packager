@@ -102,6 +102,9 @@ jobs:
             - alpine.tar.gz
   package: &p
     parameters:
+      scope:
+        description: main or community (impact in which tarball the packages will land)
+        type: string
       platform:
         description: the Linux distribution, with release, e.g. debian:buster, centos:7
         type: string
@@ -170,22 +173,23 @@ jobs:
               -e PARAM_ARCH=$PARAM_ARCH \
               --workdir $PARAM_DIRECTORY \
               -v$(pwd):/workdir \
-              -v$(pwd)/packages:/deps \
+              -v$(pwd)/packages-main:/deps \
               -v$(pwd)/new_packages:/packages \
               --platform linux/$PARAM_ARCH \
               ${REPO}<< parameters.platform >> \
               $SCRIPT
             rm -rf $(pwd)/packages
-            mv $(pwd)/new_packages $(pwd)/packages
+            mv $(pwd)/new_packages $(pwd)/packages-<< parameters.scope >>
       #- store_artifacts:
       #    path: packages/
       - persist_to_workspace:
           root: .
           paths:
-            - "packages"
+            - "packages-<< parameters.scope >>"
 
-  package2: *p
   package-varnish: *p
+  package2: *p
+  package3: *p
 
   check-packages:
     parameters:
@@ -240,7 +244,7 @@ jobs:
               --security-opt seccomp=unconfined \
               --rm \
               -it \
-              -e PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
+              -e PDIR="/packages-*/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH" \
               -v$(pwd):/workdir \
               -v$(pwd)/packages:/packages \
               --platform linux/$PARAM_ARCH \
@@ -257,12 +261,12 @@ jobs:
       - run:
           name: Tar the packages
           command: |
-              tar cvzf packages.tar.gz packages
+              tar cvzf packages-main.tar.gz packages-main
+              tar cvzf packages-community.tar.gz packages-community
       - store_artifacts:
           path: packages/
       - store_artifacts:
-          destination: packages.tar.gz
-          path: packages.tar.gz
+          path: packages-*.tar.gz
 
 matrix_parameters: &matrix_params
   platform:
@@ -288,6 +292,7 @@ workflows:
       - tar_pkg_tools
       - package-varnish:
           name: << matrix.platform >> varnish packages (<< matrix.rclass >>)
+          scope: main
           requires:
             - dist
             - tar_pkg_tools
@@ -300,27 +305,37 @@ workflows:
           name: << matrix.platform >> <<matrix.package>> packages (<< matrix.rclass >>)
           requires:
             - << matrix.platform >> varnish packages (<< matrix.rclass >>)
+          scope: main
           matrix:
             parameters:
               <<: *matrix_params
               package:
                 - varnish-modules
-                - vmod-fileserver
-                - varnishlog-json
                 - vmod-digest
-                - vmod-jq
-                - vmod-querystring
+                - varnishlog-json
       - package2:
           <<: *package
+          scope: community
           matrix:
             parameters:
               <<: *matrix_params
               package:
-                - vmod-redis
-                - vmod-uuid
-                - vmod-reqwest
-                - vmod-rers
+                - vmod-fileserver
                 - vmod-geoip2
+                - vmod-jq
+                - vmod-querystring
+                - vmod-redis
+                - vmod-reqwest
+      - package3:
+          <<: *package
+          scope: community
+          matrix:
+            parameters:
+              <<: *matrix_params
+              package:
+                - vmod-rers
+                - vmod-uuid
+
 
       - check-packages:
           name: check << matrix.platform >> packages (<< matrix.rclass >>)
