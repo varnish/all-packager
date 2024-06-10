@@ -174,12 +174,10 @@ jobs:
               --workdir $PARAM_DIRECTORY \
               -v$(pwd):/workdir \
               -v$(pwd)/packages-main:/deps \
-              -v$(pwd)/new_packages:/packages \
+              -v$(pwd)/packages-<< parameters.scope >>:/packages \
               --platform linux/$PARAM_ARCH \
               ${REPO}<< parameters.platform >> \
               $SCRIPT
-            rm -rf $(pwd)/packages
-            mv $(pwd)/new_packages $(pwd)/packages-<< parameters.scope >>
       #- store_artifacts:
       #    path: packages/
       - persist_to_workspace:
