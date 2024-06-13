@@ -1,5 +1,6 @@
-vmod-geoip2 (@PVERSION@) unstable; urgency=low
+vmod-geoip2 (@VERSION@) UNRELEASED; urgency=medium
 
-  * Changelog not maintained
+  * Changelog not maintained, please see
+    https://github.com/varnish/all-packager/releases/tag/v@VERSION@
 
- -- Federico G. Schwindt <fgsch@lodoss.net>
+ -- Varnish Software <opensource@varnish-software.com>

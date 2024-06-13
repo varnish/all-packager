@@ -10,14 +10,14 @@ Build-Depends: debhelper (>= 9),
  libclang-dev,
  libssl-dev,
  jq,
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@)
+ varnish (= @VERSION@),
+ varnish-dev (= @VERSION@)
 Standards-Version: 3.9.5
-Vcs-Git: git@github.com:gquintard/vmod-fileserver.git
+Vcs-Git: git@github.com:varnish-rs/vmod-fileserver.git
 
 Package: vmod-fileserver
 Architecture: any
-Depends: varnish (= @VVERSION@),
+Depends: varnish (= @VERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

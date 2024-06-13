@@ -7,15 +7,15 @@ Build-Depends: debhelper (>= 9),
  build-essential,
  pkg-config,
  python3-docutils,
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@),
+ varnish (= @VERSION@),
+ varnish-dev (= @VERSION@),
  libossp-uuid-dev
 Standards-Version: 3.9.5
 Vcs-Git: git://github.com/otto-de/libvmod-uuid.git
 
 Package: vmod-uuid
 Architecture: any
-Depends: varnish (= @VVERSION@),
+Depends: varnish (= @VERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

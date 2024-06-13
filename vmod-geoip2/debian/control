@@ -9,14 +9,14 @@ Build-Depends: debhelper (>= 9),
  python3-docutils,
  libmaxminddb0,
  libmaxminddb-dev,
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@)
+ varnish (= @VERSION@),
+ varnish-dev (= @VERSION@)
 Standards-Version: 1.3.0
 Homepage: https://github.com/varnishcache-friends/libvmod-geoip2
 
 Package: vmod-geoip2
 Architecture: any
-Depends: varnish (= @VVERSION@),
+Depends: varnish (= @VERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},
