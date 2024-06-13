@@ -139,11 +139,6 @@ jobs:
                     exit 1
             esac
 
-            case "<< parameters.platform >>" in
-                centos:stream)      REPO=quay.io/centos/ ;;
-                *)                  REPO= ;;
-            esac
-
             case "<< parameters.rclass >>" in
                 arm.*)              PARAM_ARCH=arm64 ;;
                 *)                  PARAM_ARCH=amd64 ;;
@@ -271,7 +266,6 @@ matrix_parameters: &matrix_params
     - ubuntu:noble
     - debian:bullseye
     - debian:bookworm
-    - centos:stream
     - almalinux:8
     - almalinux:9
     - fedora:39
