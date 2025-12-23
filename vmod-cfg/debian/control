@@ -18,7 +18,7 @@ Vcs-Git: git:carlosabalde/libvmod-cfg.git
 
 Package: vmod-cfg
 Architecture: any
-Depends: varnish (= @VVERSION@),
+Depends: varnish (= @VERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI}

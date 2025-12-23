@@ -1,5 +1,6 @@
-vmod-cfg (@VVERSION@) UNRELEASED; urgency=medium
+vmod-cfg (@VERSION@) UNRELEASED; urgency=medium
 
-  * This changelog is not in use. See doc/changes.rst for release notes.
+  * Changelog not maintained, please see
+    https://github.com/varnish/all-packager/releases/tag/v@VERSION@
 
- -- Denis Braekhus <denis@varnish-software.com>  Wed, 28 Feb 2018 12:00:00 +0100
+ -- Varnish Software <opensource@varnish-software.com>

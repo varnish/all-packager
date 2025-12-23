@@ -1,0 +1,216 @@
+name: Package all the things
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build_varnish:
+    name: Varnish ${{ matrix.target }} ${{ matrix.arch }}
+    runs-on: ubuntu-24.04${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - ""
+          - "-arm"
+        target:
+          - debian-bullseye-deb
+          - debian-bookworm-deb
+          - debian-trixie-deb
+          - ubuntu-jammy-deb
+          - ubuntu-noble-deb
+          - ubuntu-plucky-deb
+          - almalinux-8-rpm
+          - almalinux-9-rpm
+          - almalinux-10-rpm
+          - amazonlinux-2023-rpm
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: Download Varnish
+        run: |
+          source pkg.env
+          curl -LO https://varnish-cache.org/downloads/varnish-${varnish_version}.tgz
+
+      - name: Build Varnish packages
+        run: |
+          ( cd varnish-cache/; tar cvzf ../debian.tar.gz debian --dereference ; )
+          ( cd varnish-cache/; tar cvzf ../redhat.tar.gz redhat --dereference ; )
+
+          mkdir -p packages
+
+          if [ -z "${{ matrix.arch }}" ]; then
+            PARAM_ARCH=x86_64
+          else
+            PARAM_ARCH=aarch64
+          fi
+          PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
+          PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
+          EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
+
+          docker run \
+            --rm \
+            --security-opt seccomp=unconfined \
+            -e PARAM_ARCH=$PARAM_ARCH \
+            -e PARAM_DIST=$PARAM_DIST \
+            -e PARAM_RELEASE=$PARAM_RELEASE \
+            -v $(pwd):/varnish-cache \
+            $PARAM_DIST:$PARAM_RELEASE \
+            /varnish-cache/build_scripts/make-$EXT-packages.sh
+
+          ls packages/*/*/
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: varnish-${{ matrix.target }}${{ matrix.arch }}
+          path: packages
+
+  build_vmod:
+    needs: build_varnish
+    runs-on: ubuntu-24.04${{ matrix.arch }}
+    name: ${{ matrix.package }} ${{ matrix.target }} ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - ""
+          - "-arm"
+        target:
+          - debian-bullseye-deb
+          - debian-bookworm-deb
+          - debian-trixie-deb
+          - ubuntu-jammy-deb
+          - ubuntu-noble-deb
+          - ubuntu-plucky-deb
+          - almalinux-8-rpm
+          - almalinux-9-rpm
+          - almalinux-10-rpm
+          - amazonlinux-2023-rpm
+        package:
+          - varnish-modules
+          - vmod-uuid
+          - vmod-cfg
+          - vmod-digest
+          - vmod-fileserver
+          - vmod-geoip2
+          - vmod-jq
+          - vmod-querystring
+          - vmod-redis
+          - vmod-reqwest
+          - vmod-rers
+        exclude:
+          # no mhash-devel
+          - target: almalinux-10-rpm
+            package: vmod-digest
+          - target: amazonlinux-2023-rpm
+            package: vmod-digest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        with:
+          submodules: true
+
+      - name: Download a specific artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: varnish-${{ matrix.target }}${{ matrix.arch }}
+          path: packages
+
+      - name: Build
+        run: |
+          tree $(pwd)/packages
+          PACKAGE=${{ matrix.package }}
+          if [ -z "${{ matrix.arch }}" ]; then
+            PARAM_ARCH=x86_64
+          else
+            PARAM_ARCH=aarch64
+          fi
+          PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
+          PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
+          EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
+
+          ( cd $PACKAGE/; tar cvzf ../debian.tar.gz debian --dereference ; )
+          ( cd $PACKAGE/; tar cvzf ../redhat.tar.gz redhat --dereference ; )
+
+          docker run \
+            --rm \
+            -e PARAM_ARCH=$PARAM_ARCH \
+            -e PARAM_DIST=$PARAM_DIST\
+            -e PARAM_RELEASE=$PARAM_RELEASE \
+            --workdir /workdir/$PACKAGE \
+            -v$(pwd):/workdir \
+            -v$(pwd)/packages:/deps \
+            -v$(pwd)/new_packages:/packages \
+            $PARAM_DIST:$PARAM_RELEASE \
+            /workdir/build_scripts/make-$EXT-packages-vmod.sh
+          tree new_packages
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package }}-${{ matrix.target }}${{ matrix.arch }}
+          path: new_packages
+
+  collect_all_packages:
+    name: Collect all packages
+    needs: [build_varnish, build_vmod]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: downloaded-artifacts
+
+      - name: Reorganize packages (strip first subdirectory)
+        run: |
+          mkdir -p all-packages
+          # For each artifact directory, copy its contents while preserving structure
+          for artifact_dir in downloaded-artifacts/*/; do
+            if [ -d "$artifact_dir" ]; then
+              cp -r "$artifact_dir"* all-packages/ 2>/dev/null || true
+            fi
+          done
+
+#      - name: Sign
+#        run: |
+#          for f in $(find packages -type f); do
+#              fname=$(basename $f)
+#              dname=$(dirname $f)
+#              sum=$(sha256sum $f | awk '{print $1}')
+#
+#              mkdir -p signed/$dname
+#              # we don't sign dsc files
+#              if [ "${f##*.}" = "dsc" ]; then
+#                  cp "$f" signed/$f
+#                  continue
+#              fi
+#
+#              curl \
+#                  -v \
+#                  --http1.1 \
+#                  --show-error \
+#                  --fail \
+#                  --data-binary @$f \
+#                  --header "content-sha256: $sum" \
+#                  --header "filename: $fname" \
+#                  --header "key: ${{ secrets.PKGSIGN_KEY }}" \
+#                  -u "${{ secrets.PKGSIGN_USER }}:${{ secrets.PKGSIGN_PASS}}" \
+#                  -o signed/$f "${{ secrets.PKGSIGN_URL }}"
+#          done
+
+      - name: Display collected packages
+        run: |
+          ls -lhR all-packages/
+      
+      - name: Upload all packages as single artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-packages
+          path: all-packages/

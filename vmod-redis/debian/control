@@ -10,14 +10,14 @@ Build-Depends: debhelper (>= 9),
  python3-docutils,
  libev-dev,
  libhiredis-dev,
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@)
+ varnish (= @VERSION@),
+ varnish-dev (= @VERSION@)
 Standards-Version: 1.0.3
 Homepage: https://github.com/carlosabalde/libvmod-redis/
 
 Package: vmod-redis
 Architecture: any
-Depends: varnish (= @VVERSION@),
+Depends: varnish (= @VERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

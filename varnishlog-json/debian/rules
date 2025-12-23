@@ -1,4 +1,0 @@
-#!/usr/bin/make -f
-DEB_BUILD_OPTIONS=noddebs
-%:
-	dh $@

@@ -1,0 +1,6 @@
+deploy_scripts/repo/*
+deploy_scripts/packages/*
+deploy_scripts/signing-keys/*
+deploy_scripts/gnupg/
+.gnupg/
+.*swp

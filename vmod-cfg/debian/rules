@@ -7,9 +7,6 @@ DEB_BUILD_OPTIONS=noddebs
 override_dh_autoreconf:
 	dh_autoreconf ./autogen.sh
 
-override_dh_auto_configure:
-	dh_auto_configure -- --localstatedir=/var/lib --libdir=/usr/lib --disable-flush-jemalloc-tcache
-
 # TODO fix for failing test on arm
 override_dh_auto_test:
 	if [ $$(uname -m) != "aarch64"]; then \
@@ -20,3 +17,6 @@ override_dh_auto_test:
 
 execute_after_dh_auto_install:
 	sed -i "/^dependency_libs=/s/'.*'/''/" `find debian -name '*.la'`
+
+override_dh_auto_configure:
+	dh_auto_configure -- --localstatedir=/var/lib --libdir=/usr/lib --disable-flush-jemalloc-tcache

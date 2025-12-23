@@ -8,14 +8,14 @@ Build-Depends: debhelper (>= 9),
  pkg-config,
  python3-docutils,
  libmhash-dev,
- varnish (= @VVERSION@),
- varnish-dev (= @VVERSION@)
+ varnish (= @VERSION@),
+ varnish-dev (= @VERSION@)
 Standards-Version: 1.0.3
 Homepage: https://github.com/varnish/libvmod-digest/tree/master
 
 Package: vmod-digest
 Architecture: any
-Depends: varnish (= @VVERSION@),
+Depends: varnish (= @VERSION@),
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},
