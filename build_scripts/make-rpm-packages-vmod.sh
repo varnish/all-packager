@@ -21,5 +21,4 @@ rpmbuild -bb \
 	*.spec
 
 echo "Prepare the packages for storage..."
-mkdir -p $PDIR
 mv RPMS/*/*.rpm $PDIR

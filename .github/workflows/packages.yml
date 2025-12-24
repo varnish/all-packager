@@ -136,13 +136,16 @@ jobs:
 
           cp pkg.env $PACKAGE/
 
+          PDIR=new_packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
+          mkdir -p $PDIR
+
           docker run \
             --rm \
-            -e PDIR=/new_packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
+            -e PDIR=/$PDIR \
             --workdir /workdir/$PACKAGE \
             -v$(pwd):/workdir \
             -v$(pwd)/packages:/deps \
-            -v/new_packages:/new_packages \
+            -v$(pwd)/new_packages:/new_packages \
             $PARAM_DIST:$PARAM_RELEASE \
             /workdir/build_scripts/make-$EXT-packages-vmod.sh
           tree new_packages

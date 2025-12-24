@@ -45,6 +45,4 @@ yes | mk-build-deps --install debian/control || true
 echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16
 
-cd ..
-mkdir -p $PDIR
-mv *.deb *.dsc $PDIR
+mv ../*.deb ../*.dsc $PDIR
