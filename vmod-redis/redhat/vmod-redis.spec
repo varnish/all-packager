@@ -78,5 +78,5 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Wed Mar 16 2016 Kristian Lyngstøl <opensource@varnish-software.com> - @VERSION@-1
+* Thu Jan 01 1970 Varnish Software <opensource@varnish-software.com> - %{version}-%{release}
 - Changelog not maintained

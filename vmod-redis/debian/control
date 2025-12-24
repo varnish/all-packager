@@ -1,7 +1,7 @@
 Source: vmod-redis
 Section: net
 Priority: extra
-Maintainer: Kristian Lyngstøl <opensource@varnish-software.com>
+Maintainer: Varnish Software <opensource@varnish-software.com>
 Build-Depends: debhelper (>= 9),
  autoconf-archive,
  redis,

@@ -1,7 +1,7 @@
 Source: vmod-querystring
 Section: net
 Priority: extra
-Maintainer: Dridi Boukelmoune <dridi.boukelmoune@gmail.com>
+Maintainer: Varnish Software <opensource@varnish-software.com>
 Build-Depends: debhelper (>= 9),
  autoconf-archive,
  build-essential,

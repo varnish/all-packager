@@ -1,7 +1,7 @@
 Source: vmod-uuid
 Section: net
 Priority: extra
-Maintainer: Varnish Software <support@varnish-software.com>
+Maintainer: Varnish Software <opensource@varnish-software.com>
 Build-Depends: debhelper (>= 9),
  autoconf-archive,
  build-essential,

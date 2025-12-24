@@ -1,7 +1,7 @@
 Source: vmod-geoip2
 Section: net
 Priority: extra
-Maintainer: Federico G. Schwindt <fgsch@lodoss.net>
+Maintainer: Varnish Software <opensource@varnish-software.com>
 Build-Depends: debhelper (>= 9),
  autoconf-archive,
  build-essential,

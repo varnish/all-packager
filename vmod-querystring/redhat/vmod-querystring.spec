@@ -67,5 +67,5 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Wed Feb 06 2019 Dridi Boukelmoune <dridi.boukelmoune@gmail.com> - @VERSION@-1
+* Thu Jan 01 1970 Varnish Software <opensource@varnish-software.com> - %{version}-%{release}
 - Changelog not maintained
