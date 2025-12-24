@@ -42,6 +42,9 @@ ${PKG_NAME} (${VERSION}) unstable; urgency=low
  -- Varnish Software <opensource@varnish-software.com>
 EOF
 
+cat debian/changelog
+md5sum debian/changelog
+
 echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16
 
