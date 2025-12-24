@@ -57,5 +57,5 @@ cargo test --frozen --release
 
 
 %changelog
-* Thu Jan 01 1970 Varnish Software <opensource@varnish-software.com> - %{version}-%{release}
+* Thu Jan 01 1970 Varnish Software <opensource@varnish-software.com> - 1.0.0
 - This changelog is not in use.
