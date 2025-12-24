@@ -2,14 +2,16 @@ Source: vmod-rers
 Section: net
 Priority: extra
 Maintainer: Varnish Software <opensource@varnish-software.com>
-Build-Depends: debhelper (>= 9),
+Build-Depends:
  build-essential,
- pkg-config,
- python3-docutils,
  cargo,
+ debhelper (>= 9),
+ debhelper-compat (= 11)
+ jq,
  libclang-dev,
  libssl-dev,
- jq,
+ pkg-config,
+ python3-docutils,
  varnish (= @VERSION@),
  varnish-dev (= @VERSION@)
 Standards-Version: 3.9.5

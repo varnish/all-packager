@@ -2,9 +2,11 @@ Source: varnish-modules
 Section: net
 Priority: extra
 Maintainer: Varnish Software <opensource@varnish-software.com>
-Build-Depends: debhelper (>= 9),
+Build-Depends:
  autoconf-archive,
  build-essential,
+ debhelper (>= 9),
+ debhelper-compat (= 11)
  pkg-config,
  python3-docutils,
  varnish (= @VERSION@),

@@ -2,25 +2,14 @@
 
 set -eux
 
-echo "PARAM_RELEASE: $PARAM_RELEASE"
-echo "PARAM_DIST: $PARAM_DIST"
-echo "PARAM_ARCH: $PARAM_ARCH"
-
-if [ -z "$PARAM_RELEASE" ]; then
-    echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=9, for almalinux"
-    exit 1
-elif [ -z "$PARAM_DIST" ]; then
-    echo "Env variable PARAM_DIST is not set! For example PARAM_DIST=fedora"
-    exit 1
-fi
-
-case "$PARAM_DIST:$PARAM_RELEASE" in
-    almalinux:8)
+source /etc/os-release
+case "$PLATFORM_ID" in
+    platform:el8)
         dnf -y install 'dnf-command(config-manager)'
         dnf config-manager --set-enabled powertools
         dnf -y install epel-release
         ;;
-    almalinux:*)
+    platform:el*)
         dnf -y install 'dnf-command(config-manager)'
         dnf config-manager --set-enabled crb
         dnf -y install epel-release
@@ -76,6 +65,5 @@ rpmbuild -bs "$DIST_DIR"/redhat/varnish.spec
 rpmbuild --rebuild "$RESULT_DIR"/varnish-*.src.rpm
 
 echo "Prepare the packages for storage..."
-PDIR=packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 mkdir -p $PDIR
 mv rpms/*/*.rpm $PDIR

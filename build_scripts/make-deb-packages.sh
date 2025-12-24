@@ -7,19 +7,6 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 apt-get update
 apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot
 
-echo "PARAM_RELEASE: $PARAM_RELEASE"
-echo "PARAM_DIST: $PARAM_DIST"
-echo "PARAM_ARCH: $PARAM_ARCH"
-
-
-if [ -z "$PARAM_RELEASE" ]; then
-    echo "Env variable PARAM_RELEASE is not set! For example PARAM_RELEASE=focal for Ubuntu 20.04"
-    exit 1
-elif [ -z "$PARAM_DIST" ]; then
-    echo "Env variable PARAM_DIST is not set! For example PARAM_DIST=debian"
-    exit 1
-fi
-
 # Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
 #    semop(1): encountered an error: Function not implemented
 update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
@@ -39,7 +26,8 @@ if [ -e .is_weekly ]; then
 else
     WEEKLY=
 fi
-VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-1~$PARAM_RELEASE
+source /etc/os-release
+VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-1~$VERSION_CODENAME
 sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
 
 echo "Install Build-Depends packages..."
@@ -49,7 +37,6 @@ echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16
 
 echo "Prepare the packages for storage..."
-PDIR=packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 mkdir -p $PDIR
 mv ../*.deb $PDIR
 

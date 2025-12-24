@@ -2,14 +2,16 @@ Source: vmod-jq
 Section: net
 Priority: extra
 Maintainer: Varnish Software <opensource@varnish-software.com>
-Build-Depends: debhelper (>= 9),
+Build-Depends:
  autoconf-archive,
  build-essential,
+ debhelper (>= 9),
+ debhelper-compat (= 11)
+ libjq-dev
  pkg-config,
  python3-docutils,
  varnish (= @VERSION@),
  varnish-dev (= @VERSION@),
- libjq-dev
 Standards-Version: 3.9.5
 Vcs-Git: git://github.com/otto-de/libvmod-jq.git
 

@@ -7,10 +7,6 @@ PKG_NAME=$(basename $(pwd))
 
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
-echo "PARAM_RELEASE: $PARAM_RELEASE"
-echo "PARAM_DIST: $PARAM_DIST"
-echo "PARAM_ARCH: $PARAM_ARCH"
-PDIR=/packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
 
 find  /deps/ -type f
 apt-get update
