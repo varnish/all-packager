@@ -16,11 +16,6 @@ apt-get install -y python*-docutils
 VERSION="$(dpkg -l varnish | awk '$2 == "varnish" {print $3}')"
 DEB_ORIG=${VARS[${PKG_NAME}_version]}.orig.tar.gz
 
-sed -i -e "s/@VERSION@/$VERSION/" debian/*
-
-echo "Install Build-Depends packages..."
-yes | mk-build-deps --install debian/control || true
-
 # Create build folder and copy debian folder there
 # needed for format v3.0
 mkdir -p ./pkgbuild/distdir/
@@ -42,8 +37,10 @@ ${PKG_NAME} (${VERSION}) unstable; urgency=low
  -- Varnish Software <opensource@varnish-software.com>
 EOF
 
-cat debian/changelog
-md5sum debian/changelog
+sed -i -e "s/@VERSION@/$VERSION/" debian/*
+
+echo "Install Build-Depends packages..."
+yes | mk-build-deps --install debian/control || true
 
 echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16

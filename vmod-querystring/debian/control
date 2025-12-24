@@ -10,7 +10,7 @@ Build-Depends:
  pkg-config,
  python3-docutils,
  varnish (= @VERSION@),
- varnish-dev (= @VERSION@)
+ varnish-dev (= @VERSION@),
 Standards-Version: 3.9.5
 Homepage: git@github.com:Dridi/libvmod-querystring.git
 
