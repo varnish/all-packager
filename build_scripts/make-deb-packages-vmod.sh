@@ -33,7 +33,7 @@ tar xvfz ../$DEB_ORIG --strip 1
 # remove potential debian/ package included in the tarball
 rm -rf debian
 cp -r ../../debian .
-cat << EOF > debian/changlog
+cat << EOF > debian/changelog
 ${PKG_NAME} (${VERSION}) unstable; urgency=low
 
   * Changelog not maintained, please see
