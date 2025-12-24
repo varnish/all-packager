@@ -14,7 +14,7 @@ Vcs-Git: git://github.com/varnish/varnish-modules.git
 
 Package: varnish-modules
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

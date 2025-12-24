@@ -1,6 +1,30 @@
 #!/usr/bin/make -f
 DEB_BUILD_OPTIONS=noddebs
 
+num=\#
+VARNISHD_ABI = $(shell \
+	printf '$(num)include "vcs_version.h"\nVCS_Version\n' | \
+	cpp - -Iinclude | \
+	tail -1 | \
+	tr -d '"')
+
+VARNISHD_VRT = $(shell \
+	printf '$(num)include "vdef.h"\n$(num)include "vrt.h"\n%s.%s\n' \
+		VRT_MAJOR_VERSION VRT_MINOR_VERSION | \
+	cpp - -Iinclude | \
+	tail -1 | \
+	tr -c -d '[0-9.]')
+
+override_dh_gencontrol:
+	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
+	echo "varnishd:VRT=varnishd-vrt (= $(VARNISHD_VRT))" >> debian/substvars
+
+	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
+		dh_gencontrol -- -Tdebian/substvars -v$$DEBIAN_OVERRIDE_BINARY_VERSION; \
+	else \
+		dh_gencontrol -- -Tdebian/substvars; \
+	fi
+
 execute_after_dh_auto_install:
 	sed -i "/^dependency_libs=/s/'.*'/''/" `find debian -name '*.la'`
 

@@ -16,7 +16,7 @@ Homepage: https://github.com/varnishcache-friends/libvmod-geoip2
 
 Package: vmod-geoip2
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

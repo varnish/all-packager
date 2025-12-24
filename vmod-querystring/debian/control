@@ -14,7 +14,7 @@ Homepage: git@github.com:Dridi/libvmod-querystring.git
 
 Package: vmod-querystring
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

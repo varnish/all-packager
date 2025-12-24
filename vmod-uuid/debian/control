@@ -15,7 +15,7 @@ Vcs-Git: git://github.com/otto-de/libvmod-uuid.git
 
 Package: vmod-uuid
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

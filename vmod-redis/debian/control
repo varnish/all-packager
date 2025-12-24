@@ -17,7 +17,7 @@ Homepage: https://github.com/carlosabalde/libvmod-redis/
 
 Package: vmod-redis
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

@@ -17,7 +17,7 @@ Vcs-Git: git@github.com:varnish-rs/vmod-fileserver.git
 
 Package: vmod-fileserver
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},
