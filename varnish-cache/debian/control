@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Varnish Software <opensource@varnish-software.com>
 Build-Depends:
  debhelper (>= 9),
- debhelper-compat (= 11)
+ debhelper-compat (= 11),
  dh-systemd,
  libedit-dev,
  libjemalloc-dev,

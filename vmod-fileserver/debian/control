@@ -6,7 +6,7 @@ Build-Depends:
  build-essential,
  cargo,
  debhelper (>= 9),
- debhelper-compat (= 11)
+ debhelper-compat (= 11),
  jq,
  libclang-dev,
  libssl-dev,

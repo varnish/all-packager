@@ -6,7 +6,7 @@ Build-Depends:
  autoconf-archive,
  build-essential,
  debhelper (>= 9),
- debhelper-compat (= 11)
+ debhelper-compat (= 11),
  libev-dev,
  libhiredis-dev,
  pkg-config,
