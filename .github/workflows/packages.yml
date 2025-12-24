@@ -134,8 +134,6 @@ jobs:
           PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
           EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
 
-          ( cd $PACKAGE/; tar cvzf ../debian.tar.gz debian --dereference ; )
-          ( cd $PACKAGE/; tar cvzf ../redhat.tar.gz redhat --dereference ; )
           cp pkg.env $PACKAGE/
 
           docker run \

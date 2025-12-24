@@ -18,10 +18,6 @@ DEB_ORIG=${VARS[${PKG_NAME}_version]}.orig.tar.gz
 
 sed -i -e "s/@VERSION@/$VERSION/" debian/*
 
-# Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
-#    semop(1): encountered an error: Function not implemented
-update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
-
 echo "Install Build-Depends packages..."
 yes | mk-build-deps --install debian/control || true
 
@@ -36,8 +32,15 @@ curl -L "${VARS[${PKG_NAME}_source]}" -o ../$DEB_ORIG
 tar xvfz ../$DEB_ORIG --strip 1
 # remove potential debian/ package included in the tarball
 rm -rf debian
-
 cp -r ../../debian .
+cat << EOF > debian/changlog
+${PKG_NAME} (${VERSION}) unstable; urgency=low
+
+  * Changelog not maintained, please see
+    https://github.com/varnish/all-packager/releases/tag/v${VERSION}
+
+ -- Varnish Software <opensource@varnish-software.com>
+EOF
 
 echo "Build the packages..."
 dpkg-buildpackage -us -uc -j16
