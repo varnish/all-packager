@@ -138,11 +138,11 @@ jobs:
 
           docker run \
             --rm \
-            -e PDIR=packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
+            -e PDIR=/new_packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
             --workdir /workdir/$PACKAGE \
             -v$(pwd):/workdir \
             -v$(pwd)/packages:/deps \
-            -v$(pwd)/new_packages:/packages \
+            -v/new_packages:/new_packages \
             $PARAM_DIST:$PARAM_RELEASE \
             /workdir/build_scripts/make-$EXT-packages-vmod.sh
           tree new_packages
