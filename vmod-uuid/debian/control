@@ -1,21 +1,23 @@
 Source: vmod-uuid
 Section: net
 Priority: extra
-Maintainer: Varnish Software <support@varnish-software.com>
-Build-Depends: debhelper (>= 9),
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
  autoconf-archive,
  build-essential,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
+ libossp-uuid-dev,
  pkg-config,
  python3-docutils,
  varnish (= @VERSION@),
  varnish-dev (= @VERSION@),
- libossp-uuid-dev
 Standards-Version: 3.9.5
 Vcs-Git: git://github.com/otto-de/libvmod-uuid.git
 
 Package: vmod-uuid
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

@@ -57,9 +57,7 @@ jobs:
           docker run \
             --rm \
             --security-opt seccomp=unconfined \
-            -e PARAM_ARCH=$PARAM_ARCH \
-            -e PARAM_DIST=$PARAM_DIST \
-            -e PARAM_RELEASE=$PARAM_RELEASE \
+            -e PDIR=packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
             -v $(pwd):/varnish-cache \
             $PARAM_DIST:$PARAM_RELEASE \
             /varnish-cache/build_scripts/make-$EXT-packages.sh
@@ -136,18 +134,18 @@ jobs:
           PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
           EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
 
-          ( cd $PACKAGE/; tar cvzf ../debian.tar.gz debian --dereference ; )
-          ( cd $PACKAGE/; tar cvzf ../redhat.tar.gz redhat --dereference ; )
+          cp pkg.env $PACKAGE/
+
+          PDIR=new_packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
+          mkdir -p $PDIR
 
           docker run \
             --rm \
-            -e PARAM_ARCH=$PARAM_ARCH \
-            -e PARAM_DIST=$PARAM_DIST\
-            -e PARAM_RELEASE=$PARAM_RELEASE \
+            -e PDIR=/$PDIR \
             --workdir /workdir/$PACKAGE \
             -v$(pwd):/workdir \
             -v$(pwd)/packages:/deps \
-            -v$(pwd)/new_packages:/packages \
+            -v$(pwd)/new_packages:/new_packages \
             $PARAM_DIST:$PARAM_RELEASE \
             /workdir/build_scripts/make-$EXT-packages-vmod.sh
           tree new_packages

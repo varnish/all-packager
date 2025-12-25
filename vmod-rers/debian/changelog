@@ -1,6 +1,0 @@
-vmod-rers (@VERSION@) unstable; urgency=low
-
-  * Changelog not maintained, please see
-    https://github.com/varnish/all-packager/releases/tag/v@VERSION@
-
- -- Varnish Software <opensource@varnish-software.com>

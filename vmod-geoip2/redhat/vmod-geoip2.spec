@@ -70,5 +70,5 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} ';'
 
 
 %changelog
-* Tue May 30 2023 Federico G. Schwindt <fgsch@lodoss.net> - @VERSION@-1
+* Mon Dec 01 2025 Varnish Software <opensource@varnish-software.com> - 1.0.0
 - Changelog not maintained

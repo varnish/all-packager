@@ -81,5 +81,5 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 
 %changelog
-* Thu Jul 24 2014 Varnish Software <opensource@varnish-software.com> - 3.0.0-1
+* Mon Dec 01 2025 Varnish Software <opensource@varnish-software.com> - 1.0.0
 - This changelog is not in use.

@@ -1,10 +1,12 @@
 Source: varnish-modules
 Section: net
 Priority: extra
-Maintainer: Varnish Software <support@varnish-software.com>
-Build-Depends: debhelper (>= 9),
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
  autoconf-archive,
  build-essential,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
  pkg-config,
  python3-docutils,
  varnish (= @VERSION@),
@@ -14,7 +16,7 @@ Vcs-Git: git://github.com/varnish/varnish-modules.git
 
 Package: varnish-modules
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

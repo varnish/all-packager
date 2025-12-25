@@ -1,6 +1,0 @@
-vmod-cfg (@VERSION@) UNRELEASED; urgency=medium
-
-  * Changelog not maintained, please see
-    https://github.com/varnish/all-packager/releases/tag/v@VERSION@
-
- -- Varnish Software <opensource@varnish-software.com>

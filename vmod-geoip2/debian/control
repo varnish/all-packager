@@ -1,14 +1,16 @@
 Source: vmod-geoip2
 Section: net
 Priority: extra
-Maintainer: Federico G. Schwindt <fgsch@lodoss.net>
-Build-Depends: debhelper (>= 9),
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
  autoconf-archive,
  build-essential,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
+ libmaxminddb-dev,
+ libmaxminddb0,
  pkg-config,
  python3-docutils,
- libmaxminddb0,
- libmaxminddb-dev,
  varnish (= @VERSION@),
  varnish-dev (= @VERSION@)
 Standards-Version: 1.3.0
@@ -16,7 +18,7 @@ Homepage: https://github.com/varnishcache-friends/libvmod-geoip2
 
 Package: vmod-geoip2
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},

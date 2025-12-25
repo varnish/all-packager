@@ -1,15 +1,17 @@
 Source: vmod-redis
 Section: net
 Priority: extra
-Maintainer: Kristian Lyngstøl <opensource@varnish-software.com>
-Build-Depends: debhelper (>= 9),
+Maintainer: Varnish Software <opensource@varnish-software.com>
+Build-Depends:
  autoconf-archive,
- redis,
  build-essential,
- pkg-config,
- python3-docutils,
+ debhelper (>= 9),
+ debhelper-compat (= 11),
  libev-dev,
  libhiredis-dev,
+ pkg-config,
+ python3-docutils,
+ redis,
  varnish (= @VERSION@),
  varnish-dev (= @VERSION@)
 Standards-Version: 1.0.3
@@ -17,7 +19,7 @@ Homepage: https://github.com/carlosabalde/libvmod-redis/
 
 Package: vmod-redis
 Architecture: any
-Depends: varnish (= @VERSION@),
+Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  ${Varnish:ABI},
