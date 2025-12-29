@@ -21,6 +21,7 @@ dnf -y install rpm-build dnf-utils
 export DIST_DIR=build
 
 cd /varnish-cache
+source ./pkg.env
 rm -rf $DIST_DIR
 mkdir $DIST_DIR
 
@@ -54,7 +55,7 @@ rpmbuild() {
         --define "_srcrpmdir $CUR_DIR/${RESULT_DIR}" \
         --define "_rpmdir $CUR_DIR/${RESULT_DIR}" \
         --define "versiontag ${RPMVERSION}" \
-        --define "releasetag 1" \
+        --define "releasetag ${package_release}" \
         --define "srcname $DIST_DIR" \
         --define "nocheck 1" \
         "$@"

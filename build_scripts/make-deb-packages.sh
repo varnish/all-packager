@@ -27,7 +27,8 @@ else
     WEEKLY=
 fi
 source /etc/os-release
-VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-1~$VERSION_CODENAME
+source ./pkg.env
+VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-${package_release}~$VERSION_CODENAME
 sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
 
 echo "Install Build-Depends packages..."
