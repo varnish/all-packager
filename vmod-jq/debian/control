@@ -13,7 +13,7 @@ Build-Depends:
  varnish (= @VERSION@),
  varnish-dev (= @VERSION@),
 Standards-Version: 3.9.5
-Vcs-Git: git://github.com/otto-de/libvmod-jq.git
+Vcs-Git: git://github.com/varnishcache-friends/libvmod-jq.git
 
 Package: vmod-jq
 Architecture: any
