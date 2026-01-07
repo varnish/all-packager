@@ -20,13 +20,9 @@ override_dh_auto_test:
 %:
 	dh $@
 
-num=\#
-VARNISHD_ABI = $(shell \
-	printf '$(num)include "vcs_version.h"\nVCS_Version\n' | \
-	cpp - -Iinclude | \
-	tail -1 | \
-	tr -d '"')
+VARNISHD_ABI = $(shell varnishd -V 2>&1| awk -F ' |\)' '$0 ~ "revision" {print $4}')
 
+num=\#
 VARNISHD_VRT = $(shell \
 	printf '$(num)include "vdef.h"\n$(num)include "vrt.h"\n%s.%s\n' \
 		VRT_MAJOR_VERSION VRT_MINOR_VERSION | \
