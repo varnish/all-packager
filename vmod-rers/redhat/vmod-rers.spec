@@ -1,34 +1,23 @@
-# from https://src.fedoraproject.org/rpms/vmod-rers/raw/rawhide/f/vmod-rers.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-%global docutils python3-docutils
-%global rst2man rst2man
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
 Name:    vmod-rers
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version: %{varnishver}
-Release: %(source ../pkg.env && echo ${package_release})%{?dist}
+Version: %{versiontag}
+Release: %{releasetag}%{?dist}
 Summary: TODO: summary
 
 License: BSD 3-Clause License
 URL:     https://github.com/varnish-rs/vmod-rers
-Source:  %(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source:  %{srcurl}
 
-BuildRequires: openssl-devel
-BuildRequires: jq
-BuildRequires: cargo
-BuildRequires: clang-devel
-BuildRequires: varnish
-BuildRequires: %docutils
+BuildRequires: 	openssl-devel
+BuildRequires: 	jq
+BuildRequires: 	cargo
+BuildRequires: 	clang-devel
+BuildRequires:  varnish-devel = %{version}-%{release}
 
-Requires: varnish = %varnishver
+Requires: 	varnish = %{version}-%{release}
 
 %description
 TODO: description
+
 
 %prep
 %autosetup -n %{name}-%{srcversion} 

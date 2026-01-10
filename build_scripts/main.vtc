@@ -1,0 +1,31 @@
+varnishtest "Make sure most vmods load"
+
+varnish v1 -vcl {
+	vcl 4.1;
+
+	import fileserver;
+	import jq;
+	import querystring;
+	import redis;
+	import reqwest;
+	import rers;
+	import uuid;
+	import geoip2;
+
+	# varnish-modules
+	import accept;
+	import bodyaccess;
+	import header;
+	import saintmode;
+	import str;
+	import tcp;
+	import var;
+	import vsthrottle;
+	import xkey;
+
+	backend default none;
+
+	sub vcl_init {
+		new re_cache = rers.init(100);
+	}
+} -start

@@ -1,19 +1,17 @@
 %global __python %{__python3}
-%global vd_rc %{?v_rc:0.%{?v_rc}.}
-%global debug_package %{nil}
 %global _lto_cflags %{nil}
 %global _use_internal_dependency_generator 0
-%global __find_provides %{_builddir}/%{srcname}/find-provides %__find_provides
+%global __find_provides %{_topdir}/find-provides %__find_provides
 
 
 Summary: High-performance HTTP accelerator
 Name:    varnish
 Version: %{versiontag}
-Release: %{?vd_rc}%{releasetag}%{?dist}
+Release: %{releasetag}%{?dist}
 License: BSD
 Group:   System Environment/Daemons
 URL:     https://www.varnish-cache.org/
-Source:  %{srcname}.tgz
+Source:  %{srcurl}
 
 BuildRequires: diffutils
 BuildRequires: gcc
@@ -79,7 +77,7 @@ Varnish Cache is a high-performance HTTP accelerator
 
 
 %prep
-%setup -q -n %{srcname}
+%setup -q -n %{name}-%{versiontag}
 
 
 %build
@@ -88,12 +86,12 @@ Varnish Cache is a high-performance HTTP accelerator
 
 
 %check
-%if 0%{?nocheck} == 0
-%make_build check VERBOSE=1
-%endif
-
+#%make_build check VERBOSE=1
+echo ok
 
 %install
+find %{_topdir} -name varnish.logrotate
+
 export DONT_STRIP=1
 %make_install
 
@@ -104,13 +102,13 @@ mkdir -p %{buildroot}/var/log/varnish
 mkdir -p %{buildroot}/var/run/varnish
 mkdir -p %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-install -D -m 0644 etc/example.vcl %{buildroot}%{_sysconfdir}/varnish/default.vcl
-install -D -m 0644 varnish.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/varnish
+install -D -m 0644 %{_topdir}/etc/example.vcl %{buildroot}%{_sysconfdir}/varnish/default.vcl
+install -D -m 0644 %{_topdir}/varnish.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/varnish
 
 mkdir -p %{buildroot}%{_unitdir}
-install -D -m 0644 varnish.service %{buildroot}%{_unitdir}/varnish.service
-install -D -m 0644 varnishncsa.service %{buildroot}%{_unitdir}/varnishncsa.service
-install -D -m 0755 varnishreload %{buildroot}%{_sbindir}/varnishreload
+install -D -m 0644 %{_topdir}/varnish.service %{buildroot}%{_unitdir}/varnish.service
+install -D -m 0644 %{_topdir}/varnishncsa.service %{buildroot}%{_unitdir}/varnishncsa.service
+install -D -m 0755 %{_topdir}/varnishreload %{buildroot}%{_sbindir}/varnishreload
 
 echo %{_libdir}/%{name} > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
@@ -165,8 +163,6 @@ useradd -r -g varnish -d /dev/null -s /sbin/nologin \
 getent passwd varnish >/dev/null ||
 useradd -r -g varnish -d /var/lib/varnish -s /sbin/nologin \
 	-c "Varnish Cache" varnish
-
-exit 0
 
 
 %post

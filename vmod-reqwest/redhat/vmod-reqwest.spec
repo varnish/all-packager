@@ -1,32 +1,20 @@
-# from https://src.fedoraproject.org/rpms/vmod-reqwest/raw/rawhide/f/vmod-reqwest.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-%global docutils python3-docutils
-%global rst2man rst2man
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
 Name:    vmod-reqwest
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version: %{varnishver}
-Release: %(source ../pkg.env && echo ${package_release})%{?dist}
+Version: %{versiontag}
+Release: %{releasetag}%{?dist}
 Summary: Use dynamic vmods and HTTP request inside Varnish
 
 License: BSD-3-Clause
 URL:     https://github.com/varnish-rs/vmod-reqwest
-Source:  %(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source:  %{srcurl}
 
 
-BuildRequires: openssl-devel
-BuildRequires: jq
-BuildRequires: cargo
-BuildRequires: clang-devel
-BuildRequires: varnish
-BuildRequires: %docutils
+BuildRequires:  openssl-devel
+BuildRequires:  jq
+BuildRequires:  cargo
+BuildRequires:  clang-devel
+BuildRequires:  varnish-devel = %{version}-%{release}
 
-Requires: varnish = %varnishver
+Requires: 	varnish = %{version}-%{release}
 
 %description
 TODO: description
@@ -38,7 +26,6 @@ cargo fetch --locked
 
 
 %build
-
 cargo build --frozen --release -j12
 
 

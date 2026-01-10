@@ -10,16 +10,17 @@ Build-Depends:
  libmhash-dev,
  pkg-config,
  python3-docutils,
- varnish (= @VERSION@),
- varnish-dev (= @VERSION@)
+ varnish,
+ varnish-dev,
 Standards-Version: 1.0.3
 Homepage: https://github.com/varnish/libvmod-digest/tree/master
 
 Package: vmod-digest
 Architecture: any
 Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI},
 Description: Varnish Module (vmod) for computing HMAC, message digests and working with base64.
  All HMAC- and hash-functionality is provided by libmhash, while base64 is implemented locally.

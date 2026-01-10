@@ -9,17 +9,18 @@ Build-Depends:
  debhelper-compat (= 11),
  pkg-config,
  python3-docutils,
- varnish (= @VERSION@),
- varnish-dev (= @VERSION@),
+ varnish,
+ varnish-dev,
 Standards-Version: 3.9.5
 Homepage: git@github.com:Dridi/libvmod-querystring.git
 
 Package: vmod-querystring
 Architecture: any
 Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI},
 Description: QueryString module for Varnish Cache
  The purpose of this module is to give you a fine-grained control over a URL's
  query-string in Varnish Cache. It's possible to remove the query-string, clean

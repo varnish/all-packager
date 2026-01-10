@@ -2,69 +2,67 @@
 
 set -eux
 
+source ./pkg.env
 source /etc/os-release
+PKG_NAME=$(basename $(pwd))
+if [ "`uname -m`" = "x86_64" ]; then
+	ARCH="amd64"
+else
+	ARCH="arm64"
+fi
+PDIR="$PDIR/${ID/amzn/amazonlinux}/${VERSION_ID%.*}/${ARCH}"
+
+cd redhat
+sed -i -e '' *
+dnf -y install findutils 'dnf-command(config-manager)'
+EXTRA_REPO=
 case "$PLATFORM_ID" in
     platform:el8)
-        dnf -y install 'dnf-command(config-manager)'
-        dnf config-manager --set-enabled powertools
-        dnf -y install epel-release
+	EXTRA_REPO=powertools
+	dnf -y install epel-release
         ;;
     platform:el*)
-        dnf -y install 'dnf-command(config-manager)'
-        dnf config-manager --set-enabled crb
-        dnf -y install epel-release
+	EXTRA_REPO=crb
+	dnf -y install epel-release
         ;;
 esac
 
-dnf -y install rpm-build dnf-utils
+dnf config-manager --set-enabled $EXTRA_REPO
+dnf -y install \
+	dnf-utils \
+	rpm-build \
+	$(test -d /deps/ && find /deps/ -name '*.rpm')
 
-export DIST_DIR=build
-
-cd /varnish-cache
-source ./pkg.env
-rm -rf $DIST_DIR
-mkdir $DIST_DIR
-
-
-echo "Untar redhat..."
-tar xavf redhat.tar.gz -C $DIST_DIR
-
-echo "Untar orig..."
-tar xavf varnish-*.tgz -C $DIST_DIR --strip 1
-
-echo "Build Packages..."
-if [ -e .is_weekly ]; then
-    WEEKLY='.weekly'
+# Update changelog version
+if [ "$PKG_NAME" == "varnish" ]; then
+	if [ -e .is_weekly ]; then
+		WEEKLY='.weekly'
+	else
+		WEEKLY=
+	fi
+	curl -L "${VARS[${PKG_NAME}_source]}" | tar xvfz - --strip 1
+	VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY
 else
-    WEEKLY=
+	VERSION="$(pkg-config --silence-errors --modversion varnishapi)"
 fi
-VERSION=$("$DIST_DIR"/configure --version | awk 'NR == 1 {print $NF}')$WEEKLY
 
-cp -r -L "$DIST_DIR"/redhat/* "$DIST_DIR"/
-tar zcf "$DIST_DIR.tgz" --exclude "$DIST_DIR/redhat" "$DIST_DIR"/
-
-RPMVERSION="$VERSION"
-
-RESULT_DIR="rpms"
-CUR_DIR="$(pwd)"
-
-rpmbuild() {
-    command rpmbuild \
+mkdir -p SOURCES/
+dnf builddep \
+	-D "versiontag ${VERSION}" \
+	-D "releasetag ${package_release}"\
+	-y *.spec
+rpmbuild -bb \
+	--undefine=_disable_source_fetch \
+	--undefine=_debugsource_template \
+	--define "debug_package %{nil}" \
+	--define "_topdir $(pwd)" \
         --define "_smp_mflags -j10" \
-        --define "_sourcedir $CUR_DIR" \
-        --define "_srcrpmdir $CUR_DIR/${RESULT_DIR}" \
-        --define "_rpmdir $CUR_DIR/${RESULT_DIR}" \
-        --define "versiontag ${RPMVERSION}" \
+        --define "versiontag ${VERSION}" \
         --define "releasetag ${package_release}" \
-        --define "srcname $DIST_DIR" \
-        --define "nocheck 1" \
-        "$@"
-}
+        --define "srcurl ${VARS[${PKG_NAME}_source]}" \
+        --define "srcversion ${VARS[${PKG_NAME}_version]}" \
+	*.spec
 
-dnf builddep -y "$DIST_DIR"/redhat/varnish.spec
-rpmbuild -bs "$DIST_DIR"/redhat/varnish.spec
-rpmbuild --rebuild "$RESULT_DIR"/varnish-*.src.rpm
-
-echo "Prepare the packages for storage..."
-mkdir -p $PDIR
-mv rpms/*/*.rpm $PDIR
+# Prepare the packages for storage
+mkdir -p "$PDIR"
+mv RPMS/*/*.rpm $PDIR

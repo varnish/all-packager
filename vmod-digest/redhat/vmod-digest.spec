@@ -1,44 +1,28 @@
-# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
-%global docutils python3-docutils
-%global rst2man rst2man
-
 Name:           vmod-digest
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version: 	%{varnishver}
-Release:        %(source ../pkg.env && echo ${package_release})%{?dist}
+Version: 	%{versiontag}
+Release:        %{releasetag}%{?dist}
 Group:          System Environment/Libraries
 Summary:        Varnish Module (vmod) for computing HMAC, message digests and working with base64.
 URL:            https://github.com/varnish/libvmod-digest
 License:        BSD-2-Clause
-Source:         %(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source:         %{srcurl}
 
 
-BuildRequires: gcc
-BuildRequires: make
-BuildRequires: varnish
-BuildRequires: mhash-devel
+BuildRequires:	gcc
+BuildRequires:	make
+BuildRequires:	mhash-devel
+BuildRequires:	varnish-devel = %{version}-%{release}
 
 # Build from a git checkout
-BuildRequires: automake
-BuildRequires: autoconf
-BuildRequires: libtool
-BuildRequires: %docutils
-BuildRequires: autoconf-archive
+BuildRequires:	automake
+BuildRequires:	autoconf
+BuildRequires:	libtool
+BuildRequires:	python3-docutils
+BuildRequires:	autoconf-archive
 
 BuildRequires:  pkgconfig(varnishapi) >= 6
 
-# varnish-devel may not require Python or Varnish as it should
-BuildRequires:  varnish >= 6.0.6
-BuildRequires:  python(abi) >= 3.4
-
-Requires:       varnish >= %(varnishd -V 2>&1 | awk -F '[- ]' '{print $3; exit}')
-
+Requires:	varnish = %{version}-%{release}
 
 %description
 Varnish Module (vmod) for computing HMAC, message digests and working with base64.
@@ -50,7 +34,6 @@ All HMAC- and hash-functionality is provided by libmhash, while base64 is implem
 
 
 %build
-export RST2MAN=%{rst2man}
 ./autogen.sh
 %configure CFLAGS="%{optflags}"
 %make_build
