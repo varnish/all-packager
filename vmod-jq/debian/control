@@ -10,17 +10,18 @@ Build-Depends:
  libjq-dev,
  pkg-config,
  python3-docutils,
- varnish (= @VERSION@),
- varnish-dev (= @VERSION@),
+ varnish,
+ varnish-dev,
 Standards-Version: 3.9.5
 Vcs-Git: git://github.com/varnishcache-friends/libvmod-jq.git
 
 Package: vmod-jq
 Architecture: any
 Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI},
 Description: Varnish module collection by Varnish Software
  This is a collection of modules ("vmods") extending Varnish VCL used for
  describing HTTP request/response policies with additional capabilities.

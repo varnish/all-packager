@@ -30,13 +30,6 @@ VARNISHD_ABI = $(shell \
 	tail -1 | \
 	tr -d '"')
 
-VARNISHD_VRT = $(shell \
-	printf '$(num)include "vdef.h"\n$(num)include "vrt.h"\n%s.%s\n' \
-		VRT_MAJOR_VERSION VRT_MINOR_VERSION | \
-	cpp - -Iinclude | \
-	tail -1 | \
-	tr -c -d '[0-9.]')
-
 # Main build rule, leave everything to debhelper
 %:
 	dh $@ --parallel
@@ -62,6 +55,7 @@ override_dh_auto_install:
 
 override_dh_install-arch:
 	dh_install -a --fail-missing
+	find $(CURDIR)/debian -type f
 	@ # Override to add the "varnishreload" script
 	install -o root -g root -m 755 \
 		$(CURDIR)/debian/varnishreload \
@@ -75,13 +69,7 @@ override_dh_installdocs:
 
 override_dh_gencontrol:
 	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
-	echo "varnishd:VRT=varnishd-vrt (= $(VARNISHD_VRT))" >> debian/substvars
-
-	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
- 		dh_gencontrol -- -Tdebian/substvars -v$$DEBIAN_OVERRIDE_BINARY_VERSION; \
-	else \
-		dh_gencontrol -- -Tdebian/substvars; \
-	fi
+	dh_gencontrol -- -Tdebian/substvars; \
 
 
 override_dh_installsystemd:

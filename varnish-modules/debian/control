@@ -9,17 +9,18 @@ Build-Depends:
  debhelper-compat (= 11),
  pkg-config,
  python3-docutils,
- varnish (= @VERSION@),
- varnish-dev (= @VERSION@)
+ varnish,
+ varnish-dev,
 Standards-Version: 3.9.5
 Vcs-Git: git://github.com/varnish/varnish-modules.git
 
 Package: varnish-modules
 Architecture: any
 Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI},
 Description: Varnish module collection by Varnish Software
  This is a collection of modules ("vmods") extending Varnish VCL used for
  describing HTTP request/response policies with additional capabilities.
@@ -29,4 +30,4 @@ Description: Varnish module collection by Varnish Software
  headers modification, advanced cache invalidations, and more.
  .
  Included vmods:
- cookie, vsthrottle, header, saintmode, softpurge, tcp, var, xkey, bodyaccess
+ vsthrottle, header, saintmode, softpurge, tcp, var, xkey, bodyaccess

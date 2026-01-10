@@ -1,34 +1,23 @@
-# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
-%global docutils python3-docutils
-%global rst2man rst2man
-
 Name:           vmod-redis
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version:	%{varnishver}
-Release:        %(source ../pkg.env && echo ${package_release})%{?dist}
+Version:	%{versiontag}
+Release:        %{releasetag}%{?dist}
 Group:          System Environment/Libraries
 Summary:        VMOD using the synchronous hiredis library API to access Redis servers from VCL
 URL:            https://github.com/varnish/libvmod-redis
 License:        BSD-2-Clause
-Source:         %(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source:         %{srcurl}
 
 
 BuildRequires: gcc
 BuildRequires: make
-BuildRequires: varnish-devel = %{varnishver}
+BuildRequires: varnish-devel = %{version}-%{release}
 BuildRequires: hiredis-devel
 
 # Build from a git checkout
 BuildRequires: automake
 BuildRequires: autoconf
 BuildRequires: libtool
-BuildRequires: %docutils
+BuildRequires: python3-docutils
 BuildRequires: autoconf-archive
 BuildRequires: libev-devel
 %if 0%{?rhel} >= 10 || 0%{?amzn} >= 2023
@@ -39,10 +28,7 @@ BuildRequires: redis
 
 BuildRequires:  pkgconfig(varnishapi) >= 6
 
-# varnish-devel may not require Python or Varnish as it should
-BuildRequires:  python(abi) >= 3.4
-
-Requires:       varnish = %{varnishver}
+Requires:	varnish = %{version}-%{release}
 Requires: 	hiredis
 Requires: 	libev
 
@@ -50,12 +36,12 @@ Requires: 	libev
 %description
 TODO: description
 
+
 %prep
 %setup -q -n lib%{name}-%{srcversion}
 
 
 %build
-export RST2MAN=%{rst2man}
 ./autogen.sh
 %configure CFLAGS="%{optflags}" --disable-tls
 %make_build

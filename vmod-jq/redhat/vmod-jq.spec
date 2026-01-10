@@ -1,38 +1,27 @@
-# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
-%global docutils python3-docutils
-%global rst2man rst2man
-
 Name:    vmod-jq
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version: %{varnishver}
-Release: %(source ../pkg.env && echo ${package_release})%{?dist}
+Version: %{versiontag}
+Release: %{releasetag}%{?dist}
 Summary: Use jq programs from VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/varnishcache-friends/libvmod-jq
-Source:  %(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source:  %{srcurl}
 
-BuildRequires: gcc
-BuildRequires: make
-BuildRequires: pkgconfig(varnishapi)
-BuildRequires: varnish
-BuildRequires: jq-devel
+BuildRequires: 	gcc
+BuildRequires: 	make
+BuildRequires: 	pkgconfig(varnishapi)
+BuildRequires:	varnish-devel = %{version}-%{release}
+BuildRequires: 	jq-devel
 
 # Build from a git checkout
-BuildRequires: automake
-BuildRequires: autoconf
-BuildRequires: libtool
-BuildRequires: %docutils
-BuildRequires: autoconf-archive
+BuildRequires: 	automake
+BuildRequires: 	autoconf
+BuildRequires: 	libtool
+BuildRequires: 	python3-docutils
+BuildRequires: 	autoconf-archive
 
-Requires: varnish = %varnishver
-Requires: jq
+Requires:	varnish = %{version}-%{release}
+Requires: 	jq
 
 %description
 TODO: description
@@ -43,7 +32,6 @@ TODO: description
 
 %build
 #sh bootstrap
-export RST2MAN=%{rst2man}
 ./autogen.sh
 %configure 
 %make_build
@@ -55,10 +43,6 @@ find %{buildroot}/%{_libdir}/ -name '*.la' -exec rm -f {} ';'
 
 
 %check
-%ifarch %ix86 %arm ppc
-# 64-bit specific test
-sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
-%endif
 %make_build check VERBOSE=1
 
 

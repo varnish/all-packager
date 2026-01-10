@@ -2,6 +2,16 @@
 DEB_BUILD_OPTIONS=noddebs
 
 CARGO=~/.cargo/bin/cargo
+
+%:
+	dh $@ --parallel
+
+VARNISHD_ABI = $(shell varnishd -V 2>&1 | sed -En 's/.*revision ([0-9a-f]*).*/\1/p')
+
+override_dh_gencontrol:
+	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
+	dh_gencontrol -- -Tdebian/substvars
+
 override_dh_auto_configure:
 	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
 	${CARGO} fetch --locked
@@ -15,27 +25,3 @@ override_dh_auto_install:
 override_dh_auto_test:
 	# VARNISHTEST_DURATION=20s is needed because some test may go slightly over the 5s timeout
 	# export RUST_BACKTRACE=1; export VARNISHTEST_DURATION=20s; ${CARGO} test --frozen --release
-	true
-
-%:
-	dh $@
-
-VARNISHD_ABI = $(shell varnishd -V 2>&1| awk -F ' |\)' '$0 ~ "revision" {print $4}')
-
-num=\#
-VARNISHD_VRT = $(shell \
-	printf '$(num)include "vdef.h"\n$(num)include "vrt.h"\n%s.%s\n' \
-		VRT_MAJOR_VERSION VRT_MINOR_VERSION | \
-	cpp - -Iinclude | \
-	tail -1 | \
-	tr -c -d '[0-9.]')
-
-override_dh_gencontrol:
-	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
-	echo "varnishd:VRT=varnishd-vrt (= $(VARNISHD_VRT))" >> debian/substvars
-
-	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
-		dh_gencontrol -- -Tdebian/substvars -v$$DEBIAN_OVERRIDE_BINARY_VERSION; \
-	else \
-		dh_gencontrol -- -Tdebian/substvars; \
-	fi

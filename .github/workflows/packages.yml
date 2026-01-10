@@ -30,39 +30,26 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
-        with:
-          submodules: true
-
-      - name: Download Varnish
-        run: |
-          source pkg.env
-          curl -LO https://varnish-cache.org/downloads/varnish-${varnish_version}.tgz
 
       - name: Build Varnish packages
         run: |
-          ( cd varnish-cache/; tar cvzf ../debian.tar.gz debian --dereference ; )
-          ( cd varnish-cache/; tar cvzf ../redhat.tar.gz redhat --dereference ; )
-
-          mkdir -p packages
-
-          if [ -z "${{ matrix.arch }}" ]; then
-            PARAM_ARCH=x86_64
-          else
-            PARAM_ARCH=aarch64
-          fi
+          ulimit -n 2048
           PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
           PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
           EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
 
+          cp pkg.env varnish/
+
           docker run \
             --rm \
             --security-opt seccomp=unconfined \
-            -e PDIR=packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH \
-            -v $(pwd):/varnish-cache \
+            --workdir /workdir/varnish \
+            -v$(pwd):/workdir \
+            -e PDIR=/workdir/packages/ \
             $PARAM_DIST:$PARAM_RELEASE \
-            /varnish-cache/build_scripts/make-$EXT-packages.sh
+            /workdir/build_scripts/make-$EXT-packages.sh
 
-          ls packages/*/*/
+          tree packages
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -109,6 +96,8 @@ jobs:
             package: vmod-digest
           - target: amazonlinux-2023-rpm
             package: vmod-digest
+          - arch: "-arm"
+            package: vmod-cfg
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -123,31 +112,25 @@ jobs:
 
       - name: Build
         run: |
+          ulimit -n 2048
           tree $(pwd)/packages
           PACKAGE=${{ matrix.package }}
-          if [ -z "${{ matrix.arch }}" ]; then
-            PARAM_ARCH=x86_64
-          else
-            PARAM_ARCH=aarch64
-          fi
           PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
           PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
           EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
 
           cp pkg.env $PACKAGE/
 
-          PDIR=new_packages/$PARAM_DIST/$PARAM_RELEASE/$PARAM_ARCH
-          mkdir -p $PDIR
-
           docker run \
             --rm \
-            -e PDIR=/$PDIR \
+            -e PDIR=/new_packages/ \
             --workdir /workdir/$PACKAGE \
             -v$(pwd):/workdir \
             -v$(pwd)/packages:/deps \
             -v$(pwd)/new_packages:/new_packages \
             $PARAM_DIST:$PARAM_RELEASE \
-            /workdir/build_scripts/make-$EXT-packages-vmod.sh
+            /workdir/build_scripts/make-$EXT-packages.sh
+        
           tree new_packages
 
       - name: Upload artifacts
@@ -212,3 +195,55 @@ jobs:
         with:
           name: signed-packages
           path: all-packages/
+
+  test_all_packages:
+    name: Load all packages
+    needs: collect_all_packages
+    runs-on: ubuntu-24.04${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - ""
+          - "-arm"
+        target:
+          - debian-bullseye-deb
+          - debian-bookworm-deb
+          - debian-trixie-deb
+          - ubuntu-jammy-deb
+          - ubuntu-noble-deb
+          - ubuntu-plucky-deb
+          - almalinux-8-rpm
+          - almalinux-9-rpm
+          - almalinux-10-rpm
+          - amazonlinux-2023-rpm
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: signed-packages
+
+      - name: Run varnishtest
+        run: |
+          set -x
+
+          ulimit -n 2048
+          PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
+          PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
+
+          if [ -z "${{ matrix.arch }}" ]; then
+              PKG_DIR=$(pwd)/$PARAM_DIST/$PARAM_RELEASE/amd64
+          else
+              PKG_DIR=$(pwd)/$PARAM_DIST/$PARAM_RELEASE/arm64
+          fi
+
+          docker run \
+            --rm \
+            -w /workdir \
+            -v $PKG_DIR:/workdir \
+            -v $(pwd)/build_scripts:/workdir/build_scripts/ \
+            $PARAM_DIST:$PARAM_RELEASE \
+            //workdir/build_scripts/test-packages.sh

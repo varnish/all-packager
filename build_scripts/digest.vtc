@@ -1,0 +1,8 @@
+varnishtest "Make sure digest"
+
+varnish v1 -vcl {
+	vcl 4.1;
+
+	import digest;
+	backend default none;
+} -start

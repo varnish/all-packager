@@ -1,29 +1,18 @@
-# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
 Name:           vmod-querystring
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version:	%{varnishver}
-Release: 	%(source ../pkg.env && echo ${package_release})%{?dist}
+Version:	%{versiontag}
+Release: 	%{releasetag}%{?dist}
 Group:          System Environment/Libraries
 Summary:        QueryString module for Varnish Cache
 URL:            https://github.com/Dridi/libvmod-querystring
 License:        GPL-3.0-or-later
-Source: 	%(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source: 	%{srcurl}
 
+BuildRequires:	gcc
+BuildRequires:  make
+BuildRequires:  varnish-devel = %{version}-%{release}
+BuildRequires:  python3-docutils
 
-BuildRequires:  pkgconfig(varnishapi) >= 6
-
-# varnish-devel may not require Python or Varnish as it should
-BuildRequires:  varnish >= 6.0.6
-BuildRequires:  python3
-BuildRequires:  python(abi) >= 3.4
-
-Requires:       varnish >= %(varnishd -V 2>&1 | awk -F '[- ]' '{print $3; exit}')
+Requires:	varnish = %{version}-%{release}
 
 
 %description

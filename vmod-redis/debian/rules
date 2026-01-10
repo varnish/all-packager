@@ -2,31 +2,13 @@
 DEB_BUILD_OPTIONS=noddebs
 
 %:
-	dh $@
+	dh $@ --parallel
 
-num=\#
-VARNISHD_ABI = $(shell \
-	printf '$(num)include "vcs_version.h"\nVCS_Version\n' | \
-	cpp - -Iinclude | \
-	tail -1 | \
-	tr -d '"')
-
-VARNISHD_VRT = $(shell \
-	printf '$(num)include "vdef.h"\n$(num)include "vrt.h"\n%s.%s\n' \
-		VRT_MAJOR_VERSION VRT_MINOR_VERSION | \
-	cpp - -Iinclude | \
-	tail -1 | \
-	tr -c -d '[0-9.]')
+VARNISHD_ABI = $(shell varnishd -V 2>&1 | sed -En 's/.*revision ([0-9a-f]*).*/\1/p')
 
 override_dh_gencontrol:
 	echo "varnishd:ABI=varnishd-abi-$(VARNISHD_ABI)" >> debian/substvars
-	echo "varnishd:VRT=varnishd-vrt (= $(VARNISHD_VRT))" >> debian/substvars
-
-	if [ -n "$$DEBIAN_OVERRIDE_BINARY_VERSION" ]; then \
-		dh_gencontrol -- -Tdebian/substvars -v$$DEBIAN_OVERRIDE_BINARY_VERSION; \
-	else \
-		dh_gencontrol -- -Tdebian/substvars; \
-	fi
+	dh_gencontrol -- -Tdebian/substvars
 
 override_dh_autoreconf:
 	dh_autoreconf ./autogen.sh

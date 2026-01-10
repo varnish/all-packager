@@ -2,50 +2,76 @@
 
 set -eux
 
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
-apt-get update
-apt-get install -y dpkg-dev debhelper devscripts equivs pkg-config apt-utils fakeroot
-
-# Ubuntu 20.04 aarch64 fails when using fakeroot-sysv with:
-#    semop(1): encountered an error: Function not implemented
-update-alternatives --set fakeroot /usr/bin/fakeroot-tcp
-
-cd /varnish-cache
-ls -la
-
-echo "Untar debian..."
-tar xavf debian.tar.gz
-
-echo "Untar orig..."
-tar xavf varnish-*.tgz --strip 1
-
-echo "Update changelog version..."
-if [ -e .is_weekly ]; then
-    WEEKLY='-weekly'
-else
-    WEEKLY=
-fi
 source /etc/os-release
 source ./pkg.env
-VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-${package_release}~$VERSION_CODENAME
-sed -i -e "s|@VERSION@|$VERSION|"  "debian/changelog"
 
-echo "Install Build-Depends packages..."
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
+
+PKG_NAME=$(basename $(pwd))
+DEB_ORIG=${VARS[${PKG_NAME}_version]}.orig.tar.gz
+if [ "`uname -m`" = "x86_64" ]; then
+	ARCH="amd64"
+else
+	ARCH="arm64"
+fi
+PDIR="$PDIR/$ID/${VERSION_CODENAME}/${ARCH}"
+
+apt-get update
+apt-get install -y \
+	apt-utils \
+	debhelper \
+	devscripts \
+	dpkg-dev \
+	equivs \
+	pkg-config \
+	python*-docutils \
+	$(test -d /deps && find /deps/ -name '*.deb')
+# Create build folder and copy debian folder there
+mkdir -p ./pkgbuild
+cd pkgbuild
+
+# Save the tarball source file one level up 
+curl -L "${VARS[${PKG_NAME}_source]}" -o ../$DEB_ORIG
+tar xvfz ../$DEB_ORIG --strip 1
+
+# Update changelog version
+if [ "$PKG_NAME" == "varnish" ]; then
+	if [ -e .is_weekly ]; then
+		WEEKLY='-weekly'
+	else
+		WEEKLY=
+	fi
+	VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-${package_release}
+	./configure --version
+else
+	VERSION="$(dpkg -l varnish | awk '$2 == "varnish" {print $3}')"
+	dpkg -l varnish
+fi
+
+# remove potential debian/ package included in the tarball
+rm -rf debian
+cat << EOF > ../debian/changelog
+${PKG_NAME} (${VERSION}) unstable; urgency=low
+
+  * Changelog not maintained, please see
+    https://github.com/varnish/all-packager/releases/tag/v${VERSION%~*}
+
+ -- Varnish Software <opensource@varnish-software.com>
+EOF
+ls -halt ../debian
+cp -Lrf ../debian .
+
+cat debian/changelog
+# Install Build-Depends packages
 yes | mk-build-deps --install debian/control || true
 
-echo "Build the packages..."
+# Build the packages
 dpkg-buildpackage -us -uc -j16
 
-echo "Prepare the packages for storage..."
-mkdir -p $PDIR
-mv ../*.deb $PDIR
-
-if [ "`uname -m`" = "x86_64" ]; then
-  ARCH="amd64"
-else
-  ARCH="arm64"
-fi
+# Prepare the packages for storage
+mkdir -p "$PDIR"
+mv ../*.deb "$PDIR"
 
 DSC_FILE=$(ls ../*.dsc)
 DSC_FILE_WO_EXT=$(basename ${DSC_FILE%.*})

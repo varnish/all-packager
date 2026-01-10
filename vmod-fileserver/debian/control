@@ -12,15 +12,16 @@ Build-Depends:
  libssl-dev,
  pkg-config,
  python3-docutils,
- varnish (= @VERSION@),
- varnish-dev (= @VERSION@)
+ varnish,
+ varnish-dev,
 Standards-Version: 3.9.5
 Vcs-Git: git@github.com:varnish-rs/vmod-fileserver.git
 
 Package: vmod-fileserver
 Architecture: any
 Depends:
+ varnish (= ${binary:Version}),
+ ${varnishd:ABI},
  ${shlibs:Depends},
  ${misc:Depends},
- ${Varnish:ABI},
 Description: TODO: description

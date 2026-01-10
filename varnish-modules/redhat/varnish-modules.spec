@@ -1,35 +1,23 @@
-# from https://src.fedoraproject.org/rpms/varnish-modules/raw/rawhide/f/varnish-modules.spec
-%global varnishver %(pkg-config --silence-errors --modversion varnishapi || echo 0)
-
-%global docutils python3-docutils
-%global rst2man rst2man
-
-# no debugsource, no debuginfo
-%global debug_package %{nil}
-%global _debugsource_template %{nil}
-
 Name:    varnish-modules
-%global srcversion %(source ../pkg.env && echo ${VARS[%{name}_version]})
-Version: %{varnishver}
-Release: %(source ../pkg.env && echo ${package_release})%{?dist}
+Version: %{versiontag}
+Release: %{releasetag}%{?dist}
 Summary: A collection of modules ("vmods") extending Varnish VCL
 
 License: BSD-2-Clause
 URL:     https://github.com/varnish/varnish-modules
-Source:  %(source ../pkg.env && echo ${VARS[%{name}_source]})
+Source:  %{srcurl}
 
 BuildRequires: gcc
 BuildRequires: make
-BuildRequires: pkgconfig(varnishapi)
-BuildRequires: varnish
+BuildRequires:  varnish-devel = %{version}-%{release}
 
 # Build from a git checkout
 #BuildRequires: automake
 #BuildRequires: autoconf
 #BuildRequires: libtool
-BuildRequires: %docutils
+BuildRequires: python3-docutils
 
-Requires: varnish = %varnishver
+Requires: varnish = %{version}-%{release}
 
 Provides: vmod(accept)%{_isa} = %{version}-%{release}
 Provides: vmod(bodyaccess)%{_isa} = %{version}-%{release}
@@ -54,7 +42,6 @@ bodyaccess, header, saintmode, tcp, var, vsthrottle, xkey
 
 %build
 #sh bootstrap
-export RST2MAN=%{rst2man}
 %configure 
 %make_build
 
@@ -74,7 +61,6 @@ sed -i 's,tests/xkey/test12.vtc,,' src/Makefile
 
 
 %files
-#doc docs AUTHORS CHANGES.rst COPYING README.rst
 %doc AUTHORS CHANGES.rst COPYING README.md
 %license LICENSE
 %{_libdir}/varnish/vmods/*
