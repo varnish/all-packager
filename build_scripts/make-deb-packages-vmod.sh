@@ -24,6 +24,7 @@ cd pkgbuild/distdir/
 # Save the tarball source file one level up, 
 # needed for format v3.0
 curl -L "${VARS[${PKG_NAME}_source]}" -o ../$DEB_ORIG
+echo "${VARS[${PKG_NAME}_sha512]}  ../$DEB_ORIG" | sha512sum -c -
 tar xvfz ../$DEB_ORIG --strip 1
 # remove potential debian/ package included in the tarball
 rm -rf debian
