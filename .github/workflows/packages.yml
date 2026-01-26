@@ -23,7 +23,6 @@ jobs:
           - ubuntu-jammy-deb
           - ubuntu-noble-deb
           - ubuntu-plucky-deb
-          - almalinux-8-rpm
           - almalinux-9-rpm
           - almalinux-10-rpm
           - amazonlinux-2023-rpm
@@ -74,7 +73,6 @@ jobs:
           - ubuntu-jammy-deb
           - ubuntu-noble-deb
           - ubuntu-plucky-deb
-          - almalinux-8-rpm
           - almalinux-9-rpm
           - almalinux-10-rpm
           - amazonlinux-2023-rpm
@@ -213,7 +211,6 @@ jobs:
           - ubuntu-jammy-deb
           - ubuntu-noble-deb
           - ubuntu-plucky-deb
-          - almalinux-8-rpm
           - almalinux-9-rpm
           - almalinux-10-rpm
           - amazonlinux-2023-rpm

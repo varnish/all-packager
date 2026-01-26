@@ -34,7 +34,6 @@ Packages are currently built for these platforms:
 - `ubuntu:jammy`
 - `ubuntu:noble`
 - `ubuntu:plucky`
-- `rhel:8`
 - `rhel:9`
 - `rhel:10*`
 - `amazonlinux:2023*`

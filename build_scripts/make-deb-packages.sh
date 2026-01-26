@@ -42,7 +42,7 @@ if [ "$PKG_NAME" == "varnish" ]; then
 	else
 		WEEKLY=
 	fi
-	VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-${package_release}
+	VERSION=$(./configure --version | awk 'NR == 1 {print $NF}')$WEEKLY-${package_release}~${VERSION_CODENAME}
 	./configure --version
 else
 	VERSION="$(dpkg -l varnish | awk '$2 == "varnish" {print $3}')"
