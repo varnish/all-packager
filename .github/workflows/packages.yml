@@ -38,6 +38,7 @@ jobs:
           cp pkg.env varnish/
 
           docker run \
+            --network host \
             --rm \
             --security-opt seccomp=unconfined \
             --workdir /workdir/varnish \
@@ -107,6 +108,7 @@ jobs:
           cp pkg.env $PACKAGE/
 
           docker run \
+            --network host \
             --rm \
             -e PDIR=/new_packages/ \
             --workdir /workdir/$PACKAGE \
@@ -214,6 +216,7 @@ jobs:
           fi
 
           docker run \
+            --network host \
             --rm \
             -w /workdir \
             -v $PKG_DIR:/workdir \
