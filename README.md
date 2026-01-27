@@ -28,12 +28,10 @@ However, we also build the packages and [publish them](https://varnish.org/docs/
 ## Supported distributions
 
 Packages are currently built for these platforms:
-- `debian:bullseye`
 - `debian:bookworm`
 - `debian:trixie`
-- `ubuntu:jammy`
 - `ubuntu:noble`
-- `ubuntu:plucky`
+- `ubuntu:questing`
 - `rhel:9`
 - `rhel:10*`
 - `amazonlinux:2023*`

@@ -17,10 +17,8 @@ jobs:
           - ""
           - "-arm"
         target:
-          - debian-bullseye-deb
           - debian-bookworm-deb
           - debian-trixie-deb
-          - ubuntu-jammy-deb
           - ubuntu-noble-deb
           - ubuntu-plucky-deb
           - almalinux-9-rpm
@@ -67,10 +65,8 @@ jobs:
           - ""
           - "-arm"
         target:
-          - debian-bullseye-deb
           - debian-bookworm-deb
           - debian-trixie-deb
-          - ubuntu-jammy-deb
           - ubuntu-noble-deb
           - ubuntu-plucky-deb
           - almalinux-9-rpm
@@ -205,10 +201,8 @@ jobs:
           - ""
           - "-arm"
         target:
-          - debian-bullseye-deb
           - debian-bookworm-deb
           - debian-trixie-deb
-          - ubuntu-jammy-deb
           - ubuntu-noble-deb
           - ubuntu-plucky-deb
           - almalinux-9-rpm
