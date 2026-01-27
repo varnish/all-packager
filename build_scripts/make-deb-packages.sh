@@ -19,6 +19,7 @@ PDIR="$PDIR/$ID/${VERSION_CODENAME}/${ARCH}"
 
 apt-get update
 apt-get install -y \
+	-o Acquire::ForceIPv4=true \
 	apt-utils \
 	debhelper \
 	devscripts \
@@ -64,7 +65,9 @@ cp -Lrf ../debian .
 
 cat debian/changelog
 # Install Build-Depends packages
-yes | mk-build-deps --install debian/control || true
+yes | mk-build-deps \
+	--tool "apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -o Acquire::ForceIPv4=true" \
+	--install debian/control || true
 
 # Build the packages
 dpkg-buildpackage -us -uc -j16
