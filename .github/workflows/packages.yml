@@ -13,10 +13,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch:
+        arch: &arches
           - ""
           - "-arm"
-        target:
+        target: &targets
           - debian-bookworm-deb
           - debian-trixie-deb
           - ubuntu-noble-deb
@@ -61,17 +61,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch:
-          - ""
-          - "-arm"
-        target:
-          - debian-bookworm-deb
-          - debian-trixie-deb
-          - ubuntu-noble-deb
-          - ubuntu-plucky-deb
-          - almalinux-9-rpm
-          - almalinux-10-rpm
-          - amazonlinux-2023-rpm
+        arch: *arches
+        target: *targets
         package:
           - varnish-modules
           - vmod-uuid
@@ -197,17 +188,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch:
-          - ""
-          - "-arm"
-        target:
-          - debian-bookworm-deb
-          - debian-trixie-deb
-          - ubuntu-noble-deb
-          - ubuntu-plucky-deb
-          - almalinux-9-rpm
-          - almalinux-10-rpm
-          - amazonlinux-2023-rpm
+        arch: *arches
+        target: *targets
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
