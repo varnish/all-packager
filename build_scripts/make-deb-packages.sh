@@ -20,6 +20,7 @@ PDIR="$PDIR/$ID/${VERSION_CODENAME}/${ARCH}"
 apt-get update
 apt-get install -y \
 	-o Acquire::ForceIPv4=true \
+	curl \
 	apt-utils \
 	debhelper \
 	devscripts \
