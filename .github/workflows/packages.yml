@@ -84,8 +84,6 @@ jobs:
             package: vmod-digest
           - target: amazonlinux-2023-rpm
             package: vmod-digest
-          - arch: "-arm"
-            package: vmod-cfg
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
