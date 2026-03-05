@@ -8,14 +8,16 @@ on:
 
 jobs:
   build_varnish:
-    name: Varnish ${{ matrix.target }} ${{ matrix.arch }}
-    runs-on: ubuntu-24.04${{ matrix.arch }}
+    name: Varnish ${{ matrix.target }} ${{ matrix.arch.name }}
+    runs-on: ubuntu-24.04${{ matrix.arch.suffix }}
     strategy:
       fail-fast: false
       matrix:
         arch: &arches
-          - ""
-          - "-arm"
+          - name: "amd64"
+            suffix: ""
+          - name: "arm64"
+            suffix: "-arm"
         target: &targets
           - debian-bookworm-deb
           - debian-trixie-deb
@@ -54,13 +56,13 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: varnish-${{ matrix.target }}${{ matrix.arch }}
+          name: varnish-${{ matrix.target }}-${{ matrix.arch.name }}
           path: packages
 
   build_vmod:
     needs: build_varnish
-    runs-on: ubuntu-24.04${{ matrix.arch }}
-    name: ${{ matrix.package }} ${{ matrix.target }} ${{ matrix.arch }}
+    runs-on: ubuntu-24.04${{ matrix.arch.suffix }}
+    name: ${{ matrix.package }} ${{ matrix.target }} ${{ matrix.arch.name }}
     strategy:
       fail-fast: false
       matrix:
@@ -93,7 +95,7 @@ jobs:
       - name: Download a specific artifact
         uses: actions/download-artifact@v4
         with:
-          name: varnish-${{ matrix.target }}${{ matrix.arch }}
+          name: varnish-${{ matrix.target }}-${{ matrix.arch.name }}
           path: packages
 
       - name: Build
@@ -123,7 +125,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.package }}-${{ matrix.target }}${{ matrix.arch }}
+          name: ${{ matrix.package }}-${{ matrix.target }}-${{ matrix.arch.name }}
           path: new_packages
 
   collect_all_packages:
@@ -180,13 +182,13 @@ jobs:
       - name: Upload all packages as single artifact
         uses: actions/upload-artifact@v4
         with:
-          name: signed-packages
+          name: all-packages
           path: all-packages/
 
   test_all_packages:
     name: Load all packages
     needs: collect_all_packages
-    runs-on: ubuntu-24.04${{ matrix.arch }}
+    runs-on: ubuntu-24.04${{ matrix.arch.suffix }}
     strategy:
       fail-fast: false
       matrix:
@@ -199,7 +201,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
-          name: signed-packages
+          name: all-packages
 
       - name: Run varnishtest
         run: |
@@ -209,11 +211,7 @@ jobs:
           PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
           PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
 
-          if [ -z "${{ matrix.arch }}" ]; then
-              PKG_DIR=$(pwd)/$PARAM_DIST/$PARAM_RELEASE/amd64
-          else
-              PKG_DIR=$(pwd)/$PARAM_DIST/$PARAM_RELEASE/arm64
-          fi
+          PKG_DIR=$(pwd)/$PARAM_DIST/$PARAM_RELEASE/${{ matrix.arch.name }}
 
           docker run \
             --network host \
