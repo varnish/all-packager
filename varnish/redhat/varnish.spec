@@ -21,6 +21,7 @@ BuildRequires: jemalloc-devel
 BuildRequires: libedit-devel
 BuildRequires: make
 BuildRequires: ncurses-devel
+BuildRequires: openssl-devel
 BuildRequires: pcre2-devel
 BuildRequires: pkgconfig
 BuildRequires: python3
@@ -31,6 +32,7 @@ BuildRequires: systemd-rpm-macros
 
 Requires: gcc
 Requires: logrotate
+Requires: openssl
 %{?systemd_requires}
 %if 0%{?rhel} >= 8
 Requires: redhat-rpm-config
