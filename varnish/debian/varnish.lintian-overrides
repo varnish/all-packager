@@ -6,6 +6,7 @@ varnish: unstripped-binary-or-object usr/sbin/varnishd
 varnish: unstripped-binary-or-object usr/bin/varnishadm
 varnish: unstripped-binary-or-object usr/bin/varnishhist
 varnish: unstripped-binary-or-object usr/bin/varnishlog
+varnish: unstripped-binary-or-object usr/bin/varnishlog-json
 varnish: unstripped-binary-or-object usr/bin/varnishncsa
 varnish: unstripped-binary-or-object usr/bin/varnishstat
 varnish: unstripped-binary-or-object usr/bin/varnishtest
