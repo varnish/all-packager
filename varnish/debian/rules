@@ -14,7 +14,7 @@ export DEB_BUILD_MAINT_OPTIONS=optimize=-lto
 DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 # Set local state dir for FHS
-LOCAL_CONFIGURE_FLAGS  = --localstatedir=/var/lib --libdir=/usr/lib
+LOCAL_CONFIGURE_FLAGS  = --localstatedir=/var/lib --libdir=/usr/lib CFLAGS=-Wno-error=discarded-qualifiers
 
 ifneq ($(filter $(DEB_HOST_ARCH),$(WITHOUT_JEMALLOC_ARCH_LIST)),)
 LOCAL_CONFIGURE_FLAGS += --without-jemalloc
