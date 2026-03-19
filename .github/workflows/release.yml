@@ -1,0 +1,32 @@
+name: Draft release
+
+on:
+  push:
+    tags:
+      - v**
+
+jobs:
+  build_varnish:
+    name: Draft a release
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: List versions
+        run: |
+          . pkg.env
+          echo '# Versions' > release.md
+          for comp in varnish $(echo ${!VARS[@]} | tr ' ' '\n' | sort | grep -v varnish_version |sed -nE 's/_version$//p'); do
+            echo \- ${comp}: ${VARS[${comp}_version]} >> release.md
+          done
+
+      - name: Print content
+        run: cat release.md
+
+      - name: Create draft
+        run: |
+          gh release create ${{ github.ref_name }} -t $(echo ${{ github.ref_name }} | sed 's/^v//') -d -F release.md
