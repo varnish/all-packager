@@ -59,78 +59,9 @@ jobs:
           name: varnish-${{ matrix.target }}-${{ matrix.arch.name }}
           path: packages
 
-  build_vmod:
-    needs: build_varnish
-    runs-on: ubuntu-24.04${{ matrix.arch.suffix }}
-    name: ${{ matrix.package }} ${{ matrix.target }} ${{ matrix.arch.name }}
-    strategy:
-      fail-fast: false
-      matrix:
-        arch: *arches
-        target: *targets
-        package:
-          - varnish-modules
-          - vmod-uuid
-          - vmod-cfg
-          - vmod-digest
-          - vmod-fileserver
-          - vmod-geoip2
-          - vmod-jq
-          - vmod-querystring
-          - vmod-redis
-          - vmod-reqwest
-          - vmod-rers
-        exclude:
-          # no mhash-devel
-          - target: almalinux-10-rpm
-            package: vmod-digest
-          - target: amazonlinux-2023-rpm
-            package: vmod-digest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v5
-        with:
-          submodules: true
-
-      - name: Download a specific artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: varnish-${{ matrix.target }}-${{ matrix.arch.name }}
-          path: packages
-
-      - name: Build
-        run: |
-          ulimit -n 2048
-          tree $(pwd)/packages
-          PACKAGE=${{ matrix.package }}
-          PARAM_DIST=`echo ${{ matrix.target}} | cut -d- -f 1`
-          PARAM_RELEASE=`echo ${{ matrix.target }} | cut -d- -f 2`
-          EXT=`echo ${{ matrix.target }} | cut -d- -f 3`
-
-          cp pkg.env $PACKAGE/
-
-          docker run \
-            --network host \
-            --rm \
-            -e PDIR=/new_packages/ \
-            --workdir /workdir/$PACKAGE \
-            -v$(pwd):/workdir \
-            -v$(pwd)/packages:/deps \
-            -v$(pwd)/new_packages:/new_packages \
-            $PARAM_DIST:$PARAM_RELEASE \
-            /workdir/build_scripts/make-$EXT-packages.sh
-        
-          tree new_packages
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.package }}-${{ matrix.target }}-${{ matrix.arch.name }}
-          path: new_packages
-
   collect_all_packages:
     name: Collect all packages
-    needs: [build_varnish, build_vmod]
+    needs: [build_varnish]
     runs-on: ubuntu-latest
     steps:
       - name: Download all artifacts
