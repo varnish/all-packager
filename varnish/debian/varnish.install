@@ -3,7 +3,6 @@ usr/bin/*
 usr/sbin/*
 usr/lib/varnish
 usr/share/man
-usr/share/varnish/vcc
 usr/share/varnish/vcl
 usr/share/doc/varnish/*.vcl
 # from libvarnishapi1
