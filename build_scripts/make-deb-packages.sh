@@ -59,7 +59,7 @@ ${PKG_NAME} (${VERSION}) unstable; urgency=low
   * Changelog not maintained, please see
     https://github.com/varnish/all-packager/releases/tag/v${VERSION%~*}
 
- -- Varnish Software <opensource@varnish-software.com> $(date -R)
+ -- Varnish Software <opensource@varnish-software.com>  $(date -R)
 EOF
 ls -halt ../debian
 cp -Lrf ../debian .
