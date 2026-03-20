@@ -17,7 +17,3 @@ else
 fi
 
 varnishtest build_scripts/main.vtc
-
-if [ -e "./vmod-digest*" ]; then
-	varnishtest build_scripts/digest.vtc
-fi
