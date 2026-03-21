@@ -18,10 +18,10 @@ url="http://www.varnish-cache.org/"
 arch="all"
 license="BSD"
 options="!check" # tests pass, but ran before packaging
-depends="gcc libc-dev libgcc"
+depends="gcc libc-dev libgcc openssl"
 depends_dev=
 makedepends="$depends_dev pcre-dev pcre2-dev ncurses-dev libedit-dev py-docutils
-	linux-headers libunwind-dev python3 py3-sphinx"
+	linux-headers libunwind-dev openssl-dev python3 py3-sphinx"
 install="$pkgname.pre-install"
 subpackages="$pkgname-dbg $pkgname-dev $pkgname-doc $pkgname-libs"
 pkgusers="varnish"
