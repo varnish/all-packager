@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout all-packager
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Run version check (and open PR if out of date)
         env:
