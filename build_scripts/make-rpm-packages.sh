@@ -33,6 +33,9 @@ dnf -y install \
 	rpm-build \
 	$(test -d /deps/ && find /deps/ -name '*.rpm')
 
+# checksum
+curl -sL  ${VARS[varnish_source]} | sha512sum | grep -q "^${VARS[varnish_sha512]}  -$"
+
 # Update changelog version
 if [ "$PKG_NAME" == "varnish" ]; then
 	if [ -e .is_weekly ]; then

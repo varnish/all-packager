@@ -35,6 +35,10 @@ cd pkgbuild
 
 # Save the tarball source file one level up 
 curl -L "${VARS[${PKG_NAME}_source]}" -o ../$DEB_ORIG
+
+# checksum
+echo "${VARS[${PKG_NAME}_sha512]}  ../$DEB_ORIG" | sha512sum  -c
+
 tar xvfz ../$DEB_ORIG --strip 1
 
 # Update changelog version
