@@ -1,0 +1,107 @@
+name: Varnish Version Check
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # every hour on the hour
+  workflow_dispatch:        # allow manual trigger from the Actions tab
+
+jobs:
+  check:
+    name: Check latest varnish tag vs pkg.env
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # to push a branch
+      pull-requests: write  # to open a PR
+      issues: write         # to open an issue if pkg.env is ahead of latest tag
+
+    steps:
+      - name: Checkout all-packager
+        uses: actions/checkout@v4
+
+      - name: Run version check (and open PR if out of date)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          PKG_ENV_FILE=pkg.env
+
+          LATEST_TAG=$(gh api repos/varnish/varnish/tags --paginate --jq '.[].name' \
+            | grep '^varnish-' | sort -V | tail -1)
+          TAG_VERSION="${LATEST_TAG#varnish-}"
+
+          PKG_VERSION=$(. "$PKG_ENV_FILE"; echo "${VARS[varnish_version]}")
+          PKG_SHA512=$(. "$PKG_ENV_FILE"; echo "${VARS[varnish_sha512]}")
+
+          # 1. Version ahead of latest tag — open an issue
+          LOWER=$(printf '%s\n' "$PKG_VERSION" "$TAG_VERSION" | sort -V | head -1)
+          if [[ "$PKG_VERSION" != "$TAG_VERSION" && "$LOWER" == "$TAG_VERSION" ]]; then
+            ISSUE_TITLE="varnish version in pkg.env ($PKG_VERSION) is ahead of latest tag ($TAG_VERSION)"
+            EXISTING=$(gh issue list --state open --search "$ISSUE_TITLE" --json url --jq '.[0].url')
+            if [[ -n "$EXISTING" ]]; then
+              echo "Issue already open: $EXISTING"
+              exit 0
+            fi
+            gh issue create \
+              --title "$ISSUE_TITLE" \
+              --body "pkg.env contains \`${PKG_VERSION}\` but the latest tag is \`${TAG_VERSION}\`. This requires manual review."
+            exit 0
+          fi
+
+          # 2. Version behind latest tag — open a version bump PR
+          if [[ "$PKG_VERSION" != "$TAG_VERSION" ]]; then
+            BRANCH="varnish-version-bump-${TAG_VERSION}"
+            git fetch origin
+            if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+              echo "Branch $BRANCH already exists, version PR is awaiting review."
+              exit 0
+            fi
+            echo "Computing sha512 for varnish-${TAG_VERSION}..."
+            NEW_SOURCE="https://github.com/varnish/varnish/releases/download/varnish-${TAG_VERSION}/varnish-${TAG_VERSION}.tar.gz"
+            ACTUAL_SHA512=$(curl -sL "$NEW_SOURCE" | sha512sum | awk '{print $1}')
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git config user.name "github-actions[bot]"
+            git switch main
+            git switch -c "$BRANCH"
+            sed -i "s/VARS\[varnish_version\]=.*/VARS[varnish_version]=${TAG_VERSION}/" "$PKG_ENV_FILE"
+            sed -i "s/VARS\[varnish_sha512\]=.*/VARS[varnish_sha512]=${ACTUAL_SHA512}/" "$PKG_ENV_FILE"
+            git add "$PKG_ENV_FILE"
+            git commit -m "bump: varnish version ${PKG_VERSION} -> ${TAG_VERSION}"
+            git push origin "$BRANCH"
+            gh pr create \
+              --title "bump: varnish version ${PKG_VERSION} → ${TAG_VERSION}" \
+              --body "Automated version bump from \`${PKG_VERSION}\` to \`${TAG_VERSION}\` with updated sha512 checksum." \
+              --base main \
+              --head "$BRANCH"
+            exit 0
+          fi
+
+          # 3. Version correct — check sha512
+          PKG_SOURCE=$(. "$PKG_ENV_FILE"; echo "${VARS[varnish_source]}")
+          echo "Computing sha512 for $PKG_SOURCE..."
+          ACTUAL_SHA512=$(curl -sL "$PKG_SOURCE" | sha512sum | awk '{print $1}')
+
+          if [[ "$ACTUAL_SHA512" == "$PKG_SHA512" ]]; then
+            echo "Version and sha512 are correct, nothing to do."
+            exit 0
+          fi
+
+          BRANCH="varnish-sha512-fix-${TAG_VERSION}"
+          git fetch origin
+          if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null 2>&1; then
+            echo "Branch $BRANCH already exists, sha512 PR is awaiting review."
+            exit 0
+          fi
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git switch main
+          git switch -c "$BRANCH"
+          sed -i "s/VARS\[varnish_sha512\]=.*/VARS[varnish_sha512]=${ACTUAL_SHA512}/" "$PKG_ENV_FILE"
+          git add "$PKG_ENV_FILE"
+          git commit -m "fix: varnish sha512 checksum for version ${TAG_VERSION}"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "fix: varnish sha512 checksum for version ${TAG_VERSION}" \
+            --body "The sha512 in pkg.env does not match the actual checksum of the varnish \`${TAG_VERSION}\` tarball. Updated from \`${PKG_SHA512}\` to \`${ACTUAL_SHA512}\`." \
+            --base main \
+            --head "$BRANCH"
