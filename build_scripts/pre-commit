@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# this can be run to check that the checksums are correct before committing
+# by running is the same directory as pkg.env:
+#
+#   ./build_scripts/pre-commit
+#
+# install this as a git hook:
+#
+#   cp build_scripts/pre-commit .git/hooks/
+
+set -e
+. pkg.env
+
+for i in $(echo ${!VARS[@]} | tr ' ' '\n' | sort | sed -n 's/_version//p'); do
+	actual=$(curl -sL ${VARS[${i}_source]} | sha512sum | cut -d ' ' -f 1)
+	if [ "$actual" != "${VARS[${i}_sha512]}" ]; then
+		echo "Checksum failed for ${i} (${VARS[${i}_source]})"
+		echo "  expected: ${VARS[${i}_sha512]}"
+		echo "  actual:   $actual"
+		FAIL=1
+	fi
+done
+
+exit $FAIL
+guillaume@flamp:
