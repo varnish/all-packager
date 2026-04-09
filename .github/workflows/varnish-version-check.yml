@@ -62,13 +62,13 @@ jobs:
             exit 0
           fi
           echo "Computing sha512 for varnish-${TAG_VERSION}..."
-          ACTUAL_SHA512=$(curl -sL "${VARS[varnish_source]}" | sha512sum | awk '{print $1}')
+          ACTUAL_SHA512=$(. "$PKG_ENV_FILE"; curl -sL "${VARS[varnish_source]}" | sha512sum | awk '{print $1}')
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git config user.name "github-actions[bot]"
           git switch -c "$BRANCH"
           sed \
             -i \
-            -e "s/VARS\[varnish_version\]=.*/VARS[varnish_version]=${TAG_VERSION}/"
+            -e "s/VARS\[varnish_version\]=.*/VARS[varnish_version]=${TAG_VERSION}/" \
             -e "s/VARS\[varnish_sha512\]=.*/VARS[varnish_sha512]=${ACTUAL_SHA512}/" \
             "$PKG_ENV_FILE"
           git add "$PKG_ENV_FILE"
