@@ -61,16 +61,20 @@ jobs:
             echo "Branch $BRANCH already exists, version PR is awaiting review."
             exit 0
           fi
-          echo "Computing sha512 for varnish-${TAG_VERSION}..."
-          ACTUAL_SHA512=$(. "$PKG_ENV_FILE"; curl -sL "${VARS[varnish_source]}" | sha512sum | awk '{print $1}')
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-          git switch -c "$BRANCH"
+          echo "Updating version"
           sed \
             -i \
             -e "s/VARS\[varnish_version\]=.*/VARS[varnish_version]=${TAG_VERSION}/" \
+            "$PKG_ENV_FILE"
+          echo "Computing sha512 for varnish-${TAG_VERSION}..."
+          ACTUAL_SHA512=$(. "$PKG_ENV_FILE"; curl -sL "${VARS[varnish_source]}" | sha512sum | awk '{print $1}')
+          sed \
+            -i \
             -e "s/VARS\[varnish_sha512\]=.*/VARS[varnish_sha512]=${ACTUAL_SHA512}/" \
             "$PKG_ENV_FILE"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git switch -c "$BRANCH"
           git add "$PKG_ENV_FILE"
           git commit -m "bump: varnish version ${PKG_VERSION} -> ${TAG_VERSION}"
           git push origin "$BRANCH"
